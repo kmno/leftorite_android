@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "455416008736",
+    "firebase_url": "https://leftorite-client.firebaseio.com",
+    "project_id": "leftorite-client",
+    "storage_bucket": "leftorite-client.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455416008736:android:0709ba5a9a89d30cf62c45",
+        "android_client_info": {
+          "package_name": "com.kmno.leftorite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455416008736-20bagdc32i0ived6lgm7ed9mmhtiu2tl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA88uuxECkQlj2dxtZ88WRdGB293cde0uA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455416008736-20bagdc32i0ived6lgm7ed9mmhtiu2tl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
