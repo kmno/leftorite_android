@@ -1,0 +1,19 @@
+/*
+ * Creator: Kamran Noorinejad on 5/13/20 12:55 PM
+ * Last modified: 5/13/20 12:55 PM
+ * Copyright: All rights reserved Ⓒ 2020
+ * http://www.itskamran.ir/
+ */
+
+package com.kmno.leftorite.ui.viewmodels
+
+import androidx.lifecycle.ViewModel
+import com.kmno.leftorite.BuildConfig
+
+/**
+ * Created by Kamran Noorinejad on 5/13/2020 AD 12:55.
+ * Edited by Kamran Noorinejad on 5/13/2020 AD 12:55.
+ */
+class SplashActivityViewModel : ViewModel() {
+    var appVersionText: String = "${BuildConfig.VERSION_NAME}\nⒸ 2020"
+}

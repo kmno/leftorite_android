@@ -20,7 +20,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0-BETA"
         archivesBaseName = "leftorite-v$versionName($versionCode)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,23 +46,84 @@ android {
             minifyEnabled false
         }
     }
-    compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    viewBinding {
+        enabled = true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //kotlin
+    def kotlinx_coroutines_version = "1.3.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
+
+    //Kotlin extensions for activity and fragments
+    implementation 'androidx.fragment:fragment-ktx:1.2.4'
+    implementation "androidx.activity:activity-ktx:1.1.0"
+
+    //androidx
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    //jetpack
+    def lifecycle_version = "2.2.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    //dagger2
+   // implementation 'com.google.dagger:dagger-android:2.23.2'
+    //implementation 'com.google.dagger:dagger-android-support:2.23.2' // if you use the support libraries
+   // annotationProcessor 'com.google.dagger:dagger-android-processor:2.23.2'
+
+    //koin
+    def koin_version= "2.1.5"
+    //implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-scope:$koin_version"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+
+    //Retrofit and OkHttp dependencies
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.6.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    //test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'com.google.firebase:firebase-analytics:17.4.0'
+    //firebase
+    implementation 'com.google.firebase:firebase-analytics:17.4.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    //logging
+    implementation 'io.github.microutils:kotlin-logging:1.7.9'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+    //persistence
+    implementation 'com.chibatching.kotpref:kotpref:2.11.0'
+    implementation 'com.chibatching.kotpref:initializer:2.11.0'
+
+    //utils
+    //implementation 'com.rezwan.knetworklib:knetworklib:1.0.3'
+    //implementation 'com.github.Binary-Finery:EZDialog:1.0.4'
+    implementation 'com.tapadoo.android:alerter:5.1.2'
+    implementation 'org.aviran.cookiebar2:cookiebar2:1.1.3'
+
+
 }
 apply plugin: 'com.google.gms.google-services'
