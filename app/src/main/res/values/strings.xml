@@ -7,4 +7,8 @@
 
 <resources>
     <string name="app_name">LeftoRite</string>
+    <string name="no_network">No Network!</string>
+    <string name="no_network_desc">Check Your Internet Connection…</string>
+    <string name="network_connected">Connected!</string>
+    <string name="network_connected_desc">Your Internet Connected</string>
 </resources>

@@ -23,6 +23,7 @@ android {
         versionName "1.0-BETA"
         archivesBaseName = "leftorite-v$versionName($versionCode)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -73,6 +74,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.1.0'
 
     //jetpack
     def lifecycle_version = "2.2.0"
@@ -81,14 +83,12 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
 
-    //dagger2
-   // implementation 'com.google.dagger:dagger-android:2.23.2'
-    //implementation 'com.google.dagger:dagger-android-support:2.23.2' // if you use the support libraries
-   // annotationProcessor 'com.google.dagger:dagger-android-processor:2.23.2'
+    //rx
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.18'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //koin
-    def koin_version= "2.1.5"
-    //implementation "org.koin:koin-core:$koin_version"
+    def koin_version = "2.1.5"
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-android-scope:$koin_version"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
@@ -121,9 +121,10 @@ dependencies {
     //utils
     //implementation 'com.rezwan.knetworklib:knetworklib:1.0.3'
     //implementation 'com.github.Binary-Finery:EZDialog:1.0.4'
-    implementation 'com.tapadoo.android:alerter:5.1.2'
-    implementation 'org.aviran.cookiebar2:cookiebar2:1.1.3'
-
+   // implementation 'com.tapadoo.android:alerter:5.1.2'
+    //implementation 'org.aviran.cookiebar2:cookiebar2:1.1.3'
+    implementation 'com.irozon.alertview:alertview:1.0.1'
+    implementation 'com.andrognito.flashbar:flashbar:1.0.3'
 
 }
 apply plugin: 'com.google.gms.google-services'

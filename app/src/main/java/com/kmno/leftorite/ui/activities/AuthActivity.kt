@@ -1,6 +1,6 @@
 /*
- * Creator: Kamran Noorinejad on 5/13/20 12:54 PM
- * Last modified: 5/13/20 12:53 PM
+ * Creator: Kamran Noorinejad on 5/17/20 10:40 AM
+ * Last modified: 5/17/20 10:39 AM
  * Copyright: All rights reserved Ⓒ 2020
  * http://www.itskamran.ir/
  */
@@ -9,12 +9,11 @@ package com.kmno.leftorite.ui.activities
 
 import com.kmno.leftorite.R
 import com.kmno.leftorite.ui.base.BaseActivity
-import com.kmno.leftorite.utils.NetworkInfo
 
-class MainActivity : BaseActivity() {
+class AuthActivity : BaseActivity() {
 
     override fun getResId(): Int {
-        return R.layout.activity_main
+        return R.layout.activity_auth
     }
 
     override fun afterCreate() {
@@ -30,10 +29,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun networkStatus(state: Boolean) {
-
     }
 
-    override fun networkStatusChange(network: NetworkInfo.Network) {
-
-    }
 }

@@ -7,7 +7,6 @@
 
 package com.kmno.leftorite.ui.activities
 
-import android.content.Intent
 import android.os.Handler
 import android.view.View
 import androidx.activity.viewModels
@@ -16,7 +15,7 @@ import com.kmno.leftorite.R
 import com.kmno.leftorite.di.TestClass
 import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.ui.viewmodels.SplashActivityViewModel
-import com.kmno.leftorite.utils.NetworkInfo
+import com.kmno.leftorite.utils.launchActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.koin.android.ext.android.inject
 
@@ -35,26 +34,31 @@ class SplashActivity : BaseActivity() {
             app_version_text.text = this
         }
 
-        App.logger.error(test.itsReturnTest("kjehkdhkjdhkjshdkjshdjk"))
-
-        goToDestinationActivity()
-
-        imageView.setOnClickListener {
+        with(viewModel.isUserLoggedIn) {
+            goToDestinationActivity(this)
         }
+
+        //App.logger.error(test.itsReturnTest("kjehkdhkjdhkjshdkjshdjk"))
+
     }
 
-    private fun goToDestinationActivity() {
+    private fun goToDestinationActivity(_loggedIn: Boolean) {
         if (isNetworkAvailable) {
             splash_progress_bar.visibility = View.VISIBLE
-            App.logger.error("ok")
-            Handler().postDelayed({
-                startActivity(Intent(this, MainActivity::class.java))
-                overridePendingTransition(
-                    R.anim.slide_in_right,
-                    R.anim.slide_out_left
-                )
-                finish()
-            }, 2000)
+            when (_loggedIn) {
+                true -> {
+                    App.logger.error("HomeActivity")
+                    Handler().postDelayed({
+                        this.launchActivity<HomeActivity>(finish = true)
+                    }, 2000)
+                }
+                false -> {
+                    App.logger.error("AuthActivity")
+                    Handler().postDelayed({
+                        this.launchActivity<AuthActivity>(finish = true)
+                    }, 2000)
+                }
+            }
         } else {
             App.logger.error("nok")
             splash_progress_bar.visibility = View.GONE
@@ -71,15 +75,7 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun networkStatus(state: Boolean) {
-        if (state) goToDestinationActivity()
-        else {
-
-        }
+        if (state) goToDestinationActivity(viewModel.isUserLoggedIn)
     }
-
-    override fun networkStatusChange(network: NetworkInfo.Network) {
-
-    }
-
 
 }

@@ -14,18 +14,19 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.andrognito.flashbar.Flashbar
 import com.kmno.leftorite.App
 import com.kmno.leftorite.R
-import com.kmno.leftorite.utils.NetworkInfo
-import org.aviran.cookiebar2.CookieBar
 
 
-abstract class BaseActivity : AppCompatActivity(),
-    NetworkInfo.NetworkInfoListener {
+abstract class BaseActivity : AppCompatActivity() {
 
     companion object {
         var isNetworkAvailable: Boolean = false
     }
+
+    var flashbar: Flashbar? = null
+    var flashbarConfig: Flashbar.Builder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +83,7 @@ abstract class BaseActivity : AppCompatActivity(),
     override fun onStop() {
         super.onStop()
         unregisterReceiver(broadcastReceiver)
+        flashbar?.dismiss()
     }
 
     override fun onBackPressed() {
@@ -92,18 +94,36 @@ abstract class BaseActivity : AppCompatActivity(),
         isNetworkAvailable = true
         networkStatus(true)
         App.logger.error("onNetConnected")
-
+        dismissFlashbar()
     }
 
     fun onNetDisConnected() {
         isNetworkAvailable = false
         networkStatus(false)
         App.logger.error("onNetDisConnected")
-        CookieBar.build(this@BaseActivity)
-            .setTitle("No Network!")
-            .setMessage("check your internet connection...")
-            .setBackgroundColor(R.color.error)
-            .show()
+        // val alert = AlertView("No Network!", "check your internet connection...", AlertStyle.BOTTOM_SHEET)
+        // alert.show(this)
+        showFlashbar(R.color.error, R.string.no_network, R.string.no_network_desc, 0)
+    }
+
+    fun showFlashbar(bgColor: Int, title: Int, msg: Int, duration: Int) {
+        dismissFlashbar()
+        flashbarConfig = Flashbar.Builder(this)
+            .gravity(Flashbar.Gravity.TOP)
+            .backgroundColorRes(bgColor)
+            .messageSizeInSp(16f)
+            .showIcon()
+            .title(title)
+            .message(msg)
+            .castShadow(false)
+
+        if (duration != 0) flashbarConfig?.duration(((duration * 1000).toLong()))
+        flashbar = flashbarConfig?.build()
+        flashbar?.show()
+    }
+
+    fun dismissFlashbar() {
+        if (flashbar != null)
+            if (flashbar!!.isShown()) flashbar?.dismiss()
     }
 }
-
