@@ -9,7 +9,6 @@ package com.kmno.leftorite.ui.activities
 
 import android.os.Handler
 import android.view.View
-import androidx.activity.viewModels
 import com.kmno.leftorite.App
 import com.kmno.leftorite.R
 import com.kmno.leftorite.di.TestClass
@@ -18,10 +17,11 @@ import com.kmno.leftorite.ui.viewmodels.SplashActivityViewModel
 import com.kmno.leftorite.utils.launchActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SplashActivity : BaseActivity() {
 
-    private val viewModel: SplashActivityViewModel by viewModels()
+    private val splashActivityViewModel: SplashActivityViewModel by viewModel()
     val test: TestClass by inject()
 
     override fun getResId(): Int {
@@ -30,11 +30,11 @@ class SplashActivity : BaseActivity() {
 
     override fun afterCreate() {
 
-        with(viewModel.appVersionText) {
+        with(splashActivityViewModel.appVersionText) {
             app_version_text.text = this
         }
 
-        with(viewModel.isUserLoggedIn) {
+        with(splashActivityViewModel.isUserLoggedIn) {
             goToDestinationActivity(this)
         }
 
@@ -75,7 +75,7 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun networkStatus(state: Boolean) {
-        if (state) goToDestinationActivity(viewModel.isUserLoggedIn)
+        if (state) goToDestinationActivity(splashActivityViewModel.isUserLoggedIn)
     }
 
 }

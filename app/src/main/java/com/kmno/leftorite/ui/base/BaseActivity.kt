@@ -15,6 +15,10 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.andrognito.flashbar.Flashbar
+import com.irozon.alertview.AlertActionStyle
+import com.irozon.alertview.AlertStyle
+import com.irozon.alertview.AlertView
+import com.irozon.alertview.objects.AlertAction
 import com.kmno.leftorite.App
 import com.kmno.leftorite.R
 
@@ -27,6 +31,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     var flashbar: Flashbar? = null
     var flashbarConfig: Flashbar.Builder? = null
+    var alert: AlertView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,5 +130,16 @@ abstract class BaseActivity : AppCompatActivity() {
     fun dismissFlashbar() {
         if (flashbar != null)
             if (flashbar!!.isShown()) flashbar?.dismiss()
+    }
+
+    fun showAlert(title: String, msg: String, action: String) {
+        alert = AlertView(title, msg, AlertStyle.DIALOG)
+        // positiveAction.let {
+        //   alert?.addAction(AlertAction(positiveAction!!, AlertActionStyle.DEFAULT) { action -> })
+        // }
+        //negativeAction.let {
+        alert?.addAction(AlertAction(action, AlertActionStyle.NEGATIVE) { action -> })
+        //  }
+        alert?.show(this)
     }
 }

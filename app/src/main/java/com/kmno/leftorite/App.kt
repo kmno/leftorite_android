@@ -8,7 +8,9 @@
 package com.kmno.leftorite
 
 import android.app.Application
+import com.kmno.leftorite.di.apiModule
 import com.kmno.leftorite.di.utilsModule
+import com.kmno.leftorite.di.viewModelModule
 import mu.KLogging
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -28,7 +30,11 @@ open class App : Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(utilsModule)
+            modules(
+                viewModelModule,
+                utilsModule,
+                apiModule
+            )
         }
     }
 }

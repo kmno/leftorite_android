@@ -11,4 +11,8 @@
     <string name="no_network_desc">Check Your Internet Connection…</string>
     <string name="network_connected">Connected!</string>
     <string name="network_connected_desc">Your Internet Connected</string>
+    <string name="email_edit_text">Email</string>
+    <string name="sigin_btn_text">Sign In</string>
+    <string name="dont_have_account_sign_up_text">don\'t have account? Sign Up</string>
+    <string name="password_edit_text">Password</string>
 </resources>
