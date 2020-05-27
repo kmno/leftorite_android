@@ -7,7 +7,6 @@
 
 package com.kmno.leftorite.utils
 
-import android.os.Handler
 import com.andrognito.flashbar.Flashbar
 import com.irozon.alertview.AlertActionStyle
 import com.irozon.alertview.AlertStyle
@@ -80,7 +79,7 @@ class Alerts {
         fun showBottomSheetWithTwoActionButton(
             title: String, msg: String,
             actionPositiveTitle: String, actionNegativeTitle: String,
-            actionPositiveCallback: Handler.Callback, actionNegativeCallback: Handler.Callback,
+            actionPositiveCallback: () -> Unit, actionNegativeCallback: () -> Unit,
             activity: BaseActivity
         ) {
             alert = AlertView(title, msg, AlertStyle.BOTTOM_SHEET)
@@ -88,12 +87,12 @@ class Alerts {
                 AlertAction(
                     actionPositiveTitle,
                     AlertActionStyle.POSITIVE
-                ) { action -> actionPositiveCallback })
+                ) { action -> actionPositiveCallback() })
             alert?.addAction(
                 AlertAction(
                     actionNegativeTitle,
                     AlertActionStyle.NEGATIVE
-                ) { action -> actionNegativeCallback })
+                ) { action -> actionNegativeCallback() })
             alert?.show(activity)
         }
 
