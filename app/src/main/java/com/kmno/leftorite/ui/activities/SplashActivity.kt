@@ -39,7 +39,6 @@ class SplashActivity : BaseActivity() {
         }
 
         //App.logger.error(test.itsReturnTest("kjehkdhkjdhkjshdkjshdjk"))
-
     }
 
     private fun goToDestinationActivity(_loggedIn: Boolean) {

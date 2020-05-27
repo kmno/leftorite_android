@@ -10,6 +10,7 @@ package com.kmno.leftorite.di
 import com.kmno.leftorite.ui.viewmodels.AuthActivityViewModel
 import com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel
 import com.kmno.leftorite.ui.viewmodels.SplashActivityViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -19,6 +20,6 @@ import org.koin.dsl.module
  */
 val viewModelModule = module {
     viewModel { SplashActivityViewModel() }
-    viewModel { AuthActivityViewModel(get()) }
-    viewModel { HomeActivityViewModel() }
+    viewModel { AuthActivityViewModel(androidContext(), get()) }
+    viewModel { HomeActivityViewModel(androidContext(), get()) }
 }

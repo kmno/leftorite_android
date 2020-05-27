@@ -42,31 +42,48 @@
         android:id="@+id/dont_have_account_sign_up_text_field"
         android:layout_width="196dp"
         android:layout_height="23dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginBottom="32dp"
         android:gravity="center"
         android:text="@string/dont_have_account_sign_up_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sigin_btn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/password_edit_text_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:autofillHints="@string/password_edit_text"
         android:ems="10"
         android:gravity="center"
-        android:autofillHints="@string/password_edit_text"
         android:hint="@string/password_edit_text"
-        app:layout_constraintEnd_toEndOf="parent"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="parent"
+        android:maxLength="16"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_edit_text_field" />
 
+    <EditText
+        android:id="@+id/password_confirm_edit_text_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:autofillHints="@string/password_confirm_edit_text"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/password_confirm_edit_text"
+        android:inputType="textPassword"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_edit_text_field" />
+
     <Button
-        android:id="@+id/sigin_btn"
+        android:id="@+id/auth_action_btn"
         android:layout_width="211dp"
         android:layout_height="48dp"
         android:layout_marginTop="28dp"
@@ -75,6 +92,6 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_edit_text_field" />
+        app:layout_constraintTop_toBottomOf="@+id/password_confirm_edit_text_field" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

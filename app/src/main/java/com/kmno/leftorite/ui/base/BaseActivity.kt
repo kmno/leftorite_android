@@ -7,6 +7,7 @@
 
 package com.kmno.leftorite.ui.base
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -14,13 +15,12 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.andrognito.flashbar.Flashbar
-import com.irozon.alertview.AlertActionStyle
-import com.irozon.alertview.AlertStyle
-import com.irozon.alertview.AlertView
-import com.irozon.alertview.objects.AlertAction
+import com.eazypermissions.common.model.PermissionResult
+import com.eazypermissions.dsl.extension.requestPermissions
 import com.kmno.leftorite.App
 import com.kmno.leftorite.R
+import com.kmno.leftorite.utils.Alerts.Companion.dismissFlashbar
+import com.kmno.leftorite.utils.Alerts.Companion.showFlashbar
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -29,14 +29,38 @@ abstract class BaseActivity : AppCompatActivity() {
         var isNetworkAvailable: Boolean = false
     }
 
-    var flashbar: Flashbar? = null
-    var flashbarConfig: Flashbar.Builder? = null
-    var alert: AlertView? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getResId())
         afterCreate()
+    }
+
+    protected fun requestPermission() {
+        requestPermissions(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) {
+            requestCode = 4
+            resultCallback = {
+                when (this) {
+                    is PermissionResult.PermissionGranted -> {
+                        App.logger.error("Add your logic here after user grants permission(s)")
+                    }
+                    is PermissionResult.PermissionDenied -> {
+                        // showAlert("Sorry!", "We Need this Permission ...","OK")
+                    }
+                    is PermissionResult.PermissionDeniedPermanently -> {
+                        //Add your logic here if user denied permission(s) permanently.
+                        //Ideally you should ask user to manually go to settings and enable permission(s)
+                        //showAlert("Sorry!", "We Need this Permission ...","OK")
+                    }
+                    is PermissionResult.ShowRational -> {
+                        //If user denied permission frequently then she/he is not clear about why you are asking this permission.
+                        //This is your chance to explain them why you need permission.
+                        // showAlert("Sorry!", "We Need this Permission ...","OK")
+                    }
+                }
+            }
+        }
     }
 
     private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -88,7 +112,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         unregisterReceiver(broadcastReceiver)
-        flashbar?.dismiss()
+        dismissFlashbar()
     }
 
     override fun onBackPressed() {
@@ -108,38 +132,9 @@ abstract class BaseActivity : AppCompatActivity() {
         App.logger.error("onNetDisConnected")
         // val alert = AlertView("No Network!", "check your internet connection...", AlertStyle.BOTTOM_SHEET)
         // alert.show(this)
-        showFlashbar(R.color.error, R.string.no_network, R.string.no_network_desc, 0)
+        showFlashbar(R.color.error, R.string.no_network, R.string.no_network_desc, 0, this)
     }
 
-    fun showFlashbar(bgColor: Int, title: Int, msg: Int, duration: Int) {
-        dismissFlashbar()
-        flashbarConfig = Flashbar.Builder(this)
-            .gravity(Flashbar.Gravity.TOP)
-            .backgroundColorRes(bgColor)
-            .messageSizeInSp(16f)
-            .showIcon()
-            .title(title)
-            .message(msg)
-            .castShadow(false)
 
-        if (duration != 0) flashbarConfig?.duration(((duration * 1000).toLong()))
-        flashbar = flashbarConfig?.build()
-        flashbar?.show()
-    }
 
-    fun dismissFlashbar() {
-        if (flashbar != null)
-            if (flashbar!!.isShown()) flashbar?.dismiss()
-    }
-
-    fun showAlert(title: String, msg: String, action: String) {
-        alert = AlertView(title, msg, AlertStyle.DIALOG)
-        // positiveAction.let {
-        //   alert?.addAction(AlertAction(positiveAction!!, AlertActionStyle.DEFAULT) { action -> })
-        // }
-        //negativeAction.let {
-        alert?.addAction(AlertAction(action, AlertActionStyle.NEGATIVE) { action -> })
-        //  }
-        alert?.show(this)
-    }
 }

@@ -20,5 +20,6 @@
 
     <color name="error">#E53935</color>
     <color name="ok">#00897B</color>
+    <color name="overlay_color">#B2D8D8D8</color>
 
 </resources>

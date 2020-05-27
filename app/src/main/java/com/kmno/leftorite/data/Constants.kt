@@ -13,4 +13,5 @@ package com.kmno.leftorite.data
  */
 object Constants {
     const val baseUrl = "http://185.208.172.32:3000/"
+    const val apiKey = "8c0892514e884f09af7c09a9b067b02b"
 }

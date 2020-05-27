@@ -21,12 +21,17 @@ import retrofit2.http.Query
 interface ApiService {
 
     @POST("/api/v1/login")
-    suspend fun loginUser(
-        @Query("email") email: String,
-        @Query("password") password: String,
-        @Query("token") token: String
+    suspend fun signInUser(
+        @Query("email", encoded = true) email: String,
+        @Query("password", encoded = true) password: String
     ): Response<ServiceResponse<ApiResponse<User>>>
 
+    @POST("/api/v1/register")
+    suspend fun signUpUser(
+        @Query("email", encoded = true) email: String,
+        @Query("password", encoded = true) password: String,
+        @Query("apiKey", encoded = true) apiKey: String
+    ): Response<ServiceResponse<ApiResponse<User>>>
 }
 
 @Keep

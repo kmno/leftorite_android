@@ -15,13 +15,10 @@ import com.chibatching.kotpref.KotprefModel
  */
 
 object UserInfo : KotprefModel() {
+    var loggedIn by booleanPref(false)
     var id by intPref()
     var nickname by stringPref()
     var email by stringPref()
     var token by stringPref()
     var points by intPref(0)
-}
-
-object Login : KotprefModel() {
-    var loggedIn by booleanPref(false)
 }

@@ -7,11 +7,20 @@
 
 package com.kmno.leftorite.ui.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.kmno.leftorite.data.api.ApiClientProvider
 
 /**
  * Created by Kamran Noorinejad on 5/17/2020 AD 10:48.
  * Edited by Kamran Noorinejad on 5/17/2020 AD 10:48.
  */
-class HomeActivityViewModel : ViewModel() {
+class HomeActivityViewModel(private val context: Context, apiProvider: ApiClientProvider) :
+    ViewModel() {
+
+    private val api = apiProvider.createApiClient()
+
+    init {
+
+    }
 }

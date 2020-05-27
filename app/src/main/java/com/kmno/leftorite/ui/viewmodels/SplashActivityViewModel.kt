@@ -10,7 +10,7 @@ package com.kmno.leftorite.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import com.kmno.leftorite.App
 import com.kmno.leftorite.BuildConfig
-import com.kmno.leftorite.utils.Login
+import com.kmno.leftorite.utils.UserInfo
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -24,8 +24,7 @@ class SplashActivityViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     init {
-
-        Login.loggedIn.let {
+        UserInfo.loggedIn.let {
             App.logger.error("Login.loggedIn.let $it")
             isUserLoggedIn = it
         }
