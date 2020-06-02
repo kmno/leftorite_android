@@ -9,6 +9,7 @@ package com.kmno.leftorite.data.api
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import com.kmno.leftorite.data.model.Item
 import com.kmno.leftorite.data.model.User
 import retrofit2.Response
 import retrofit2.http.POST
@@ -32,6 +33,12 @@ interface ApiService {
         @Query("password", encoded = true) password: String,
         @Query("apiKey", encoded = true) apiKey: String
     ): Response<ServiceResponse<ApiResponse<User>>>
+
+    @POST("/api/v1/getItems")
+    suspend fun getAllItems(
+        @Query("id", encoded = true) id: Int,
+        @Query("token", encoded = true) token: String
+    ): Response<ServiceResponse<ApiResponse<ItemsResponse>>>
 }
 
 @Keep
@@ -46,4 +53,12 @@ data class ApiResponse<T>(
     val message: String,
     @SerializedName("data")
     val data: T
+)
+
+@Keep
+data class ItemsResponse(
+    @SerializedName("finalPairs")
+    val finalPairs: List<List<Int>>,
+    @SerializedName("items")
+    val items: List<Item>
 )

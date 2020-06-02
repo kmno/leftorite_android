@@ -121,5 +121,4 @@ class AuthActivityViewModel(private val context: Context, apiProvider: ApiClient
         }
     }
 
-
 }

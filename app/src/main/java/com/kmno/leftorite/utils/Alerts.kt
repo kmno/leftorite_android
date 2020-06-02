@@ -12,7 +12,6 @@ import com.irozon.alertview.AlertActionStyle
 import com.irozon.alertview.AlertStyle
 import com.irozon.alertview.AlertView
 import com.irozon.alertview.objects.AlertAction
-import com.kmno.leftorite.App
 import com.kmno.leftorite.R
 import com.kmno.leftorite.ui.base.BaseActivity
 
@@ -136,18 +135,14 @@ class Alerts {
 
         fun dismissFlashbar() {
             if (flashbar != null) {
-                if (flashbar!!.isShowing()) flashbar?.dismiss()
+                if (flashbar!!.isShowing())
+                    flashbar?.dismiss()
             }
         }
 
         fun dismissProgressFlashbar() {
-            App.logger.error("1")
             if (flashbarProgress != null) {
-                App.logger.error("2")
-                //  if (flashbarProgress!!.isShowing()) {
-                App.logger.error("3")
                 flashbarProgress?.dismiss()
-                // }
             }
         }
 

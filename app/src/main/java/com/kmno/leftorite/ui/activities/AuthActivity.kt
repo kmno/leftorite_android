@@ -61,8 +61,8 @@ class AuthActivity : BaseActivity() {
                                         when (it) {
                                             true -> {
                                                 dismissFlashbar()
-                                                val user = networkResource.data as User
-                                                authActivityViewModel.storeUserPrefs(user)
+                                                // val user = networkResource.data as User
+                                                authActivityViewModel.storeUserPrefs(networkResource.data as User)
                                                 authActivityViewModel.setLoggedInPref(true)
                                                 this.launchActivity<HomeActivity>(finish = true)
                                             }

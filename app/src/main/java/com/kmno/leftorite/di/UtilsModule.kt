@@ -7,6 +7,8 @@
 
 package com.kmno.leftorite.di
 
+import coil.ImageLoader
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 /**
@@ -14,5 +16,5 @@ import org.koin.dsl.module
  * Edited by Kamran Noorinejad on 5/13/2020 AD 17:54.
  */
 val utilsModule = module {
-    single { TestClass() }
+    single { ImageLoader(androidContext()) }
 }

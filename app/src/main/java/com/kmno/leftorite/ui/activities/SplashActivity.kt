@@ -29,13 +29,12 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun afterCreate() {
-
         with(splashActivityViewModel.appVersionText) {
             app_version_text.text = this
         }
 
         with(splashActivityViewModel.isUserLoggedIn) {
-            goToDestinationActivity(this)
+           // goToDestinationActivity(this)
         }
 
         //App.logger.error(test.itsReturnTest("kjehkdhkjdhkjshdkjshdjk"))
@@ -59,7 +58,6 @@ class SplashActivity : BaseActivity() {
                 }
             }
         } else {
-            App.logger.error("nok")
             splash_progress_bar.visibility = View.GONE
         }
     }

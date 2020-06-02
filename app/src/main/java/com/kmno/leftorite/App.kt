@@ -17,6 +17,7 @@ import mu.KLogging
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 /**
  * Created by Kamran Noorinejad on 5/11/2020 AD 11:45.
@@ -30,7 +31,7 @@ open class App : Application(), Application.ActivityLifecycleCallbacks {
         super.onCreate()
 
         startKoin {
-            androidLogger()
+            androidLogger(Level.DEBUG)
             androidContext(this@App)
             modules(
                 viewModelModule,
