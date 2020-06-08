@@ -29,4 +29,6 @@
     <string name="loading_title">Please wait....</string>
     <string name="loading_desc">fetching data from network</string>
     <string name="network_error_text">error loading data from network</string>
+    <string name="which_one">which one?</string>
+    <string name="select_category_title">Select Category :</string>
 </resources>

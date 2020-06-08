@@ -70,6 +70,76 @@ class HomeActivityViewModel(private val context: Context, apiProvider: ApiClient
 
     }
 
+    //get all categories list
+    fun getCategories() = liveData(Dispatchers.IO) {
+        emit(Resource.loading())
+        try {
+            val response = api.getCategories(UserInfo.id, UserInfo.token)
+            if (response.isSuccessful) {
+                emit(
+                    Resource.success(
+                        response.body()?.status,
+                        response.body()?.response?.message,
+                        response.body()?.response?.data
+                    )
+                )
+            } else {
+                emit(
+                    Resource.error(
+                        response.body()?.status,
+                        response.body()?.response?.message,
+                        null
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(
+                Resource.error(
+                    false,
+                    context.getString(R.string.network_error_text),
+                    null
+                )
+            )
+        }
+
+    }
+
+    //set selected item
+    fun setSelectedItem(itemId: Int) = liveData(Dispatchers.IO) {
+        emit(Resource.loading())
+        try {
+            val response = api.setSelectedItem(itemId, UserInfo.id, UserInfo.token)
+            if (response.isSuccessful) {
+                emit(
+                    Resource.success(
+                        response.body()?.status,
+                        response.body()?.response?.message,
+                        response.body()?.response?.data
+                    )
+                )
+            } else {
+                emit(
+                    Resource.error(
+                        response.body()?.status,
+                        response.body()?.response?.message,
+                        null
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(
+                Resource.error(
+                    false,
+                    context.getString(R.string.network_error_text),
+                    null
+                )
+            )
+        }
+
+    }
+
     override fun onCleared() {
         super.onCleared()
     }

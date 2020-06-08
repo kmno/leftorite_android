@@ -9,6 +9,7 @@ package com.kmno.leftorite.data.api
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.data.model.Item
 import com.kmno.leftorite.data.model.User
 import retrofit2.Response
@@ -21,6 +22,7 @@ import retrofit2.http.Query
  */
 interface ApiService {
 
+    //Authentication
     @POST("/api/v1/login")
     suspend fun signInUser(
         @Query("email", encoded = true) email: String,
@@ -34,11 +36,33 @@ interface ApiService {
         @Query("apiKey", encoded = true) apiKey: String
     ): Response<ServiceResponse<ApiResponse<User>>>
 
+    //Categories
+    @POST("/api/v1/getCategories")
+    suspend fun getCategories(
+        @Query("id", encoded = true) id: Int,
+        @Query("token", encoded = true) token: String
+    ): Response<ServiceResponse<ApiResponse<List<Category>>>>
+
+    //Items
     @POST("/api/v1/getItems")
     suspend fun getAllItems(
         @Query("id", encoded = true) id: Int,
         @Query("token", encoded = true) token: String
     ): Response<ServiceResponse<ApiResponse<ItemsResponse>>>
+
+    @POST("/api/v1/getItemsByCategory")
+    suspend fun getItemsByCategory(
+        @Query("catId", encoded = true) catId: Int,
+        @Query("id", encoded = true) id: Int,
+        @Query("token", encoded = true) token: String
+    ): Response<ServiceResponse<ApiResponse<ItemsResponse>>>
+
+    @POST("/api/v1/setSelectedItem")
+    suspend fun setSelectedItem(
+        @Query("itemId", encoded = true) itemId: Int,
+        @Query("id", encoded = true) id: Int,
+        @Query("token", encoded = true) token: String
+    ): Response<ServiceResponse<ApiResponse<Any>>>
 }
 
 @Keep

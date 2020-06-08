@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Creator: Kamran Noorinejad on 6/7/20 11:32 AM
+  ~ Last modified: 6/7/20 11:32 AM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<resources>
+    <dimen name="fab_custom_size">75dp</dimen>
+    <dimen name="fab_max_image_size">40dp</dimen>
+    <dimen name="fab_margin_bottom">50dp</dimen>
+    <dimen name="separator_width">5dp</dimen>
+    <dimen name="logo_width">112dp</dimen>
+    <dimen name="logo_height">112dp</dimen>
+</resources>
