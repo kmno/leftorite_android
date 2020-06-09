@@ -7,9 +7,9 @@
 
 <resources>
     <string name="app_name">LeftoRite</string>
-    <string name="no_network">No Network!</string>
+    <string name="no_network">No Network !</string>
     <string name="no_network_desc">Check Your Internet Connection…</string>
-    <string name="network_connected">Connected!</string>
+    <string name="network_connected">Connected !</string>
     <string name="network_connected_desc">Your Internet Connected</string>
     <string name="email_edit_text">Email</string>
     <string name="sigin_btn_text">Sign In</string>
@@ -31,4 +31,7 @@
     <string name="network_error_text">error loading data from network</string>
     <string name="which_one">which one?</string>
     <string name="select_category_title">Select Category :</string>
+    <string name="current_category">Current Category :\t</string>
+    <string name="no_more_items">No More Items…</string>
+    <string name="select_all_categories">Select All</string>
 </resources>

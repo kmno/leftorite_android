@@ -10,14 +10,14 @@
     android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/bottom_sheet_progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleriew"
+        android:id="@+id/categories_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />

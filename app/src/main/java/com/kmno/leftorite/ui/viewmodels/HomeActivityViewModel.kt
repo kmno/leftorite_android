@@ -105,6 +105,41 @@ class HomeActivityViewModel(private val context: Context, apiProvider: ApiClient
 
     }
 
+    //get items list based on selected category
+    fun getItemsByCategory(categoryId: Int) = liveData(Dispatchers.IO) {
+        emit(Resource.loading())
+        try {
+            val response = api.getItemsByCategory(categoryId, UserInfo.id, UserInfo.token)
+            if (response.isSuccessful) {
+                emit(
+                    Resource.success(
+                        response.body()?.status,
+                        response.body()?.response?.message,
+                        response.body()?.response?.data
+                    )
+                )
+            } else {
+                emit(
+                    Resource.error(
+                        response.body()?.status,
+                        response.body()?.response?.message,
+                        null
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(
+                Resource.error(
+                    false,
+                    context.getString(R.string.network_error_text),
+                    null
+                )
+            )
+        }
+
+    }
+
     //set selected item
     fun setSelectedItem(itemId: Int) = liveData(Dispatchers.IO) {
         emit(Resource.loading())

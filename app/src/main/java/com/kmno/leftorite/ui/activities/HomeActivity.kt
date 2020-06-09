@@ -7,6 +7,7 @@
 
 package com.kmno.leftorite.ui.activities
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.View
 import android.view.WindowManager
@@ -15,8 +16,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.StatusCallback
+import cn.vove7.bottomdialog.builder.oneButton
 import cn.vove7.bottomdialog.toolbar
 import coil.api.load
+import coil.request.CachePolicy
 import com.kmno.leftorite.App
 import com.kmno.leftorite.R
 import com.kmno.leftorite.data.Constants
@@ -28,11 +31,12 @@ import com.kmno.leftorite.ui.builders.MarkdownContentBuilder
 import com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel
 import com.kmno.leftorite.utils.Alerts
 import com.kmno.leftorite.utils.DoubleTapListener
+import com.kmno.leftorite.utils.UserInfo
 import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.item_intent.view.*
 import kotlinx.android.synthetic.main.modal_bottom_sheet.view.*
+import kotlinx.android.synthetic.main.recyclerview_list_category.view.*
 import kotlinx.android.synthetic.main.recyclerview_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -41,8 +45,10 @@ class HomeActivity : BaseActivity() {
     private val homeActivityViewModel: HomeActivityViewModel by viewModel()
 
     private lateinit var adapter: SingleKidAdapter<Any>
-    private var allItems = emptyList<Item>()
-    private lateinit var bb: BottomDialog
+    private var allItems = mutableListOf<Item>()
+    private var allPairs = mutableListOf<Any>()
+    private lateinit var bottomDialg: BottomDialog
+    private var categoriesLoaded = false
 
     var timeToLive: Long = 2000
     var minSpeed: Float = 4f
@@ -54,10 +60,82 @@ class HomeActivity : BaseActivity() {
         return R.layout.activity_home
     }
 
+    @SuppressLint("SetTextI18n")
     override fun afterCreate() {
 
+        //set screen as fullscreen and change statusbar theme
         setUpScreen()
 
+        setupUserInfo()
+
+        setUpBottomDialog()
+
+        //category selection bottom sheet
+        change_category_layout.setOnClickListener { bottomDialg.show() }
+
+    }
+
+    private fun setupUserInfo() {
+        category_icon.load("${Constants.userImageUrl}avatar.png") {
+            crossfade(true)
+            diskCachePolicy(CachePolicy.ENABLED)
+        }
+        user_points.setNumber(UserInfo.points)
+    }
+
+    private fun updateUserPointsAndHeaderTitle(_responseText: String) {
+        _responseText.split("=").apply {
+            header_title.text = this[1]
+            UserInfo.points = this[0].toInt()
+            user_points.setNumber(UserInfo.points)
+        }
+    }
+
+    private fun setUpBottomDialog() {
+        bottomDialg = BottomDialog.builder(this, show = false) {
+            toolbar {
+                title = getString(R.string.select_category_title)
+                round = true
+                navIconId = R.drawable.ic_arrow_down
+                onIconClick = {
+                    it.dismiss()
+                }
+            }
+            oneButton(getString(R.string.select_all_categories),
+                bgColorId = R.color.colorPrimaryDark,
+                textColorId = R.color.white,
+                autoDismiss = true,
+                listener = {
+                    this.onClick {
+                        App.logger.error("listener -------------- ")
+                        getAllItems()
+                    }
+                })
+            theme(R.style.BottomDialog_Dark)
+            content(MarkdownContentBuilder())
+        }
+
+        bottomDialg.listenStatus(object : StatusCallback {
+            override fun onExpand() {
+                super.onExpand()
+            }
+
+            override fun onHidden() {
+                super.onHidden()
+                // categoriesLoaded = false
+            }
+
+            override fun onCollapsed() {
+                App.logger.error("onCollapsed")
+                super.onCollapsed()
+                if (!categoriesLoaded) getCategories()
+            }
+
+            override fun onSlide(slideOffset: Float) {}
+        })
+    }
+
+    private fun getAllItems() {
         homeActivityViewModel.getAllItems().observe(this, Observer { networkResource ->
             when (networkResource.state) {
                 State.LOADING -> {
@@ -69,10 +147,11 @@ class HomeActivity : BaseActivity() {
                         when (it) {
                             true -> {
                                 Alerts.dismissProgressFlashbar()
-                                networkResource.data?.let { it ->
-                                    current_category_text.text = "Current Category : All"
-                                    allItems = it.items
-                                    setUpItems(it.finalPairs as MutableList<Any>)
+                                networkResource.data?.let { response ->
+                                    current_category_text.text = "All"
+                                    allItems = response.items as MutableList<Item>
+                                    allPairs = response.finalPairs as MutableList<Any>
+                                    setUpItems()
                                 }
                             }
                             false -> {
@@ -94,67 +173,39 @@ class HomeActivity : BaseActivity() {
                 }
             }
         })
-
-        change_category_layout.setOnClickListener {
-
-            bb = BottomDialog.builder(this) {
-                toolbar {
-                    title = getString(R.string.select_category_title)
-                    round = true
-                    navIconId = R.drawable.ic_arrow_down
-                    onIconClick = {
-                        it.dismiss()
-                    }
-                }
-                theme(R.style.BottomDialog_Dark)
-                content(MarkdownContentBuilder(true))
-            }
-
-            bb.listenStatus(object : StatusCallback {
-                override fun onExpand() {
-                    super.onExpand()
-                    App.logger.error("onExpand")
-                }
-
-                override fun onCollapsed() {
-                    App.logger.error("onCollapsed")
-                    super.onCollapsed()
-                    getCategories()
-                }
-
-                override fun onSlide(slideOffset: Float) {}
-            })
-            bb.show()
-        }
-
     }
 
     private fun getCategories() {
         homeActivityViewModel.getCategories().observe(this, Observer { networkResource ->
             when (networkResource.state) {
                 State.LOADING -> {
-                    bb.contentView.progressBar.visibility = View.VISIBLE
+                    bottomDialg.contentView.bottom_sheet_progress_bar.visibility = View.VISIBLE
                 }
                 State.SUCCESS -> {
                     val status = networkResource.status
                     status?.let {
                         when (it) {
                             true -> {
-                                bb.contentView.progressBar.visibility = View.GONE
+                                bottomDialg.contentView.bottom_sheet_progress_bar.visibility =
+                                    View.GONE
                                 networkResource.data?.let { response ->
-                                    App.logger.error(response.toString())
-                                    bb.contentView.recycleriew.run {
+                                    categoriesLoaded = true
+                                    bottomDialg.contentView.categories_recyclerview.run {
                                         this.visibility = View.VISIBLE
                                         this.setUp<Category> {
                                             withLayoutManager(GridLayoutManager(context, 2))
-                                            withLayoutResId(R.layout.item_intent)
+                                            withLayoutResId(R.layout.recyclerview_list_category)
                                             withItems(response as MutableList<Category>)
-                                            bindIndexed { category, position ->
-                                                icon.setImageResource(R.mipmap.ic_launcher)
-                                                text.text = category.title
+                                            bindIndexed { category, _ ->
+                                                category_icon.load("${Constants.categoryImageUrl}${category.id}.png") {
+                                                    crossfade(true)
+                                                    placeholder(R.color.colorPrimaryDark)
+                                                }
+                                                category_title.text = category.title
                                                 setOnClickListener {
                                                     App.logger.error(category.id.toString())
-                                                    bb.dismiss()
+                                                    getItemsByCategory(category)
+                                                    bottomDialg.dismiss()
                                                 }
                                             }
                                         }
@@ -162,7 +213,8 @@ class HomeActivity : BaseActivity() {
                                 }
                             }
                             false -> {
-                                bb.contentView.progressBar.visibility = View.GONE
+                                bottomDialg.contentView.bottom_sheet_progress_bar.visibility =
+                                    View.GONE
                                 Alerts.showAlertDialogWithDefaultButton(
                                     "Error",
                                     networkResource.message!!,
@@ -174,7 +226,7 @@ class HomeActivity : BaseActivity() {
                     }
                 }
                 State.ERROR -> {
-                    bb.contentView.progressBar.visibility = View.GONE
+                    bottomDialg.contentView.bottom_sheet_progress_bar.visibility = View.GONE
                     Alerts.showAlertDialogWithDefaultButton(
                         "Error",
                         networkResource.message!!, "Try Again", this
@@ -182,6 +234,57 @@ class HomeActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun getItemsByCategory(_category: Category) {
+        adapter update {
+            it.removeAll(it)
+            adapter.clear()
+            allItems.clear()
+            allPairs.clear()
+        }
+        homeActivityViewModel.getItemsByCategory(_category.id)
+            .observe(this, Observer { networkResource ->
+                when (networkResource.state) {
+                    State.LOADING -> {
+                        //   Alerts.showFlashbarWithProgress(this)
+                    }
+                    State.SUCCESS -> {
+                        val status = networkResource.status
+                        status?.let {
+                            when (it) {
+                                true -> {
+                                    //Alerts.dismissProgressFlashbar()
+                                    networkResource.data?.let { response ->
+                                        current_category_text.text = _category.title
+                                        allItems = response.items as MutableList<Item>
+                                        allPairs = response.finalPairs as MutableList<Any>
+                                        App.logger.error {
+                                            allItems + " " + allPairs
+                                        }
+                                        setUpItems()
+                                    }
+                                }
+                                false -> {
+                                    Alerts.showAlertDialogWithDefaultButton(
+                                        "Error",
+                                        networkResource.message!!,
+                                        "Try Again",
+                                        this
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    State.ERROR -> {
+                        Alerts.showAlertDialogWithDefaultButton(
+                            "Error",
+                            networkResource.message!!, "Try Again", this
+                        )
+                    }
+                }
+            })
     }
 
     private fun setUpScreen() {
@@ -192,25 +295,31 @@ class HomeActivity : BaseActivity() {
         window.statusBarColor = Color.TRANSPARENT
     }
 
-    private fun setUpItems(
-        finalPairs: MutableList<Any>
-    ) {
+    private fun setUpItems() {
         adapter = recyclerView.setUp<Any> {
             withLayoutResId(R.layout.recyclerview_list_item)
-            withItems(finalPairs)
-            bindIndexed { item, position ->
+            withItems(allPairs)
+            bindIndexed { pair, position ->
 
-                with(item as ArrayList<*>) {
-                    left_item_imageview.load("${Constants.itemsImageUrl}${this[0]}.jpg") {
-                        crossfade(true)
-                        placeholder(R.color.colorPrimaryDark)
+                with(pair as ArrayList<*>) {
+
+                    (this[0] as Int).let { leftItemIndex ->
+                        left_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg")
+                        left_item_imageview.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
+                            crossfade(true)
+                            placeholder(R.color.colorPrimaryDark)
+                            diskCachePolicy(CachePolicy.ENABLED)
+                        }
                     }
-                    right_item_imageview.load("${Constants.itemsImageUrl}${this[1]}.jpg") {
-                        crossfade(true)
-                        placeholder(R.color.colorPrimary)
+
+                    (this[1] as Int).let { rightItemIndex ->
+                        right_item_imageview.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
+                            crossfade(true)
+                            placeholder(R.color.colorPrimary)
+                        }
+                        right_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg")
                     }
-                    right_item_imageview_full.load("${Constants.itemsImageUrl}${this[1]}.jpg")
-                    left_item_imageview_full.load("${Constants.itemsImageUrl}${this[0]}.jpg")
+
                 }
 
                 resetView(this)
@@ -219,7 +328,7 @@ class HomeActivity : BaseActivity() {
                 select_right_item_button.setOnClickListener {
                     handleSelectedView(
                         "right",
-                        item[1] as Int,
+                        allItems[pair[1] as Int].id,
                         position,
                         this@bindIndexed
                     )
@@ -228,7 +337,7 @@ class HomeActivity : BaseActivity() {
                 select_left_item_button.setOnClickListener {
                     handleSelectedView(
                         "left",
-                        item[0] as Int,
+                        allItems[pair[0] as Int].id,
                         position,
                         this@bindIndexed
                     )
@@ -239,10 +348,10 @@ class HomeActivity : BaseActivity() {
                     DoubleTapListener(
                         callback = object : DoubleTapListener.Callback {
                             override fun doubleClicked() {
-                                App.logger.error("doubleClicked ---------> right_item_imageview + item id =${item[1]}")
+                                App.logger.error("doubleClicked ---------> right_item_imageview + item id =${pair[1]}")
                                 handleSelectedView(
                                     "right",
-                                    item[1] as Int,
+                                    allItems[pair[1] as Int].id,
                                     position,
                                     this@bindIndexed
                                 )
@@ -264,8 +373,8 @@ class HomeActivity : BaseActivity() {
                                                                e.printStackTrace()
                                                            }*/
                             }
-                    }
-                ))
+                        }
+                    ))
 
                 left_item_imageview.setOnClickListener(DoubleTapListener(
                     callback = object : DoubleTapListener.Callback {
@@ -273,7 +382,7 @@ class HomeActivity : BaseActivity() {
                             App.logger.error("doubleClicked ---------> left_item_imageview")
                             handleSelectedView(
                                 "left",
-                                item[0] as Int,
+                                allItems[pair[0] as Int].id,
                                 position,
                                 this@bindIndexed
                             )
@@ -297,9 +406,6 @@ class HomeActivity : BaseActivity() {
         _position: Int,
         _selectedView: View
     ) {
-        _selectedView.separator.visibility = View.GONE
-        _selectedView.right_item_imageview.visibility = View.GONE
-        _selectedView.left_item_imageview.visibility = View.GONE
         when (_selectedSide) {
             "right" -> {
                 _selectedView.right_item_imageview_full.visibility = View.VISIBLE
@@ -327,8 +433,7 @@ class HomeActivity : BaseActivity() {
                         status?.let {
                             when (it) {
                                 true -> {
-                                    //Alerts.dismissProgressFlashbar()
-                                    header_title.text = networkResource.data as String
+                                    updateUserPointsAndHeaderTitle(networkResource.data as String)
                                     updateAdapter(_position)
                                 }
                                 false -> {
@@ -356,9 +461,6 @@ class HomeActivity : BaseActivity() {
 
     private fun resetView(_view: View) {
         header_title.text = getString(R.string.which_one)
-        _view.separator.visibility = View.VISIBLE
-        _view.right_item_imageview.visibility = View.VISIBLE
-        _view.left_item_imageview.visibility = View.VISIBLE
         _view.right_item_imageview_full.visibility = View.GONE
         _view.left_item_imageview_full.visibility = View.GONE
 
@@ -368,9 +470,9 @@ class HomeActivity : BaseActivity() {
         recyclerView.postDelayed({
             adapter update {
                 it.removeAt(_position)
-                //    adapter.remove(position)
                 adapter.notifyItemRemoved(_position)
                 adapter.notifyItemRangeChanged(_position, it.size)
+                if (it.isEmpty()) header_title.text = getString(R.string.no_more_items)
             }
 
         }, 1000)
@@ -397,7 +499,7 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun networkStatus(state: Boolean) {
-
+        if (state) getAllItems()
     }
 
 }
