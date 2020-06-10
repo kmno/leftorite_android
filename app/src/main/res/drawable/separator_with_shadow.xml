@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Creator: Kamran Noorinejad on 6/10/20 9:12 AM
+  ~ Last modified: 6/10/20 9:12 AM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#CABBBBBB" />
+        </shape>
+    </item>
+
+    <item
+        android:left="1dp"
+        android:right="1dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorPrimary" />
+        </shape>
+    </item>
+</layer-list>

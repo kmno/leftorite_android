@@ -70,41 +70,6 @@ class HomeActivityViewModel(private val context: Context, apiProvider: ApiClient
 
     }
 
-    //get all categories list
-    fun getCategories() = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val response = api.getCategories(UserInfo.id, UserInfo.token)
-            if (response.isSuccessful) {
-                emit(
-                    Resource.success(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        response.body()?.response?.data
-                    )
-                )
-            } else {
-                emit(
-                    Resource.error(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        null
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(
-                Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            )
-        }
-
-    }
-
     //get items list based on selected category
     fun getItemsByCategory(categoryId: Int) = liveData(Dispatchers.IO) {
         emit(Resource.loading())
@@ -173,6 +138,10 @@ class HomeActivityViewModel(private val context: Context, apiProvider: ApiClient
             )
         }
 
+    }
+
+    fun updateUserPointsPref(newPoint: Int) {
+        UserInfo.points = newPoint
     }
 
     override fun onCleared() {

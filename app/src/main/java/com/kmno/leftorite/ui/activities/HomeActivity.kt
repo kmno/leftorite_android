@@ -8,9 +8,7 @@
 package com.kmno.leftorite.ui.activities
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.View
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,10 +26,12 @@ import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.data.model.Item
 import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.ui.builders.MarkdownContentBuilder
+import com.kmno.leftorite.ui.viewmodels.CategoryBottomSheetViewModel
 import com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel
 import com.kmno.leftorite.utils.Alerts
 import com.kmno.leftorite.utils.DoubleTapListener
 import com.kmno.leftorite.utils.UserInfo
+import com.kmno.leftorite.utils.launchActivity
 import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
 import kotlinx.android.synthetic.main.activity_home.*
@@ -43,18 +43,13 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class HomeActivity : BaseActivity() {
 
     private val homeActivityViewModel: HomeActivityViewModel by viewModel()
+    private val categoryBottomSheetViewModel: CategoryBottomSheetViewModel by viewModel()
 
     private lateinit var adapter: SingleKidAdapter<Any>
     private var allItems = mutableListOf<Item>()
     private var allPairs = mutableListOf<Any>()
     private lateinit var bottomDialg: BottomDialog
     private var categoriesLoaded = false
-
-    var timeToLive: Long = 2000
-    var minSpeed: Float = 4f
-    var maxSpeed: Float = 7f
-    var colors =
-        intArrayOf(R.color.lt_yellow, R.color.lt_orange, R.color.lt_purple, R.color.lt_pink)
 
     override fun getResId(): Int {
         return R.layout.activity_home
@@ -66,13 +61,16 @@ class HomeActivity : BaseActivity() {
         //set screen as fullscreen and change statusbar theme
         setUpScreen()
 
+        //show user avatar and points
         setupUserInfo()
 
+        //setup categories bottom sheet
         setUpBottomDialog()
 
         //category selection bottom sheet
         change_category_layout.setOnClickListener { bottomDialg.show() }
 
+        more.setOnClickListener { this.launchActivity<SettingsActivity> {} }
     }
 
     private fun setupUserInfo() {
@@ -86,7 +84,7 @@ class HomeActivity : BaseActivity() {
     private fun updateUserPointsAndHeaderTitle(_responseText: String) {
         _responseText.split("=").apply {
             header_title.text = this[1]
-            UserInfo.points = this[0].toInt()
+            homeActivityViewModel.updateUserPointsPref(this[0].toInt())
             user_points.setNumber(UserInfo.points)
         }
     }
@@ -176,7 +174,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun getCategories() {
-        homeActivityViewModel.getCategories().observe(this, Observer { networkResource ->
+        categoryBottomSheetViewModel.getCategories().observe(this, Observer { networkResource ->
             when (networkResource.state) {
                 State.LOADING -> {
                     bottomDialg.contentView.bottom_sheet_progress_bar.visibility = View.VISIBLE
@@ -287,13 +285,7 @@ class HomeActivity : BaseActivity() {
             })
     }
 
-    private fun setUpScreen() {
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
-        window.statusBarColor = Color.TRANSPARENT
-    }
+
 
     private fun setUpItems() {
         adapter = recyclerView.setUp<Any> {
@@ -348,30 +340,12 @@ class HomeActivity : BaseActivity() {
                     DoubleTapListener(
                         callback = object : DoubleTapListener.Callback {
                             override fun doubleClicked() {
-                                App.logger.error("doubleClicked ---------> right_item_imageview + item id =${pair[1]}")
                                 handleSelectedView(
                                     "right",
                                     allItems[pair[1] as Int].id,
                                     position,
                                     this@bindIndexed
                                 )
-                                /*try {
-                                                               viewKonfetti.build()
-                                                                   .addColors(*colors)
-                                                                   .setDirection(0.0, 359.0)
-                                                                   .setSpeed(minSpeed, maxSpeed)
-                                                                   .setFadeOutEnabled(true)
-                                                                   .setTimeToLive(timeToLive)
-                                                                   //  .addShapes(shapes)
-                                                                   .addSizes(Size(12), Size(16, 6f))
-                                                                   .setPosition(
-                                                                       viewKonfetti.x + viewKonfetti.width / 2,
-                                                                       viewKonfetti.y + viewKonfetti.height / 3
-                                                                   )
-                                                                   .burst(100)
-                                                           }catch (e:Exception){
-                                                               e.printStackTrace()
-                                                           }*/
                             }
                         }
                     ))
@@ -379,7 +353,6 @@ class HomeActivity : BaseActivity() {
                 left_item_imageview.setOnClickListener(DoubleTapListener(
                     callback = object : DoubleTapListener.Callback {
                         override fun doubleClicked() {
-                            App.logger.error("doubleClicked ---------> left_item_imageview")
                             handleSelectedView(
                                 "left",
                                 allItems[pair[0] as Int].id,
@@ -406,6 +379,7 @@ class HomeActivity : BaseActivity() {
         _position: Int,
         _selectedView: View
     ) {
+        _selectedView.separator.visibility = View.GONE
         when (_selectedSide) {
             "right" -> {
                 _selectedView.right_item_imageview_full.visibility = View.VISIBLE
@@ -430,8 +404,8 @@ class HomeActivity : BaseActivity() {
                     }
                     State.SUCCESS -> {
                         val status = networkResource.status
-                        status?.let {
-                            when (it) {
+                        status?.let { respStatus ->
+                            when (respStatus) {
                                 true -> {
                                     updateUserPointsAndHeaderTitle(networkResource.data as String)
                                     updateAdapter(_position)
@@ -461,6 +435,8 @@ class HomeActivity : BaseActivity() {
 
     private fun resetView(_view: View) {
         header_title.text = getString(R.string.which_one)
+        _view.separator.visibility = View.VISIBLE
+        no_more_items_layout.visibility = View.GONE
         _view.right_item_imageview_full.visibility = View.GONE
         _view.left_item_imageview_full.visibility = View.GONE
 
@@ -472,21 +448,13 @@ class HomeActivity : BaseActivity() {
                 it.removeAt(_position)
                 adapter.notifyItemRemoved(_position)
                 adapter.notifyItemRangeChanged(_position, it.size)
-                if (it.isEmpty()) header_title.text = getString(R.string.no_more_items)
+                if (it.isEmpty()) {
+                    header_title.text = getString(R.string.no_more_items)
+                    no_more_items_layout.visibility = View.VISIBLE
+                }
             }
 
         }, 1000)
-    }
-
-    private fun setWindowFlag(bits: Int, on: Boolean) {
-        val win = window
-        val winParams = win.attributes
-        if (on) {
-            winParams.flags = winParams.flags or bits
-        } else {
-            winParams.flags = winParams.flags and bits.inv()
-        }
-        win.attributes = winParams
     }
 
     override fun resume() {

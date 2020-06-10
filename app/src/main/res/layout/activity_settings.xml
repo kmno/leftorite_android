@@ -1,0 +1,19 @@
+<!--
+  ~ Creator: Kamran Noorinejad on 6/10/20 12:21 PM
+  ~ Last modified: 6/10/20 12:21 PM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_with_close_button" />
+
+    <FrameLayout
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

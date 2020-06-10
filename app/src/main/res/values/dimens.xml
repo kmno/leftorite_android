@@ -12,4 +12,8 @@
     <dimen name="separator_width">5dp</dimen>
     <dimen name="logo_width">112dp</dimen>
     <dimen name="logo_height">112dp</dimen>
+    <dimen name="views_radius">10dp</dimen>
+    <dimen name="points_view_radius">3dp</dimen>
+    <dimen name="bottomsheet_closed_state_height">60dp</dimen>
+    <dimen name="toolbar_height">60dp</dimen>
 </resources>

@@ -34,4 +34,24 @@
     <string name="current_category">Current Category :\t</string>
     <string name="no_more_items">No More Items…</string>
     <string name="select_all_categories">Select All</string>
+    <string name="no_more_items_description">Congratulation!\nChange the category below</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="profile_header">Profile</string>
+    <string name="network_header">Network</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Network Preferences -->
+    <string name="data_saver_title">Use Less Data</string>
+
+    <string name="pref_header_about">About</string>
+    <string name="summary_about">We are a team of like-minded people, specialized in development of Android App Development creating new trends across the app space. Glad to Help in anyway!</string>
+    <string name="title_version">Version</string>
+    <string name="logout_title">Sign Out</string>
+    <string name="signout_summary">Click to sign out of your account</string>
+
 </resources>

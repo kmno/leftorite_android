@@ -1,0 +1,43 @@
+<!--
+  ~ Creator: Kamran Noorinejad on 6/10/20 12:21 PM
+  ~ Last modified: 6/10/20 12:21 PM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/network_header">
+
+        <SwitchPreferenceCompat
+            app:key="data_saver"
+            app:title="@string/data_saver_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/profile_header">
+
+        <Preference
+            app:key="logout"
+            app:summary="@string/signout_summary"
+            app:title="@string/logout_title">
+
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/pref_header_about">
+
+        <Preference
+            app:selectable="false"
+            app:summary="@string/summary_about" />
+
+        <Preference
+            app:key="app_version"
+            app:selectable="false"
+            app:title="@string/title_version" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
