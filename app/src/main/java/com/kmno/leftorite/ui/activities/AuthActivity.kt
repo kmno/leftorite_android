@@ -15,10 +15,10 @@ import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.User
 import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.ui.viewmodels.AuthActivityViewModel
-import com.kmno.leftorite.utils.Alerts.Companion.dismissFlashbar
-import com.kmno.leftorite.utils.Alerts.Companion.showAlertDialogWithDefaultButton
-import com.kmno.leftorite.utils.Alerts.Companion.showFlashbar
-import com.kmno.leftorite.utils.Alerts.Companion.showFlashbarWithProgress
+import com.kmno.leftorite.utils.Alerts.dismissFlashbar
+import com.kmno.leftorite.utils.Alerts.showAlertDialogWithDefaultButton
+import com.kmno.leftorite.utils.Alerts.showFlashbar
+import com.kmno.leftorite.utils.Alerts.showFlashbarWithProgress
 import com.kmno.leftorite.utils.launchActivity
 import kotlinx.android.synthetic.main.activity_auth.*
 import org.koin.android.viewmodel.ext.android.viewModel

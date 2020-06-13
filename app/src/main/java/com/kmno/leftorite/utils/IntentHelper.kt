@@ -26,11 +26,22 @@ import com.kmno.leftorite.R
 inline fun <reified T : Any> Activity.launchActivity(
     options: Bundle? = null,
     finish: Boolean = false,
+    finishAffinity: Boolean = false,
     noinline init: Intent.() -> Unit = {}
 ) {
 
     val intent = newIntent<T>(this)
     intent.init()
+
+    if (finish) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        finish()
+    }
+
+    if (finishAffinity) {
+        finishAffinity()
+    }
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         startActivity(intent, options)
     } else {
@@ -41,11 +52,6 @@ inline fun <reified T : Any> Activity.launchActivity(
         R.anim.slide_in_right,
         R.anim.slide_out_left
     )
-
-    if (finish) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        finish()
-    }
 }
 
 inline fun <reified T : Any> Context.launchActivity(

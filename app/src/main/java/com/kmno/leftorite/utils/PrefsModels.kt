@@ -22,3 +22,7 @@ object UserInfo : KotprefModel() {
     var token by stringPref()
     var points by intPref(0)
 }
+
+object AppSetting : KotprefModel() {
+    var dataSaver by AppSetting.booleanPref(false)
+}

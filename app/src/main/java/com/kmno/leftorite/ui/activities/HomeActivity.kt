@@ -25,11 +25,11 @@ import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.data.model.Item
 import com.kmno.leftorite.ui.base.BaseActivity
-import com.kmno.leftorite.ui.builders.MarkdownContentBuilder
+import com.kmno.leftorite.ui.builders.CategoriesViewBuilder
+import com.kmno.leftorite.ui.listeners.OnSwipeTouchListener
 import com.kmno.leftorite.ui.viewmodels.CategoryBottomSheetViewModel
 import com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel
 import com.kmno.leftorite.utils.Alerts
-import com.kmno.leftorite.utils.DoubleTapListener
 import com.kmno.leftorite.utils.UserInfo
 import com.kmno.leftorite.utils.launchActivity
 import com.link184.kidadapter.setUp
@@ -40,6 +40,7 @@ import kotlinx.android.synthetic.main.recyclerview_list_category.view.*
 import kotlinx.android.synthetic.main.recyclerview_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
+
 class HomeActivity : BaseActivity() {
 
     private val homeActivityViewModel: HomeActivityViewModel by viewModel()
@@ -48,7 +49,8 @@ class HomeActivity : BaseActivity() {
     private lateinit var adapter: SingleKidAdapter<Any>
     private var allItems = mutableListOf<Item>()
     private var allPairs = mutableListOf<Any>()
-    private lateinit var bottomDialg: BottomDialog
+
+    private lateinit var categoryBottomDialog: BottomDialog
     private var categoriesLoaded = false
 
     override fun getResId(): Int {
@@ -68,11 +70,25 @@ class HomeActivity : BaseActivity() {
         setUpBottomDialog()
 
         //category selection bottom sheet
-        change_category_layout.setOnClickListener { bottomDialg.show() }
+        change_category_layout.setOnTouchListener(object : OnSwipeTouchListener(this@HomeActivity) {
+            override fun onSwipeUp() {
+                super.onSwipeUp()
+                categoryBottomDialog.show()
+            }
 
+            override fun onClick() {
+                super.onClick()
+                categoryBottomDialog.show()
+            }
+
+        })
+
+        //setting page
         more.setOnClickListener { this.launchActivity<SettingsActivity> {} }
+
     }
 
+    //TODO: initial setups
     private fun setupUserInfo() {
         category_icon.load("${Constants.userImageUrl}avatar.png") {
             crossfade(true)
@@ -90,7 +106,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setUpBottomDialog() {
-        bottomDialg = BottomDialog.builder(this, show = false) {
+        categoryBottomDialog = BottomDialog.builder(this, show = false) {
             toolbar {
                 title = getString(R.string.select_category_title)
                 round = true
@@ -99,7 +115,8 @@ class HomeActivity : BaseActivity() {
                     it.dismiss()
                 }
             }
-            oneButton(getString(R.string.select_all_categories),
+            oneButton(
+                getString(R.string.select_all_categories),
                 bgColorId = R.color.colorPrimaryDark,
                 textColorId = R.color.white,
                 autoDismiss = true,
@@ -110,10 +127,10 @@ class HomeActivity : BaseActivity() {
                     }
                 })
             theme(R.style.BottomDialog_Dark)
-            content(MarkdownContentBuilder())
+            content(CategoriesViewBuilder())
         }
 
-        bottomDialg.listenStatus(object : StatusCallback {
+        categoryBottomDialog.listenStatus(object : StatusCallback {
             override fun onExpand() {
                 super.onExpand()
             }
@@ -133,18 +150,19 @@ class HomeActivity : BaseActivity() {
         })
     }
 
+    //TODO: api calls
     private fun getAllItems() {
         homeActivityViewModel.getAllItems().observe(this, Observer { networkResource ->
             when (networkResource.state) {
                 State.LOADING -> {
-                    Alerts.showFlashbarWithProgress(this)
+                    // Alerts.showFlashbarWithProgress(this)
                 }
                 State.SUCCESS -> {
                     val status = networkResource.status
                     status?.let {
                         when (it) {
                             true -> {
-                                Alerts.dismissProgressFlashbar()
+                                //    Alerts.dismissProgressFlashbar()
                                 networkResource.data?.let { response ->
                                     current_category_text.text = "All"
                                     allItems = response.items as MutableList<Item>
@@ -177,18 +195,19 @@ class HomeActivity : BaseActivity() {
         categoryBottomSheetViewModel.getCategories().observe(this, Observer { networkResource ->
             when (networkResource.state) {
                 State.LOADING -> {
-                    bottomDialg.contentView.bottom_sheet_progress_bar.visibility = View.VISIBLE
+                    categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                        View.VISIBLE
                 }
                 State.SUCCESS -> {
                     val status = networkResource.status
                     status?.let {
                         when (it) {
                             true -> {
-                                bottomDialg.contentView.bottom_sheet_progress_bar.visibility =
+                                categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
                                     View.GONE
                                 networkResource.data?.let { response ->
                                     categoriesLoaded = true
-                                    bottomDialg.contentView.categories_recyclerview.run {
+                                    categoryBottomDialog.contentView.categories_recyclerview.run {
                                         this.visibility = View.VISIBLE
                                         this.setUp<Category> {
                                             withLayoutManager(GridLayoutManager(context, 2))
@@ -203,7 +222,7 @@ class HomeActivity : BaseActivity() {
                                                 setOnClickListener {
                                                     App.logger.error(category.id.toString())
                                                     getItemsByCategory(category)
-                                                    bottomDialg.dismiss()
+                                                    categoryBottomDialog.dismiss()
                                                 }
                                             }
                                         }
@@ -211,7 +230,7 @@ class HomeActivity : BaseActivity() {
                                 }
                             }
                             false -> {
-                                bottomDialg.contentView.bottom_sheet_progress_bar.visibility =
+                                categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
                                     View.GONE
                                 Alerts.showAlertDialogWithDefaultButton(
                                     "Error",
@@ -224,7 +243,8 @@ class HomeActivity : BaseActivity() {
                     }
                 }
                 State.ERROR -> {
-                    bottomDialg.contentView.bottom_sheet_progress_bar.visibility = View.GONE
+                    categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                        View.GONE
                     Alerts.showAlertDialogWithDefaultButton(
                         "Error",
                         networkResource.message!!, "Try Again", this
@@ -234,7 +254,6 @@ class HomeActivity : BaseActivity() {
         })
     }
 
-    @SuppressLint("SetTextI18n")
     private fun getItemsByCategory(_category: Category) {
         adapter update {
             it.removeAll(it)
@@ -285,8 +304,7 @@ class HomeActivity : BaseActivity() {
             })
     }
 
-
-
+    //TODO: adapters and select handlers
     private fun setUpItems() {
         adapter = recyclerView.setUp<Any> {
             withLayoutResId(R.layout.recyclerview_list_item)
@@ -316,7 +334,7 @@ class HomeActivity : BaseActivity() {
 
                 resetView(this)
 
-                //button single click
+                //like button single click
                 select_right_item_button.setOnClickListener {
                     handleSelectedView(
                         "right",
@@ -335,34 +353,74 @@ class HomeActivity : BaseActivity() {
                     )
                 }
 
-                //double click
-                right_item_imageview.setOnClickListener(
-                    DoubleTapListener(
-                        callback = object : DoubleTapListener.Callback {
-                            override fun doubleClicked() {
-                                handleSelectedView(
-                                    "right",
-                                    allItems[pair[1] as Int].id,
-                                    position,
-                                    this@bindIndexed
-                                )
-                            }
-                        }
-                    ))
-
-                left_item_imageview.setOnClickListener(DoubleTapListener(
-                    callback = object : DoubleTapListener.Callback {
-                        override fun doubleClicked() {
-                            handleSelectedView(
-                                "left",
-                                allItems[pair[0] as Int].id,
-                                position,
-                                this@bindIndexed
-                            )
-                        }
+                //gesture
+                left_item_imageview.setOnTouchListener(object :
+                    OnSwipeTouchListener(this@HomeActivity) {
+                    override fun onSwipeUp() {
+                        super.onSwipeUp()
+                        categoryBottomDialog.show()
                     }
-                ))
 
+                    override fun onSwipeRight() {
+                        super.onSwipeRight()
+                        handleSelectedView(
+                            "left",
+                            allItems[pair[0] as Int].id,
+                            position,
+                            this@bindIndexed
+                        )
+                    }
+
+                    override fun onClick() {
+                        super.onClick()
+                        categoryBottomDialog.show()
+                    }
+
+                    override fun onDoubleClick() {
+                        super.onDoubleClick()
+                        handleSelectedView(
+                            "left",
+                            allItems[pair[0] as Int].id,
+                            position,
+                            this@bindIndexed
+                        )
+                    }
+                })
+
+                right_item_imageview.setOnTouchListener(object :
+                    OnSwipeTouchListener(this@HomeActivity) {
+                    override fun onSwipeUp() {
+                        super.onSwipeUp()
+                        categoryBottomDialog.show()
+                    }
+
+                    override fun onSwipeLeft() {
+                        super.onSwipeLeft()
+                        handleSelectedView(
+                            "right",
+                            allItems[pair[1] as Int].id,
+                            position,
+                            this@bindIndexed
+                        )
+                    }
+
+                    override fun onClick() {
+                        super.onClick()
+                        categoryBottomDialog.show()
+                    }
+
+                    override fun onDoubleClick() {
+                        super.onDoubleClick()
+                        handleSelectedView(
+                            "right",
+                            allItems[pair[1] as Int].id,
+                            position,
+                            this@bindIndexed
+                        )
+                    }
+                })
+
+                //click item
                 setOnClickListener {}
             }
         }

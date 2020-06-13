@@ -22,8 +22,8 @@ import com.eazypermissions.common.model.PermissionResult
 import com.eazypermissions.dsl.extension.requestPermissions
 import com.kmno.leftorite.App
 import com.kmno.leftorite.R
-import com.kmno.leftorite.utils.Alerts.Companion.dismissFlashbar
-import com.kmno.leftorite.utils.Alerts.Companion.showFlashbar
+import com.kmno.leftorite.utils.Alerts.dismissFlashbar
+import com.kmno.leftorite.utils.Alerts.showFlashbar
 
 
 abstract class BaseActivity : AppCompatActivity() {

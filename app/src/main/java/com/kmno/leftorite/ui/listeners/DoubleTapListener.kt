@@ -1,11 +1,11 @@
 /*
- * Creator: Kamran Noorinejad on 6/2/20 2:21 PM
- * Last modified: 6/2/20 2:21 PM
+ * Creator: Kamran Noorinejad on 6/13/20 4:04 PM
+ * Last modified: 6/13/20 3:53 PM
  * Copyright: All rights reserved Ⓒ 2020
  * http://www.itskamran.ir/
  */
 
-package com.kmno.leftorite.utils
+package com.kmno.leftorite.ui.listeners
 
 import android.view.View
 
@@ -47,6 +47,7 @@ class DoubleTapListener(
     }
 
     interface Callback {
+        fun singleClicked()
         fun doubleClicked()
     }
 }

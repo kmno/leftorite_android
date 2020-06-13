@@ -19,17 +19,17 @@ import com.kmno.leftorite.ui.base.BaseActivity
  * Created by Kamran Noorinejad on 5/27/2020 AD 11:26.
  * Edited by Kamran Noorinejad on 5/27/2020 AD 11:26.
  */
-class Alerts {
+object Alerts {
 
-    companion object {
+    //companion object {
 
-        var alert: AlertView? = null
-        private var flashbar: Flashbar? = null
-        private var flashbarConfig: Flashbar.Builder? = null
-        private var flashbarProgress: Flashbar? = null
-        private var flashbarProgressConfig: Flashbar.Builder? = null
+    var alert: AlertView? = null
+    private var flashbar: Flashbar? = null
+    private var flashbarConfig: Flashbar.Builder? = null
+    private var flashbarProgress: Flashbar? = null
+    private var flashbarProgressConfig: Flashbar.Builder? = null
 
-        fun showAlertDialogWithDefaultButton(
+    fun showAlertDialogWithDefaultButton(
             title: String, msg: String, action: String,
             activity: BaseActivity
         ) {
@@ -42,8 +42,8 @@ class Alerts {
         }
 
         fun showAlertDialogWithTwoActionButton(
-            title: String, msg: String,
-            actionPositiveTitle: String, actionNegativeTitle: String,
+            title: String, msg: String = "Are You Sure?",
+            actionPositiveTitle: String = "Yes", actionNegativeTitle: String = "No",
             actionPositiveCallback: () -> Unit, actionNegativeCallback: () -> Unit,
             activity: BaseActivity
         ) {
@@ -146,5 +146,5 @@ class Alerts {
             }
         }
 
-    }
+    //}
 }

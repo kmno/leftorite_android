@@ -11,6 +11,9 @@
 
         <SwitchPreferenceCompat
             app:key="data_saver"
+            app:defaultValue="false"
+            app:summaryOff="Off"
+            app:summaryOn="On"
             app:title="@string/data_saver_title" />
 
     </PreferenceCategory>
@@ -18,7 +21,7 @@
     <PreferenceCategory app:title="@string/profile_header">
 
         <Preference
-            app:key="logout"
+            app:key="sign_out"
             app:summary="@string/signout_summary"
             app:title="@string/logout_title">
 
