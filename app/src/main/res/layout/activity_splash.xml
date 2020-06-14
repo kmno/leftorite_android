@@ -36,7 +36,26 @@
         app:layout_constraintBottom_toTopOf="@+id/app_version_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/splash_logo" />
+
+    <com.agrawalsuneet.dotsloader.loaders.TashieLoader
+        android:id="@+id/lazy_loader_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/app_version_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/splash_logo"
+        app:tashieloader_animDelay="100"
+        app:tashieloader_animDur="200"
+        app:tashieloader_dotsColor="@color/primaryLightColor"
+        app:tashieloader_dotsDist="5dp"
+        app:tashieloader_dotsRadius="5dp"
+        app:tashieloader_interpolator="@android:anim/accelerate_interpolator"
+        app:tashieloader_noOfDots="3" />
 
     <TextView
         android:id="@+id/app_version_text"
@@ -50,6 +69,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/splash_logo"
         app:layout_constraintVertical_bias="0.9" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

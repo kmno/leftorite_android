@@ -16,4 +16,5 @@
     <dimen name="points_view_radius">3dp</dimen>
     <dimen name="bottomsheet_closed_state_height">60dp</dimen>
     <dimen name="toolbar_height">60dp</dimen>
+    <dimen name="item_details_image_height">180dp</dimen>
 </resources>

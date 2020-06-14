@@ -157,4 +157,5 @@ abstract class BaseActivity : AppCompatActivity() {
         win.attributes = winParams
     }
 
+
 }

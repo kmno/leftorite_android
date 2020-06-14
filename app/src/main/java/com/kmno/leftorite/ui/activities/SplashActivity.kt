@@ -11,18 +11,15 @@ import android.os.Handler
 import android.view.View
 import com.kmno.leftorite.App
 import com.kmno.leftorite.R
-import com.kmno.leftorite.di.TestClass
 import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.ui.viewmodels.SplashActivityViewModel
 import com.kmno.leftorite.utils.launchActivity
 import kotlinx.android.synthetic.main.activity_splash.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SplashActivity : BaseActivity() {
 
     private val splashActivityViewModel: SplashActivityViewModel by viewModel()
-    val test: TestClass by inject()
 
     override fun getResId(): Int {
         return R.layout.activity_splash
@@ -37,12 +34,12 @@ class SplashActivity : BaseActivity() {
            // goToDestinationActivity(this)
         }
 
-        //App.logger.error(test.itsReturnTest("kjehkdhkjdhkjshdkjshdjk"))
     }
 
     private fun goToDestinationActivity(_loggedIn: Boolean) {
         if (isNetworkAvailable) {
-            splash_progress_bar.visibility = View.VISIBLE
+            // splash_progress_bar.visibility = View.VISIBLE
+            lazy_loader_progress.visibility = View.VISIBLE
             when (_loggedIn) {
                 true -> {
                     App.logger.error("HomeActivity")
@@ -58,7 +55,8 @@ class SplashActivity : BaseActivity() {
                 }
             }
         } else {
-            splash_progress_bar.visibility = View.GONE
+            lazy_loader_progress.visibility = View.GONE
+            //   splash_progress_bar.visibility = View.GONE
         }
     }
 

@@ -8,9 +8,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_container_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/home_container_layout"
     tools:context=".ui.activities.HomeActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -25,7 +25,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/header_title"
+        app:layout_constraintBottom_toBottomOf="@+id/header_title_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,30 +55,53 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/header_title"
+    <RelativeLayout
+        android:id="@+id/header_title_layout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp"
         android:background="@drawable/rounded_corner_layout"
         android:backgroundTint="@color/colorPrimary"
-        android:fontFamily="@font/roboto_light"
         android:gravity="center"
-        android:paddingLeft="15dp"
-        android:paddingTop="5dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="5dp"
-        android:text="@string/which_one"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/recyclerView"
-        app:layout_constraintVertical_bias="0.133" />
+        app:layout_constraintVertical_bias="0.133">
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
+            android:text="@string/which_one"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <com.agrawalsuneet.dotsloader.loaders.TashieLoader
+            android:id="@+id/tashie_loader_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="15dp"
+            android:visibility="gone"
+            app:tashieloader_animDelay="100"
+            app:tashieloader_animDur="200"
+            app:tashieloader_dotsColor="@color/white"
+            app:tashieloader_dotsDist="5dp"
+            app:tashieloader_dotsRadius="5dp"
+            app:tashieloader_interpolator="@android:anim/accelerate_interpolator"
+            app:tashieloader_noOfDots="3" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/no_more_items_layout"
@@ -90,7 +113,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="@+id/recyclerView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_title">
+        app:layout_constraintTop_toBottomOf="@+id/header_title_layout">
 
         <TextView
             android:layout_width="match_parent"
@@ -132,23 +155,23 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/arrow_up"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
             android:text="@string/current_category"
             android:textColor="@color/white"
-            android:layout_toEndOf="@id/arrow_up"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/current_category_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_toEndOf="@id/category_text"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center_vertical"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_toEndOf="@id/category_text"
             tools:text="CATEGORY" />
 
         <ImageButton

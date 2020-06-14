@@ -21,5 +21,7 @@ data class Item(
     @SerializedName("popularity")
     val popularity: Int,
     @SerializedName("category_id")
-    val category_id: Int
+    val category_id: Int,
+    @SerializedName("description")
+    val description: String
 )
