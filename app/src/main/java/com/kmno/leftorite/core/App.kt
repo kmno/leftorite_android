@@ -1,11 +1,11 @@
 /*
- * Creator: Kamran Noorinejad on 5/11/20 11:45 AM
- * Last modified: 5/11/20 11:45 AM
+ * Creator: Kamran Noorinejad on 6/15/20 3:59 PM
+ * Last modified: 6/15/20 3:57 PM
  * Copyright: All rights reserved Ⓒ 2020
  * http://www.itskamran.ir/
  */
 
-package com.kmno.leftorite
+package com.kmno.leftorite.core
 
 import android.app.Activity
 import android.app.Application
@@ -29,7 +29,6 @@ open class App : Application(), Application.ActivityLifecycleCallbacks {
 
     override fun onCreate() {
         super.onCreate()
-
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@App)

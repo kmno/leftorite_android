@@ -21,5 +21,5 @@ val viewModelModule = module {
     viewModel { SettingActivityViewModel(androidContext()) }
     viewModel { AuthActivityViewModel(androidContext(), get()) }
     viewModel { HomeActivityViewModel(androidContext(), get()) }
-    viewModel { CategoryBottomSheetViewModel(androidContext(), get()) }
+    viewModel { CategoryBottomSheetViewModel(androidContext(), get(), get()) }
 }

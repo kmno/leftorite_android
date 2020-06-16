@@ -13,6 +13,8 @@ import androidx.lifecycle.liveData
 import com.kmno.leftorite.R
 import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
+import com.kmno.leftorite.data.model.Category
+import com.kmno.leftorite.data.repository.DbRepository
 import com.kmno.leftorite.utils.UserInfo
 import kotlinx.coroutines.Dispatchers
 
@@ -20,10 +22,19 @@ import kotlinx.coroutines.Dispatchers
  * Created by Kamran Noorinejad on 6/9/2020 AD 15:37.
  * Edited by Kamran Noorinejad on 6/9/2020 AD 15:37.
  */
-class CategoryBottomSheetViewModel(private val context: Context, apiProvider: ApiClientProvider) :
+class CategoryBottomSheetViewModel(
+    private val context: Context,
+    apiProvider: ApiClientProvider,
+    private val dbRepository: DbRepository
+) :
     ViewModel() {
 
     private val api = apiProvider.createApiClient()
+
+
+    fun insertCategories(categoriesList: List<Category>) =
+        dbRepository.insertCategory(categoriesList)
+
 
     //get all categories list
     fun getCategories() = liveData(Dispatchers.IO) {
@@ -57,7 +68,17 @@ class CategoryBottomSheetViewModel(private val context: Context, apiProvider: Ap
                 )
             )
         }
+    }
 
+    fun selectAllCategories() = liveData(Dispatchers.IO) {
+        try {
+            val response = dbRepository.getCategoriesList()
+            emit(
+                response
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

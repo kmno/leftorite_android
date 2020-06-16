@@ -8,8 +8,8 @@
 package com.kmno.leftorite.data.api
 
 import com.google.gson.GsonBuilder
-import com.kmno.leftorite.App
-import com.kmno.leftorite.data.Constants
+import com.kmno.leftorite.core.App
+import com.kmno.leftorite.core.Constants
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

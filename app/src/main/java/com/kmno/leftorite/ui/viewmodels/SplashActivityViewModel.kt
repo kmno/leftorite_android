@@ -8,8 +8,8 @@
 package com.kmno.leftorite.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.kmno.leftorite.App
 import com.kmno.leftorite.BuildConfig
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.utils.UserInfo
 
 /**

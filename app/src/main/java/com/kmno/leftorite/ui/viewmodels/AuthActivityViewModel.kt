@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.chibatching.kotpref.blockingBulk
 import com.kmno.leftorite.R
-import com.kmno.leftorite.data.Constants.apiKey
+import com.kmno.leftorite.core.Constants.apiKey
 import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.User

@@ -9,8 +9,8 @@ package com.kmno.leftorite.ui.activities
 
 import android.os.Handler
 import android.view.View
-import com.kmno.leftorite.App
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.ui.viewmodels.SplashActivityViewModel
 import com.kmno.leftorite.utils.launchActivity

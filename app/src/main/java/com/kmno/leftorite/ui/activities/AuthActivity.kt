@@ -9,8 +9,8 @@ package com.kmno.leftorite.ui.activities
 
 import android.view.View
 import androidx.lifecycle.Observer
-import com.kmno.leftorite.App
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.User
 import com.kmno.leftorite.ui.base.BaseActivity

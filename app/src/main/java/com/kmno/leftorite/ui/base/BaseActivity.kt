@@ -20,8 +20,8 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.eazypermissions.common.model.PermissionResult
 import com.eazypermissions.dsl.extension.requestPermissions
-import com.kmno.leftorite.App
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.utils.Alerts.dismissFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbar
 

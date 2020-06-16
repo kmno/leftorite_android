@@ -18,9 +18,9 @@ import cn.vove7.bottomdialog.builder.oneButton
 import cn.vove7.bottomdialog.toolbar
 import coil.api.load
 import coil.request.CachePolicy
-import com.kmno.leftorite.App
 import com.kmno.leftorite.R
-import com.kmno.leftorite.data.Constants
+import com.kmno.leftorite.core.App
+import com.kmno.leftorite.core.Constants
 import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.data.model.Item
@@ -138,17 +138,7 @@ class HomeActivity : BaseActivity() {
         }
 
         categoryBottomDialog.listenStatus(object : StatusCallback {
-            override fun onExpand() {
-                super.onExpand()
-            }
-
-            override fun onHidden() {
-                super.onHidden()
-                // categoriesLoaded = false
-            }
-
             override fun onCollapsed() {
-                App.logger.error("onCollapsed")
                 super.onCollapsed()
                 if (!categoriesLoaded) getCategories()
             }
@@ -211,6 +201,14 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun getCategories() {
+
+        categoryBottomSheetViewModel.selectAllCategories().observe(this, Observer {
+            //App.logger.error("count ${it?.count()}")
+            //  it?.forEach { cat ->
+            App.logger.error(it?.toString())
+            //}
+        })
+
         categoryBottomSheetViewModel.getCategories().observe(this, Observer { networkResource ->
             when (networkResource.state) {
                 State.LOADING -> {
@@ -498,7 +496,6 @@ class HomeActivity : BaseActivity() {
                 tashie_loader_progress.visibility = View.GONE
             }
         }
-
     }
 
     private fun setSelectedItem(

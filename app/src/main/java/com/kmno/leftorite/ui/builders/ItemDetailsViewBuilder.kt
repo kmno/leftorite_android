@@ -11,8 +11,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
-import com.kmno.leftorite.App
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 
 /**
  * Created by Kamran Noorinejad on 6/14/2020 AD 11:15.

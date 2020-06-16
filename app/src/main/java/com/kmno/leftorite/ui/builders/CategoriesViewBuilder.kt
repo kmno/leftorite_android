@@ -9,7 +9,6 @@ package com.kmno.leftorite.ui.builders
 
 import android.view.View
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
-import com.kmno.leftorite.App
 import com.kmno.leftorite.R
 
 /**
@@ -25,18 +24,15 @@ class CategoriesViewBuilder : ContentBuilder() {
     // lateinit var recyclerview: RecyclerView
 
     override fun init(view: View) {
-        App.logger.error("init")
         // prog = view.findViewById(R.id.bottom_sheet_progress_bar)
         //  recyclerview = view.findViewById(R.id.categories_recyclerview)
     }
 
     override fun updateContent(type: Int, data: Any?) {
-        App.logger.error("updateContent")
     }
 
     override fun onAfterShow() {
         super.onAfterShow()
-        App.logger.error("onAfterShow")
     }
 
 

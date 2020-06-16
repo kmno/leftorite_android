@@ -1,11 +1,11 @@
 /*
- * Creator: Kamran Noorinejad on 6/13/20 3:30 PM
- * Last modified: 6/2/20 9:44 AM
+ * Creator: Kamran Noorinejad on 6/15/20 3:54 PM
+ * Last modified: 6/13/20 3:31 PM
  * Copyright: All rights reserved Ⓒ 2020
  * http://www.itskamran.ir/
  */
 
-package com.kmno.leftorite.data
+package com.kmno.leftorite.core
 
 /**
  * Created by Kamran Noorinejad on 5/19/2020 AD 14:45.
