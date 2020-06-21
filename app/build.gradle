@@ -18,10 +18,10 @@ android {
 
     defaultConfig {
         applicationId "com.kmno.leftorite"
-        minSdkVersion 24
+        minSdkVersion 20
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0-BETA"
+        versionCode 3
+        versionName "1.0"
         archivesBaseName = "leftorite-v$versionName($versionCode)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -47,6 +47,11 @@ android {
             debuggable true
             minifyEnabled false
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {

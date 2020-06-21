@@ -7,12 +7,14 @@
 
 package com.kmno.leftorite.data.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 /**
  * Created by Kamran Noorinejad on 5/19/2020 AD 12:06.
  * Edited by Kamran Noorinejad on 5/19/2020 AD 12:06.
  */
+@Keep
 data class User(
     @SerializedName("id")
     val id: Int,

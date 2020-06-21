@@ -42,7 +42,6 @@ class DbRepository(
     init {
         val db = LeftoriteDatabase.getDatabase(application)
         categoryDao = db?.categoryDao()
-
         //  netInfo.isOnline()
     }
 

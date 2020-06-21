@@ -7,6 +7,7 @@
 
 package com.kmno.leftorite.data.model
 
+import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -16,6 +17,7 @@ import com.google.gson.annotations.SerializedName
  * Created by Kamran Noorinejad on 6/2/2020 AD 09:33.
  * Edited by Kamran Noorinejad on 6/2/2020 AD 09:33.
  */
+@Keep
 @Entity(tableName = "db_leftorite_categories")
 data class Category(
     @SerializedName("id")

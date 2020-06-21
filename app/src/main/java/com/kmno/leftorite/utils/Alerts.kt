@@ -135,7 +135,7 @@ object Alerts {
 
         fun dismissFlashbar() {
             if (flashbar != null) {
-                if (flashbar!!.isShowing())
+               // if (flashbar!!.isShowing())
                     flashbar?.dismiss()
             }
         }

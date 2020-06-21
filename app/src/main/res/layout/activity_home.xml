@@ -25,18 +25,18 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/header_title_layout"
+        app:layout_constraintBottom_toTopOf="@+id/header_title_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.566">
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:id="@+id/category_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:scaleType="center" />
+            android:layout_alignParentBottom="true"
+            android:scaleType="centerInside" />
 
         <com.nex3z.notificationbadge.NotificationBadge
             android:id="@+id/user_points"
@@ -46,8 +46,9 @@
             android:layout_marginStart="-20dp"
             android:layout_marginTop="0dp"
             android:layout_toEndOf="@id/category_icon"
+            android:background="@drawable/point_badge_bg"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="25sp"
+            android:textSize="23sp"
             app:nbAnimationDuration="100"
             app:nbBackground="@drawable/point_badge_bg"
             app:nbEllipsizeText="+9999"
@@ -69,7 +70,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/recyclerView"
-        app:layout_constraintVertical_bias="0.133">
+        app:layout_constraintVertical_bias="0.145">
 
         <TextView
             android:id="@+id/header_title"
