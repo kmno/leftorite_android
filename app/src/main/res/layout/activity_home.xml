@@ -25,32 +25,34 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:translationY="5dp"
         app:layout_constraintBottom_toTopOf="@+id/header_title_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/header_title_layout"
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:id="@+id/category_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/user_avatar"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:scaleType="centerInside" />
 
         <com.nex3z.notificationbadge.NotificationBadge
             android:id="@+id/user_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/category_icon"
-            android:layout_marginStart="-20dp"
-            android:layout_marginTop="0dp"
-            android:layout_toEndOf="@id/category_icon"
+            android:layout_alignTop="@id/user_avatar"
+            android:layout_marginTop="-15dp"
+            android:layout_toEndOf="@id/user_avatar"
             android:background="@drawable/point_badge_bg"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="23sp"
+            android:textSize="22sp"
             app:nbAnimationDuration="100"
-            app:nbBackground="@drawable/point_badge_bg"
+            app:nbBackground="@color/secondaryColor"
             app:nbEllipsizeText="+9999"
             app:nbMaxTextLength="5" />
 

@@ -142,6 +142,5 @@ dependencies {
     implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.2.5'
     implementation 'com.github.Vove7.BottomDialog:extension:2.2.5'
     implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4.2'
-
 }
 apply plugin: 'com.google.gms.google-services'

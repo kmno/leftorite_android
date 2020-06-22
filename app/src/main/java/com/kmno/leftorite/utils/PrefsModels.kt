@@ -21,6 +21,7 @@ object UserInfo : KotprefModel() {
     var email by stringPref()
     var token by stringPref()
     var points by intPref(0)
+    var avatar by stringPref()
 }
 
 object AppSetting : KotprefModel() {

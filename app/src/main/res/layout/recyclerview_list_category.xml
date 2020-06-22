@@ -14,7 +14,7 @@
     android:padding="15dp">
 
     <ImageView
-        android:id="@+id/category_icon"
+        android:id="@+id/user_avatar"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="center" />

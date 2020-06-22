@@ -18,6 +18,7 @@ import cn.vove7.bottomdialog.builder.oneButton
 import cn.vove7.bottomdialog.toolbar
 import coil.api.load
 import coil.request.CachePolicy
+import coil.transform.CircleCropTransformation
 import com.kmno.leftorite.R
 import com.kmno.leftorite.core.App
 import com.kmno.leftorite.core.Constants
@@ -98,9 +99,10 @@ class HomeActivity : BaseActivity() {
 
     //TODO: initial setups
     private fun setupUserInfo() {
-        category_icon.load("${Constants.userImageUrl}avatar.png") {
+        user_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}.jpg") {
             crossfade(true)
             diskCachePolicy(CachePolicy.ENABLED)
+            transformations(CircleCropTransformation())
         }
         user_points.setNumber(UserInfo.points)
     }
@@ -231,7 +233,7 @@ class HomeActivity : BaseActivity() {
                                             withLayoutResId(R.layout.recyclerview_list_category)
                                             withItems(response as MutableList<Category>)
                                             bindIndexed { category, _ ->
-                                                category_icon.load("${Constants.categoryImageUrl}${category.id}.png") {
+                                                user_avatar.load("${Constants.categoryImageUrl}${category.id}.png") {
                                                     crossfade(true)
                                                     placeholder(R.color.colorPrimaryDark)
                                                 }
@@ -329,25 +331,29 @@ class HomeActivity : BaseActivity() {
             bindIndexed { pair, position ->
 
                 with(pair as ArrayList<*>) {
-
                     (this[0] as Int).let { leftItemIndex ->
-                        left_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg")
+                        left_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
+                            placeholder(R.color.colorPrimaryDark)
+                            diskCachePolicy(CachePolicy.ENABLED)
+                        }
                         left_item_imageview.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
                             crossfade(true)
-                            placeholder(R.color.colorPrimaryDark)
+                            placeholder(R.drawable.placeholder_trans)
                             diskCachePolicy(CachePolicy.ENABLED)
                         }
                     }
 
                     (this[1] as Int).let { rightItemIndex ->
-                        right_item_imageview.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
-                            crossfade(true)
+                        right_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
                             placeholder(R.color.colorPrimary)
                             diskCachePolicy(CachePolicy.ENABLED)
                         }
-                        right_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg")
+                        right_item_imageview.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
+                            crossfade(true)
+                            placeholder(R.drawable.placeholder_trans)
+                            diskCachePolicy(CachePolicy.ENABLED)
+                        }
                     }
-
                 }
 
                 resetView(this)

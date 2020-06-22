@@ -118,6 +118,7 @@ class AuthActivityViewModel(private val context: Context, apiProvider: ApiClient
             email = user.email
             points = user.points
             token = user.token
+            avatar = "default_avatar_${(1..4).random()}"
         }
     }
 

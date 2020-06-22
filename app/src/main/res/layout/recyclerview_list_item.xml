@@ -15,14 +15,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/colorPrimaryDark">
 
         <ImageView
             android:id="@+id/left_item_imageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:scaleType="centerCrop" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/select_left_item_button"
@@ -38,7 +38,8 @@
             app:borderWidth="0dp"
             app:fabCustomSize="@dimen/fab_custom_size"
             app:maxImageSize="@dimen/fab_max_image_size"
-            app:srcCompat="@drawable/baseline_favorite_white_24dp" />
+            app:srcCompat="@drawable/baseline_favorite_white_24dp"
+            tools:ignore="VectorDrawableCompat" />
 
     </RelativeLayout>
 
@@ -58,8 +59,7 @@
             android:id="@+id/right_item_imageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            android:scaleType="centerCrop" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/select_right_item_button"
@@ -84,7 +84,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@color/colorPrimary"
         android:visibility="gone" />
 
     <ImageView
@@ -92,7 +91,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:visibility="gone"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:visibility="gone" />
 
 </LinearLayout>
