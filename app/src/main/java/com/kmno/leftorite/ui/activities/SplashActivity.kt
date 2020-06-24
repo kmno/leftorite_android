@@ -12,8 +12,8 @@ import android.view.View
 import com.kmno.leftorite.R
 import com.kmno.leftorite.core.App
 import com.kmno.leftorite.ui.base.BaseActivity
-import com.kmno.leftorite.ui.viewmodels.SplashActivityViewModel
 import com.kmno.leftorite.utils.launchActivity
+import com.kmno.leftorite.viewmodels.SplashActivityViewModel
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -31,10 +31,12 @@ class SplashActivity : BaseActivity() {
         }
 
         with(splashActivityViewModel.isUserLoggedIn) {
-           // goToDestinationActivity(this)
+            // goToDestinationActivity(this)
         }
 
     }
+
+    override fun ready() {}
 
     private fun goToDestinationActivity(_loggedIn: Boolean) {
         if (isNetworkAvailable) {

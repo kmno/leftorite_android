@@ -79,18 +79,64 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/left_item_imageview_full"
+    <RelativeLayout
+        android:id="@+id/left_item_full_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:visibility="gone" />
+        android:background="@color/colorPrimary"
+        android:visibility="gone">
 
-    <ImageView
-        android:id="@+id/right_item_imageview_full"
+        <ImageView
+            android:id="@+id/left_item_imageview_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/left_item_fab_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/fab_margin_bottom"
+            android:backgroundTint="@color/colorPrimary"
+            android:tint="@color/colorAccent"
+            app:borderWidth="0dp"
+            app:fabCustomSize="@dimen/fab_custom_size"
+            app:maxImageSize="@dimen/fab_max_image_size"
+            app:srcCompat="@drawable/baseline_favorite_white_24dp"
+            tools:ignore="VectorDrawableCompat" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/right_item_full_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:visibility="gone" />
+        android:background="@color/colorPrimary"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/right_item_imageview_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/right_item_fab_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/fab_margin_bottom"
+            android:backgroundTint="@color/colorPrimary"
+            android:tint="@color/colorAccent"
+            app:borderWidth="0dp"
+            app:fabCustomSize="@dimen/fab_custom_size"
+            app:maxImageSize="@dimen/fab_max_image_size"
+            app:srcCompat="@drawable/baseline_favorite_white_24dp"
+            tools:ignore="VectorDrawableCompat" />
+
+    </RelativeLayout>
 
 </LinearLayout>

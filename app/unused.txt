@@ -6294,6 +6294,8 @@ com.google.android.gms.internal.measurement.zzff:
     public static com.google.android.gms.internal.measurement.zzfd zzb()
 com.kmno.leftorite.data.api.ApiClientProvider$createApiClient$retrofit$2:
     public final retrofit2.Retrofit invoke()
+com.kmno.leftorite.viewmodels.SettingActivityViewModel:
+    public final android.content.Context context
 androidx.loader.app.LoaderManagerImpl$LoaderObserver:
     public boolean hasDeliveredData()
     public void reset()
@@ -9501,7 +9503,7 @@ androidx.appcompat.widget.SuggestionsAdapter:
     public final android.graphics.drawable.Drawable getActivityIcon(android.content.ComponentName)
     public final android.app.SearchManager mSearchManager
 com.kmno.leftorite.ui.activities.HomeActivity:
-    public final com.kmno.leftorite.ui.viewmodels.CategoryBottomSheetViewModel getCategoryBottomSheetViewModel()
+    public final com.kmno.leftorite.viewmodels.CategoryBottomSheetViewModel getCategoryBottomSheetViewModel()
     public final void setupUserInfo()
     public final void updateUserPointsAndHeaderTitle(java.lang.String)
     public final void setUpCategoriesBottomDialog()
@@ -9982,7 +9984,7 @@ com.google.android.gms.internal.measurement.zzcg:
 com.google.gson.internal.bind.MapTypeAdapterFactory:
     public final com.google.gson.TypeAdapter getKeyAdapter(com.google.gson.Gson,java.lang.reflect.Type)
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$4:
-    public final com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.viewmodels.HomeActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 androidx.media.MediaBrowserServiceCompat$ServiceBinderImpl:
     public void connect(java.lang.String,int,int,android.os.Bundle,androidx.media.MediaBrowserServiceCompat$ServiceCallbacks)
     public void disconnect(androidx.media.MediaBrowserServiceCompat$ServiceCallbacks)
@@ -10553,7 +10555,7 @@ kotlin.internal.PlatformImplementationsKt:
 com.link184.kidadapter.typed.TypedKidAdapterConfiguration$fromSimpleConfiguration$1$2:
     public final void invoke(com.link184.kidadapter.typed.AdapterViewTypeConfiguration)
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$5:
-    public final com.kmno.leftorite.ui.viewmodels.CategoryBottomSheetViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.viewmodels.CategoryBottomSheetViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 com.google.android.gms.tasks.zzo:
     public static synthetic com.google.android.gms.tasks.SuccessContinuation zza(com.google.android.gms.tasks.zzo)
 androidx.recyclerview.widget.MessageThreadUtil$2:
@@ -12660,7 +12662,7 @@ com.google.android.gms.internal.firebase_messaging.zza:
 com.google.firebase.platforminfo.GlobalLibraryVersionRegistrar:
     public java.util.Set getRegisteredVersions()
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$1:
-    public final com.kmno.leftorite.ui.viewmodels.SplashActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.viewmodels.SplashActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 kotlinx.coroutines.flow.FlowKt__MergeKt$mapLatest$1:
     public final kotlin.coroutines.Continuation create(kotlinx.coroutines.flow.FlowCollector,java.lang.Object,kotlin.coroutines.Continuation)
 com.google.android.gms.internal.measurement.zzmg:
@@ -12846,7 +12848,7 @@ okio.GzipSink:
     public final void writeFooter()
     public final void updateCrc(okio.Buffer,long)
 com.kmno.leftorite.ui.activities.SettingsActivity:
-    public final com.kmno.leftorite.ui.viewmodels.SettingActivityViewModel getSettingActivityViewModel()
+    public final com.kmno.leftorite.viewmodels.SettingActivityViewModel getSettingActivityViewModel()
 com.google.gson.internal.LinkedHashTreeMap$AvlBuilder:
     public com.google.gson.internal.LinkedHashTreeMap$Node root()
 org.koin.android.ext.koin.KoinExtKt$androidContext$2:
@@ -13243,7 +13245,7 @@ com.google.android.gms.internal.measurement.zzci:
     public static boolean zzc(android.content.Context)
     public static boolean zzc
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$2:
-    public final com.kmno.leftorite.ui.viewmodels.SettingActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.viewmodels.SettingActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 com.google.firebase.iid.zzac:
     public void <init>(com.google.firebase.iid.zzab)
     public final boolean zza(android.os.Message)
@@ -13631,7 +13633,7 @@ com.google.android.gms.common.zzc:
     public static final java.lang.String zza(boolean,java.lang.String,com.google.android.gms.common.zze)
 androidx.fragment.app.FragmentStateManager$1
 com.kmno.leftorite.ui.activities.AuthActivity:
-    public final com.kmno.leftorite.ui.viewmodels.AuthActivityViewModel getAuthActivityViewModel()
+    public final com.kmno.leftorite.viewmodels.AuthActivityViewModel getAuthActivityViewModel()
     public final boolean validate()
 com.google.android.gms.internal.measurement.zzkq:
     public static final com.google.android.gms.internal.measurement.zzcv zzb
@@ -14103,7 +14105,7 @@ com.google.gson.internal.bind.util.ISO8601Utils:
 com.google.android.gms.internal.measurement.zzme:
     public void <init>(com.google.android.gms.internal.measurement.zzdj)
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$3:
-    public final com.kmno.leftorite.ui.viewmodels.AuthActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.viewmodels.AuthActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 kotlinx.coroutines.flow.FlowKt__MigrationKt$onErrorReturn$2:
     public final kotlin.coroutines.Continuation create(kotlinx.coroutines.flow.FlowCollector,java.lang.Throwable,kotlin.coroutines.Continuation)
 com.kmno.leftorite.ui.activities.SplashActivity$goToDestinationActivity$1
@@ -14217,8 +14219,6 @@ com.google.gson.internal.bind.TypeAdapters$4:
 kotlin.coroutines.jvm.internal.ModuleNameRetriever:
     public final java.lang.String getModuleName(kotlin.coroutines.jvm.internal.BaseContinuationImpl)
     public final kotlin.coroutines.jvm.internal.ModuleNameRetriever$Cache buildCache(kotlin.coroutines.jvm.internal.BaseContinuationImpl)
-com.kmno.leftorite.ui.viewmodels.SettingActivityViewModel:
-    public final android.content.Context context
 androidx.viewpager2.adapter.FragmentStateAdapter$5:
     public final synthetic androidx.viewpager2.adapter.FragmentStateAdapter this$0
 com.google.android.gms.internal.measurement.zzls:

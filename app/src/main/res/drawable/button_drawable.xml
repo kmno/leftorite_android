@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Creator: Kamran Noorinejad on 6/23/20 4:22 PM
+  ~ Last modified: 6/23/20 4:22 PM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/views_radius" />
+    <padding
+        android:bottom="3dp"
+        android:left="3dp"
+        android:right="3dp"
+        android:top="3dp" />
+    <solid android:color="@color/colorPrimary" />
+</shape>

@@ -14,12 +14,12 @@ import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.User
 import com.kmno.leftorite.ui.base.BaseActivity
-import com.kmno.leftorite.ui.viewmodels.AuthActivityViewModel
 import com.kmno.leftorite.utils.Alerts.dismissFlashbar
 import com.kmno.leftorite.utils.Alerts.showAlertDialogWithDefaultButton
 import com.kmno.leftorite.utils.Alerts.showFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbarWithProgress
 import com.kmno.leftorite.utils.launchActivity
+import com.kmno.leftorite.viewmodels.AuthActivityViewModel
 import kotlinx.android.synthetic.main.activity_auth.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -129,19 +129,21 @@ class AuthActivity : BaseActivity() {
             }
         }
 
-        dont_have_account_sign_up_text_field.setOnClickListener {
+        signin_signup_layout.setOnClickListener {
             when (loginState) {
                 true -> {
                     dont_have_account_sign_up_text_field.text =
                         getString(R.string.have_account_sign_in_text)
-                    auth_action_btn.text = getString(R.string.signup_button_text)
+                    signin_signup_action.text = getString(R.string.sigin_text)
+                    auth_action_btn.text = getString(R.string.signup_text)
                     password_confirm_edit_text_field.visibility = View.VISIBLE
                     loginState = false
                 }
                 false -> {
                     dont_have_account_sign_up_text_field.text =
                         getString(R.string.dont_have_account_sign_up_text)
-                    auth_action_btn.text = getString(R.string.sigin_btn_text)
+                    signin_signup_action.text = getString(R.string.signup_text)
+                    auth_action_btn.text = getString(R.string.sigin_text)
                     password_confirm_edit_text_field.visibility = View.GONE
                     rpass = ""
                     password_confirm_edit_text_field.text.clear()
@@ -151,6 +153,8 @@ class AuthActivity : BaseActivity() {
         }
 
     }
+
+    override fun ready() {}
 
     private fun validate(): Boolean {
         if (pass.isNotEmpty()) {

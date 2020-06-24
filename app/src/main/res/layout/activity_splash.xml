@@ -28,6 +28,20 @@
         app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@mipmap/ic_launcher" />
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/logo_slogan"
+        android:textColor="@color/primaryLightColor"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/splash_progress_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/splash_logo"
+        app:layout_constraintVertical_bias="0.13" />
+
     <ProgressBar
         android:id="@+id/splash_progress_bar"
         style="?android:attr/progressBarStyle"
@@ -63,7 +77,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="15sp"
-        android:fontFamily="@font/roboto_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

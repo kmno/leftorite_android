@@ -7,17 +7,18 @@
 
 <resources>
     <string name="app_name">LeftoRite</string>
+    <string name="logo_slogan">Choose Your Taste!</string>
     <string name="no_network">No Network !</string>
     <string name="no_network_desc">Check Your Internet Connection…</string>
     <string name="network_connected">Connected !</string>
     <string name="network_connected_desc">Your Internet Connected</string>
     <string name="email_edit_text">Email</string>
-    <string name="sigin_btn_text">Sign In</string>
-    <string name="dont_have_account_sign_up_text">don\'t have account? Sign Up</string>
+    <string name="sigin_text">Sign In</string>
+    <string name="signup_text">Sign up</string>
+    <string name="dont_have_account_sign_up_text">Don\'t Have Account?\t</string>
+    <string name="have_account_sign_in_text">Already Have Account?\t</string>
     <string name="password_edit_text">Password</string>
     <string name="password_confirm_edit_text">Repeat Password</string>
-    <string name="signup_button_text">Sign up</string>
-    <string name="have_account_sign_in_text">Already Have Account? Sign In</string>
     <string name="empty_fields">Empty fields Error!</string>
     <string name="empty_fields_desc">please fill out empty fields</string>
     <string name="invalid_email">Invalid Email Address</string>
@@ -35,7 +36,6 @@
     <string name="no_more_items">No More Items…</string>
     <string name="select_all_categories">Select All</string>
     <string name="no_more_items_description">Congratulation!\nChange the category below</string>
-    <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Preference Titles -->
     <string name="profile_header">Profile</string>
@@ -53,5 +53,20 @@
     <string name="title_version">Version</string>
     <string name="logout_title">Sign Out</string>
     <string name="signout_summary">Click to sign out of your account</string>
+
+    <!-- showcase -->
+    <string name="welcome">Welcome!</string>
+    <string name="welcome_description">We will show you some items on left &amp; right side, Just like your preferred items, to earn points!</string>
+    <string name="like_sides_title">Like %1$s item…</string>
+    <string name="like_sides_description">Click here if you like the %1$s side…</string>
+    <string name="letsgo">Let\'s Go</string>
+    <string name="show_me_how">Show me how…</string>
+    <string name="your_points">Your Points</string>
+    <string name="points_description">You can earn more points by like more items!</string>
+    <string name="categories_list">Categories List</string>
+    <string name="categories_list_description">Here you can view the list of available exciting categories.</string>
+    <string name="how_like">How can i \'Like\' my favorite side?</string>
+    <string name="how_like_description">\'Double Tap\' on side to Like!\nYou can also \'Drag\' the sides to like them.\nHold your finger on side to see item details</string>
+
 
 </resources>

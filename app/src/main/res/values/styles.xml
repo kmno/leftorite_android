@@ -16,7 +16,8 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
-        <item name="fontFamily">@font/roboto_normal</item>
+        <item name="android:fontFamily">@font/robotslab_resource</item>
+        <item name="fontFamily">@font/robotslab_resource</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 
@@ -38,6 +39,7 @@
 
     <style name="BottomDialog.Dark" parent="BottomDialog">
         <item name="bd_bg_color">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">#fff</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
+
 </resources>

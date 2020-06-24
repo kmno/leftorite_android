@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Creator: Kamran Noorinejad on 6/24/20 10:41 AM
+  ~ Last modified: 6/24/20 10:41 AM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font android:font="@font/robotoslab" />
+    <font android:font="@font/robotoslab_bold" />
+    <font android:font="@font/robotoslab_light" />
+</font-family>

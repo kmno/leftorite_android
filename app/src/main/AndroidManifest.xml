@@ -46,7 +46,6 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
         <activity
             android:name=".ui.activities.SettingsActivity"
-            android:label="@string/title_activity_settings"
             android:exported="false"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

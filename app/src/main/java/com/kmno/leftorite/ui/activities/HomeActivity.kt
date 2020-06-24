@@ -9,6 +9,7 @@ package com.kmno.leftorite.ui.activities
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +17,13 @@ import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.StatusCallback
 import cn.vove7.bottomdialog.builder.oneButton
 import cn.vove7.bottomdialog.toolbar
+import coil.Coil.imageLoader
 import coil.api.load
 import coil.request.CachePolicy
+import coil.request.LoadRequest
+import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.kmno.leftorite.R
 import com.kmno.leftorite.core.App
 import com.kmno.leftorite.core.Constants
@@ -29,17 +34,18 @@ import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.ui.builders.CategoriesViewBuilder
 import com.kmno.leftorite.ui.builders.ItemDetailsViewBuilder
 import com.kmno.leftorite.ui.listeners.OnSwipeTouchListener
-import com.kmno.leftorite.ui.viewmodels.CategoryBottomSheetViewModel
-import com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel
 import com.kmno.leftorite.utils.Alerts
 import com.kmno.leftorite.utils.UserInfo
 import com.kmno.leftorite.utils.launchActivity
+import com.kmno.leftorite.viewmodels.CategoryBottomSheetViewModel
+import com.kmno.leftorite.viewmodels.HomeActivityViewModel
 import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.category_bottom_sheet.view.*
 import kotlinx.android.synthetic.main.item_detail_bottom_sheet.view.*
 import kotlinx.android.synthetic.main.recyclerview_list_category.view.*
+import kotlinx.android.synthetic.main.recyclerview_list_item.*
 import kotlinx.android.synthetic.main.recyclerview_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -97,11 +103,73 @@ class HomeActivity : BaseActivity() {
 
     }
 
+    override fun ready() {
+        //show app usage tips
+        setUpShowcase()
+    }
+
+    @SuppressLint("StringFormatInvalid")
+    private fun setUpShowcase() {
+        if (!homeActivityViewModel.checkIfWelcomeDialogIsShown()) {
+            Alerts.showAlertDialogWithTwoActionButton(getString(R.string.welcome),
+                getString(R.string.welcome_description),
+                getString(R.string.letsgo), getString(R.string.show_me_how),
+                {}, {
+                    BubbleShowCaseSequence()
+                        .addShowCase(
+                            homeActivityViewModel.showCaseBuilder(
+                                this,
+                                _title = getString(R.string.how_like),
+                                _desc = getString(R.string.how_like_description)
+                            )
+                        )
+                        .addShowCase(
+                            homeActivityViewModel.showCaseBuilder(
+                                this,
+                                select_left_item_button,
+                                getString(R.string.like_sides_title, "'Left'"),
+                                getString(R.string.like_sides_description, "left")
+                            )
+                        )
+                        .addShowCase(
+                            homeActivityViewModel.showCaseBuilder(
+                                this,
+                                select_right_item_button,
+                                getString(R.string.like_sides_title, "'Right'"),
+                                getString(R.string.like_sides_description, "right")
+                            )
+                        )
+                        .addShowCase(
+                            homeActivityViewModel.showCaseBuilder(
+                                this,
+                                user_points,
+                                getString(R.string.your_points),
+                                getString(R.string.points_description)
+                            )
+                        )
+                        .addShowCase(
+                            homeActivityViewModel.showCaseBuilder(
+                                this,
+                                change_category_layout,
+                                getString(R.string.categories_list),
+                                getString(R.string.categories_list_description)
+                            )
+                        )
+                        .show()
+                },
+                this
+            )
+            //todo
+            //  homeActivityViewModel.setWelcomeDialogIsShown()
+        }
+    }
+
     //TODO: initial setups
     private fun setupUserInfo() {
         user_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}.jpg") {
             crossfade(true)
             diskCachePolicy(CachePolicy.ENABLED)
+            allowHardware(false)
             transformations(CircleCropTransformation())
         }
         user_points.setNumber(UserInfo.points)
@@ -323,6 +391,14 @@ class HomeActivity : BaseActivity() {
             })
     }
 
+    private fun preloadImagesIntoMemory(_imageUrl: String, _target: ImageView): LoadRequest {
+        return LoadRequest.Builder(this)
+            .data(_imageUrl)
+            .target(_target)
+            .size(ViewSizeResolver(_target))
+            .build()
+    }
+
     //TODO: adapters and select handlers
     private fun setUpItems() {
         adapter = recyclerView.setUp<Any> {
@@ -332,27 +408,55 @@ class HomeActivity : BaseActivity() {
 
                 with(pair as ArrayList<*>) {
                     (this[0] as Int).let { leftItemIndex ->
-                        left_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
-                            placeholder(R.color.colorPrimaryDark)
-                            diskCachePolicy(CachePolicy.ENABLED)
-                        }
-                        left_item_imageview.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
-                            crossfade(true)
-                            placeholder(R.drawable.placeholder_trans)
-                            diskCachePolicy(CachePolicy.ENABLED)
-                        }
+                        imageLoader(context).execute(
+                            preloadImagesIntoMemory(
+                                "${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg",
+                                left_item_imageview_full
+                            )
+                        )
+                        imageLoader(context).execute(
+                            preloadImagesIntoMemory(
+                                "${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg",
+                                left_item_imageview
+                            )
+                        )
+                        /* left_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
+                             placeholder(R.drawable.placeholder_trans)
+                             diskCachePolicy(CachePolicy.ENABLED)
+                             allowHardware(false)
+                         }
+                         left_item_imageview.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
+                             crossfade(true)
+                             placeholder(R.drawable.placeholder_trans)
+                             allowHardware(false)
+                             diskCachePolicy(CachePolicy.ENABLED)
+                         }*/
                     }
 
                     (this[1] as Int).let { rightItemIndex ->
-                        right_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
-                            placeholder(R.color.colorPrimary)
+                        imageLoader(context).execute(
+                            preloadImagesIntoMemory(
+                                "${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg",
+                                right_item_imageview_full
+                            )
+                        )
+                        imageLoader(context).execute(
+                            preloadImagesIntoMemory(
+                                "${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg",
+                                right_item_imageview
+                            )
+                        )
+                        /*right_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
+                            placeholder(R.drawable.placeholder_trans)
+                            allowHardware(false)
                             diskCachePolicy(CachePolicy.ENABLED)
                         }
                         right_item_imageview.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
                             crossfade(true)
+                            allowHardware(false)
                             placeholder(R.drawable.placeholder_trans)
                             diskCachePolicy(CachePolicy.ENABLED)
-                        }
+                        }*/
                     }
                 }
 
@@ -399,11 +503,17 @@ class HomeActivity : BaseActivity() {
                         super.onLongClick()
                         itemDetailsBottomDialog.show()
                         itemDetailsBottomDialog.contentView.run {
-                            this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[0] as Int].id}.jpg") {
+                            imageLoader(context).execute(
+                                preloadImagesIntoMemory(
+                                    "${Constants.itemsImageUrl}${allItems[pair[0] as Int].id}.jpg",
+                                    this.item_logo
+                                )
+                            )
+                            /*this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[0] as Int].id}.jpg") {
                                 crossfade(true)
                                 placeholder(R.color.colorPrimary)
                                 diskCachePolicy(CachePolicy.ENABLED)
-                            }
+                            }*/
                             this.item_title.text = allItems[pair[0] as Int].title
                             this.item_description.text = allItems[pair[0] as Int].description
                         }
@@ -441,11 +551,17 @@ class HomeActivity : BaseActivity() {
                         super.onLongClick()
                         itemDetailsBottomDialog.show()
                         itemDetailsBottomDialog.contentView.run {
-                            this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[1] as Int].id}.jpg") {
+                            imageLoader(context).execute(
+                                preloadImagesIntoMemory(
+                                    "${Constants.itemsImageUrl}${allItems[pair[1] as Int].id}.jpg",
+                                    this.item_logo
+                                )
+                            )
+                            /*this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[1] as Int].id}.jpg") {
                                 crossfade(true)
                                 placeholder(R.color.colorPrimary)
                                 diskCachePolicy(CachePolicy.ENABLED)
-                            }
+                            }*/
                             this.item_title.text = allItems[pair[1] as Int].title
                             this.item_description.text = allItems[pair[1] as Int].description
                         }
@@ -482,10 +598,10 @@ class HomeActivity : BaseActivity() {
         _selectedView.separator.visibility = View.GONE
         when (_selectedSide) {
             "right" -> {
-                _selectedView.right_item_imageview_full.visibility = View.VISIBLE
+                _selectedView.right_item_full_layout.visibility = View.VISIBLE
             }
             "left" -> {
-                _selectedView.left_item_imageview_full.visibility = View.VISIBLE
+                _selectedView.left_item_full_layout.visibility = View.VISIBLE
             }
         }
         setSelectedItem(_selectedItemId, _position, _selectedView)
@@ -552,8 +668,8 @@ class HomeActivity : BaseActivity() {
         header_title.text = getString(R.string.which_one)
         _view.separator.visibility = View.VISIBLE
         no_more_items_layout.visibility = View.GONE
-        _view.right_item_imageview_full.visibility = View.GONE
-        _view.left_item_imageview_full.visibility = View.GONE
+        _view.right_item_full_layout.visibility = View.GONE
+        _view.left_item_full_layout.visibility = View.GONE
 
     }
 

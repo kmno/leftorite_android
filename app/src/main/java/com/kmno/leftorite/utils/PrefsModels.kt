@@ -24,6 +24,11 @@ object UserInfo : KotprefModel() {
     var avatar by stringPref()
 }
 
+object ShowCase : KotprefModel() {
+    var welcomeDialogIsShown by ShowCase.booleanPref(false)
+    var appTipIsShown by ShowCase.booleanPref(false)
+}
+
 object AppSetting : KotprefModel() {
     var dataSaver by AppSetting.booleanPref(false)
 }

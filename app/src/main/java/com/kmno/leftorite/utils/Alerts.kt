@@ -21,130 +21,135 @@ import com.kmno.leftorite.ui.base.BaseActivity
  */
 object Alerts {
 
-    //companion object {
-
     var alert: AlertView? = null
     private var flashbar: Flashbar? = null
     private var flashbarConfig: Flashbar.Builder? = null
     private var flashbarProgress: Flashbar? = null
     private var flashbarProgressConfig: Flashbar.Builder? = null
 
+    private const val default_message = "Are You Sure?"
+    private const val default_positive_button_text = "Yes"
+    private const val default_negative_button_text = "No"
+
     fun showAlertDialogWithDefaultButton(
-            title: String, msg: String, action: String,
-            activity: BaseActivity
-        ) {
-            alert = AlertView(title, msg, AlertStyle.DIALOG)
-            alert?.addAction(AlertAction(action, AlertActionStyle.DEFAULT) {
-                dismissFlashbar()
-                dismissProgressFlashbar()
-            })
-            alert?.show(activity)
-        }
-
-        fun showAlertDialogWithTwoActionButton(
-            title: String, msg: String = "Are You Sure?",
-            actionPositiveTitle: String = "Yes", actionNegativeTitle: String = "No",
-            actionPositiveCallback: () -> Unit, actionNegativeCallback: () -> Unit,
-            activity: BaseActivity
-        ) {
-            alert = AlertView(title, msg, AlertStyle.DIALOG)
-            alert?.addAction(
-                AlertAction(
-                    actionPositiveTitle,
-                    AlertActionStyle.POSITIVE
-                ) { action -> actionPositiveCallback() })
-            alert?.addAction(
-                AlertAction(
-                    actionNegativeTitle,
-                    AlertActionStyle.NEGATIVE
-                ) { action -> actionNegativeCallback() })
-            alert?.show(activity)
-        }
-
-        fun showBottomSheetWithActionButton(
-            title: String, msg: String,
-            actionPositiveTitle: String,
-            activity: BaseActivity
-        ) {
-            alert = AlertView(title, msg, AlertStyle.BOTTOM_SHEET)
-            alert?.addAction(
-                AlertAction(
-                    actionPositiveTitle,
-                    AlertActionStyle.DEFAULT
-                ) { action -> })
-            alert?.show(activity)
-        }
-
-        fun showBottomSheetWithTwoActionButton(
-            title: String, msg: String,
-            actionPositiveTitle: String, actionNegativeTitle: String,
-            actionPositiveCallback: () -> Unit, actionNegativeCallback: () -> Unit,
-            activity: BaseActivity
-        ) {
-            alert = AlertView(title, msg, AlertStyle.BOTTOM_SHEET)
-            alert?.addAction(
-                AlertAction(
-                    actionPositiveTitle,
-                    AlertActionStyle.POSITIVE
-                ) { action -> actionPositiveCallback() })
-            alert?.addAction(
-                AlertAction(
-                    actionNegativeTitle,
-                    AlertActionStyle.NEGATIVE
-                ) { action -> actionNegativeCallback() })
-            alert?.show(activity)
-        }
-
-        fun showFlashbar(
-            bgColor: Int,
-            title: Int,
-            msg: Int,
-            duration: Int,
-            activity: BaseActivity
-        ) {
+        title: String, msg: String = default_message,
+        action: String = default_positive_button_text,
+        activity: BaseActivity
+    ) {
+        alert = AlertView(title, msg, AlertStyle.DIALOG)
+        alert?.addAction(AlertAction(action, AlertActionStyle.DEFAULT) {
             dismissFlashbar()
-            flashbarConfig = Flashbar.Builder(activity)
-                .gravity(Flashbar.Gravity.TOP)
-                .backgroundColorRes(bgColor)
-                .messageSizeInSp(16f)
-                .showIcon()
-                .title(title)
-                .message(msg)
-                .castShadow(false)
+            dismissProgressFlashbar()
+        })
+        alert?.show(activity)
+    }
 
-            if (duration != 0) flashbarConfig?.duration(((duration * 1000).toLong()))
-            flashbar = flashbarConfig?.build()
-            flashbar?.show()
+    fun showAlertDialogWithTwoActionButton(
+        title: String, msg: String = default_message,
+        actionPositiveTitle: String = default_positive_button_text,
+        actionNegativeTitle: String = default_negative_button_text,
+        actionPositiveCallback: () -> Unit = {},
+        actionNegativeCallback: () -> Unit = {},
+        activity: BaseActivity
+    ) {
+        alert = AlertView(title, msg, AlertStyle.DIALOG)
+        alert?.addAction(
+            AlertAction(
+                actionPositiveTitle,
+                AlertActionStyle.POSITIVE
+            ) { actionPositiveCallback() })
+        alert?.addAction(
+            AlertAction(
+                actionNegativeTitle,
+                AlertActionStyle.NEGATIVE
+            ) { actionNegativeCallback() })
+        alert?.show(activity)
+    }
+
+    fun showBottomSheetWithActionButton(
+        title: String, msg: String = default_message,
+        actionPositiveTitle: String = default_positive_button_text,
+        actionPositiveCallback: () -> Unit = {},
+        activity: BaseActivity
+    ) {
+        alert = AlertView(title, msg, AlertStyle.BOTTOM_SHEET)
+        alert?.addAction(
+            AlertAction(
+                actionPositiveTitle,
+                AlertActionStyle.DEFAULT
+            ) { actionPositiveCallback() })
+        alert?.show(activity)
+    }
+
+    fun showBottomSheetWithTwoActionButton(
+        title: String, msg: String = default_message,
+        actionPositiveTitle: String = default_positive_button_text,
+        actionNegativeTitle: String = default_negative_button_text,
+        actionPositiveCallback: () -> Unit = {}, actionNegativeCallback: () -> Unit = {},
+        activity: BaseActivity
+    ) {
+        alert = AlertView(title, msg, AlertStyle.BOTTOM_SHEET)
+        alert?.addAction(
+            AlertAction(
+                actionPositiveTitle,
+                AlertActionStyle.POSITIVE
+            ) { actionPositiveCallback() })
+        alert?.addAction(
+            AlertAction(
+                actionNegativeTitle,
+                AlertActionStyle.NEGATIVE
+            ) { actionNegativeCallback() })
+        alert?.show(activity)
+    }
+
+    fun showFlashbar(
+        bgColor: Int,
+        title: Int,
+        msg: Int,
+        duration: Int,
+        activity: BaseActivity
+    ) {
+        dismissFlashbar()
+        flashbarConfig = Flashbar.Builder(activity)
+            .gravity(Flashbar.Gravity.TOP)
+            .backgroundColorRes(bgColor)
+            .messageSizeInSp(16f)
+            .showIcon()
+            .title(title)
+            .message(msg)
+            .castShadow(false)
+
+        if (duration != 0) flashbarConfig?.duration(((duration * 1000).toLong()))
+        flashbar = flashbarConfig?.build()
+        flashbar?.show()
+    }
+
+    fun showFlashbarWithProgress(activity: BaseActivity) {
+        flashbarProgressConfig = Flashbar.Builder(activity)
+            .gravity(Flashbar.Gravity.TOP)
+            .backgroundColorRes(R.color.colorAccent)
+            .messageSizeInSp(16f)
+            .title(R.string.loading_title)
+            .message(R.string.loading_desc)
+            .showProgress(Flashbar.ProgressPosition.LEFT)
+            .showOverlay()
+            .overlayBlockable()
+            .overlayColorRes(R.color.overlay_color)
+            .castShadow(false)
+        flashbarProgress = flashbarProgressConfig?.build()
+        flashbarProgress?.show()
+    }
+
+    fun dismissFlashbar() {
+        if (flashbar != null) {
+            // if (flashbar!!.isShowing())
+            flashbar?.dismiss()
         }
+    }
 
-        fun showFlashbarWithProgress(activity: BaseActivity) {
-            flashbarProgressConfig = Flashbar.Builder(activity)
-                .gravity(Flashbar.Gravity.TOP)
-                .backgroundColorRes(R.color.colorAccent)
-                .messageSizeInSp(16f)
-                .title(R.string.loading_title)
-                .message(R.string.loading_desc)
-                .showProgress(Flashbar.ProgressPosition.LEFT)
-                .showOverlay()
-                .overlayBlockable()
-                .overlayColorRes(R.color.overlay_color)
-                .castShadow(false)
-            flashbarProgress = flashbarProgressConfig?.build()
-            flashbarProgress?.show()
+    fun dismissProgressFlashbar() {
+        if (flashbarProgress != null) {
+            flashbarProgress?.dismiss()
         }
-
-        fun dismissFlashbar() {
-            if (flashbar != null) {
-               // if (flashbar!!.isShowing())
-                    flashbar?.dismiss()
-            }
-        }
-
-        fun dismissProgressFlashbar() {
-            if (flashbarProgress != null) {
-                flashbarProgress?.dismiss()
-            }
-        }
-
-    //}
+    }
 }

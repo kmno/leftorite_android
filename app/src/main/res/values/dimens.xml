@@ -17,4 +17,5 @@
     <dimen name="bottomsheet_closed_state_height">60dp</dimen>
     <dimen name="toolbar_height">60dp</dimen>
     <dimen name="item_details_image_height">180dp</dimen>
+    <dimen name="auth_activity_fields_top_margin">20dp</dimen>
 </resources>

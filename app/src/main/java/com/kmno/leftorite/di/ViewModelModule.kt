@@ -7,7 +7,7 @@
 
 package com.kmno.leftorite.di
 
-import com.kmno.leftorite.ui.viewmodels.*
+import com.kmno.leftorite.viewmodels.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
