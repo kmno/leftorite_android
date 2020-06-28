@@ -11,6 +11,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.kmno.leftorite.core.Constants.dbName
 import com.kmno.leftorite.data.model.Category
 
 /**
@@ -24,10 +25,13 @@ interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCategory(category: Category)
 
-    @Query("SELECT * from db_leftorite_categories ORDER BY id ASC")
+    @Query("SELECT * from ${dbName}_categories ORDER BY id ASC")
     fun getCategories(): List<Category>
 
-    @Query("DELETE FROM db_leftorite_categories")
+    @Query("SELECT * from ${dbName}_categories WHERE id=:catId")
+    fun getCategoryById(catId: Int): Category
+
+    @Query("DELETE FROM ${dbName}_categories")
     fun deleteAll()
 
 }

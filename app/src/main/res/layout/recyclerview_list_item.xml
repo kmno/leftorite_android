@@ -4,7 +4,6 @@
   ~ Copyright: All rights reserved Ⓒ 2020
   ~ http://www.itskamran.ir/
   -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,6 +11,89 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <!-- full left layout -->
+    <RelativeLayout
+        android:id="@+id/left_item_full_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/left_item_imageview_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <xyz.hanks.library.bang.SmallBangView
+            android:id="@+id/left_item_fab_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:circle_end_color="@color/primaryLightColor"
+            app:circle_start_color="@color/colorPrimaryDark"
+            app:dots_primary_color="@color/secondaryColor"
+            app:dots_secondary_color="@color/secondaryDarkColor">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/colorPrimary"
+                android:tint="@color/colorAccent"
+                app:borderWidth="0dp"
+                app:fabCustomSize="@dimen/fab_custom_size"
+                app:maxImageSize="@dimen/fab_max_image_size"
+                app:srcCompat="@drawable/baseline_favorite_white_24dp"
+                tools:ignore="VectorDrawableCompat" />
+
+        </xyz.hanks.library.bang.SmallBangView>
+
+    </RelativeLayout>
+
+    <!-- full right item -->
+    <RelativeLayout
+        android:id="@+id/right_item_full_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/right_item_imageview_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <xyz.hanks.library.bang.SmallBangView
+            android:id="@+id/right_item_fab_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:circle_end_color="@color/primaryLightColor"
+            app:circle_start_color="@color/colorPrimaryDark"
+            app:dots_primary_color="@color/secondaryColor"
+            app:dots_secondary_color="@color/secondaryDarkColor">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/colorPrimary"
+                android:tint="@color/colorAccent"
+                app:borderWidth="0dp"
+                app:fabCustomSize="@dimen/fab_custom_size"
+                app:maxImageSize="@dimen/fab_max_image_size"
+                app:srcCompat="@drawable/baseline_favorite_white_24dp"
+                tools:ignore="VectorDrawableCompat" />
+
+        </xyz.hanks.library.bang.SmallBangView>
+
+    </RelativeLayout>
+
+    <!-- small left item -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,12 +125,14 @@
 
     </RelativeLayout>
 
+    <!-- separator -->
     <View
         android:id="@+id/separator"
         android:layout_width="@dimen/separator_width"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary" />
 
+    <!-- small right item -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -71,65 +155,6 @@
             android:backgroundTint="@color/colorPrimary"
             android:clickable="true"
             android:focusable="true"
-            android:tint="@color/colorAccent"
-            app:borderWidth="0dp"
-            app:fabCustomSize="@dimen/fab_custom_size"
-            app:maxImageSize="@dimen/fab_max_image_size"
-            app:srcCompat="@drawable/baseline_favorite_white_24dp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/left_item_full_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/left_item_imageview_full"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/left_item_fab_full"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/fab_margin_bottom"
-            android:backgroundTint="@color/colorPrimary"
-            android:tint="@color/colorAccent"
-            app:borderWidth="0dp"
-            app:fabCustomSize="@dimen/fab_custom_size"
-            app:maxImageSize="@dimen/fab_max_image_size"
-            app:srcCompat="@drawable/baseline_favorite_white_24dp"
-            tools:ignore="VectorDrawableCompat" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/right_item_full_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/right_item_imageview_full"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/right_item_fab_full"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/fab_margin_bottom"
-            android:backgroundTint="@color/colorPrimary"
             android:tint="@color/colorAccent"
             app:borderWidth="0dp"
             app:fabCustomSize="@dimen/fab_custom_size"

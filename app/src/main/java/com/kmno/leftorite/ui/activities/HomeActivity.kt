@@ -7,6 +7,7 @@
 
 package com.kmno.leftorite.ui.activities
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
@@ -25,7 +26,6 @@ import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.kmno.leftorite.R
-import com.kmno.leftorite.core.App
 import com.kmno.leftorite.core.Constants
 import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.Category
@@ -48,8 +48,10 @@ import kotlinx.android.synthetic.main.recyclerview_list_category.view.*
 import kotlinx.android.synthetic.main.recyclerview_list_item.*
 import kotlinx.android.synthetic.main.recyclerview_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import xyz.hanks.library.bang.SmallBangView
 
 
+@Suppress("UNCHECKED_CAST")
 class HomeActivity : BaseActivity() {
 
     private val homeActivityViewModel: HomeActivityViewModel by viewModel()
@@ -159,27 +161,28 @@ class HomeActivity : BaseActivity() {
                 },
                 this
             )
-            //todo
-            //  homeActivityViewModel.setWelcomeDialogIsShown()
+            homeActivityViewModel.setWelcomeDialogIsShown()
+            homeActivityViewModel.setAppTipIsShown()
         }
     }
 
     //TODO: initial setups
     private fun setupUserInfo() {
-        user_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}.jpg") {
+        category_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}.jpg") {
             crossfade(true)
             diskCachePolicy(CachePolicy.ENABLED)
             allowHardware(false)
             transformations(CircleCropTransformation())
         }
-        user_points.setNumber(UserInfo.points)
+        user_points_text.text = "★ " + UserInfo.points.toString()
     }
 
     private fun updateUserPointsAndHeaderTitle(_responseText: String) {
         _responseText.split("=").apply {
             header_title.text = this[1]
             homeActivityViewModel.updateUserPointsPref(this[0].toInt())
-            user_points.setNumber(UserInfo.points)
+            user_points.likeAnimation()
+            user_points_text.text = "★ " + UserInfo.points.toString()
         }
     }
 
@@ -206,7 +209,6 @@ class HomeActivity : BaseActivity() {
             theme(R.style.BottomDialog_Dark)
             content(CategoriesViewBuilder())
         }
-
         categoryBottomDialog.listenStatus(object : StatusCallback {
             override fun onCollapsed() {
                 super.onCollapsed()
@@ -271,16 +273,8 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun getCategories() {
-
-        categoryBottomSheetViewModel.selectAllCategories().observe(this, Observer {
-            //App.logger.error("count ${it?.count()}")
-            //  it?.forEach { cat ->
-            App.logger.error(it?.toString())
-            //}
-        })
-
-        categoryBottomSheetViewModel.getCategories().observe(this, Observer { networkResource ->
-            when (networkResource.state) {
+        categoryBottomSheetViewModel.selectAllCategories().observe(this, Observer { networkResource ->
+            when (networkResource?.state) {
                 State.LOADING -> {
                     categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
                         View.VISIBLE
@@ -301,13 +295,12 @@ class HomeActivity : BaseActivity() {
                                             withLayoutResId(R.layout.recyclerview_list_category)
                                             withItems(response as MutableList<Category>)
                                             bindIndexed { category, _ ->
-                                                user_avatar.load("${Constants.categoryImageUrl}${category.id}.png") {
+                                                category_avatar.load("${Constants.categoryImageUrl}${category.id}.png") {
                                                     crossfade(true)
                                                     placeholder(R.color.colorPrimaryDark)
                                                 }
                                                 category_title.text = category.title
                                                 setOnClickListener {
-                                                    App.logger.error(category.id.toString())
                                                     getItemsByCategory(category)
                                                     categoryBottomDialog.dismiss()
                                                 }
@@ -339,6 +332,68 @@ class HomeActivity : BaseActivity() {
                 }
             }
         })
+
+        /* categoryBottomSheetViewModel.getCategories().observe(this, Observer { networkResource ->
+             when (networkResource.state) {
+                 State.LOADING -> {
+                     categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                         View.VISIBLE
+                 }
+                 State.SUCCESS -> {
+                     val status = networkResource.status
+                     status?.let {
+                         when (it) {
+                             true -> {
+                                 categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                                     View.GONE
+                                 networkResource.data?.let { response ->
+                                     //categoryBottomSheetViewModel.insertCategories(response)
+                                     categoriesLoaded = true
+                                     categoryBottomDialog.contentView.categories_recyclerview.run {
+                                         this.visibility = View.VISIBLE
+                                         this.setUp<Category> {
+                                             withLayoutManager(GridLayoutManager(context, 2))
+                                             withLayoutResId(R.layout.recyclerview_list_category)
+                                             withItems(response as MutableList<Category>)
+                                             bindIndexed { category, _ ->
+                                                 user_avatar.load("${Constants.categoryImageUrl}${category.id}.png") {
+                                                     crossfade(true)
+                                                     placeholder(R.color.colorPrimaryDark)
+                                                 }
+                                                 category_title.text = category.title
+                                                 setOnClickListener {
+                                                     App.logger.error(category.id.toString())
+                                                     getItemsByCategory(category)
+                                                     categoryBottomDialog.dismiss()
+                                                 }
+                                             }
+                                         }
+                                     }
+                                 }
+                             }
+                             false -> {
+                                 categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                                     View.GONE
+                                 Alerts.showAlertDialogWithDefaultButton(
+                                     "Error",
+                                     networkResource.message!!,
+                                     "Try Again",
+                                     this
+                                 )
+                             }
+                         }
+                     }
+                 }
+                 State.ERROR -> {
+                     categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                         View.GONE
+                     Alerts.showAlertDialogWithDefaultButton(
+                         "Error",
+                         networkResource.message!!, "Try Again", this
+                     )
+                 }
+             }
+         })*/
     }
 
     private fun getItemsByCategory(_category: Category) {
@@ -364,9 +419,6 @@ class HomeActivity : BaseActivity() {
                                         current_category_text.text = _category.title
                                         allItems = response.items as MutableList<Item>
                                         allPairs = response.finalPairs as MutableList<Any>
-                                        App.logger.error {
-                                            allItems + " " + allPairs
-                                        }
                                         setUpItems()
                                     }
                                 }
@@ -432,7 +484,6 @@ class HomeActivity : BaseActivity() {
                              diskCachePolicy(CachePolicy.ENABLED)
                          }*/
                     }
-
                     (this[1] as Int).let { rightItemIndex ->
                         imageLoader(context).execute(
                             preloadImagesIntoMemory(
@@ -596,15 +647,18 @@ class HomeActivity : BaseActivity() {
         _selectedView: View
     ) {
         _selectedView.separator.visibility = View.GONE
+        var _selectedSideFullFab = _selectedView.left_item_fab_full
         when (_selectedSide) {
             "right" -> {
                 _selectedView.right_item_full_layout.visibility = View.VISIBLE
+                _selectedSideFullFab = _selectedView.right_item_fab_full
             }
             "left" -> {
                 _selectedView.left_item_full_layout.visibility = View.VISIBLE
+                _selectedSideFullFab = _selectedView.left_item_fab_full
             }
         }
-        setSelectedItem(_selectedItemId, _position, _selectedView)
+        setSelectedItem(_selectedItemId, _position, _selectedView, _selectedSideFullFab)
     }
 
     private fun showProgress(_show: Boolean) {
@@ -623,7 +677,8 @@ class HomeActivity : BaseActivity() {
     private fun setSelectedItem(
         _selectedItemId: Int,
         _position: Int,
-        _selectedView: View
+        _selectedView: View,
+        _selectedSideFullFab: View
     ) {
         homeActivityViewModel.setSelectedItem(_selectedItemId)
             .observe(this, Observer { networkResource ->
@@ -636,9 +691,10 @@ class HomeActivity : BaseActivity() {
                         status?.let { respStatus ->
                             when (respStatus) {
                                 true -> {
-                                    showProgress(false)
-                                    updateUserPointsAndHeaderTitle(networkResource.data as String)
-                                    updateAdapter(_position)
+                                    likeAnimationAndContinue(
+                                        networkResource.data as String,
+                                        _position, _selectedSideFullFab
+                                    )
                                 }
                                 false -> {
                                     resetView(_selectedView)
@@ -663,6 +719,23 @@ class HomeActivity : BaseActivity() {
             })
     }
 
+    private fun likeAnimationAndContinue(
+        _netResponse: String, _position: Int,
+        _selectedSideFullFab: View
+    ) {
+        showProgress(false)
+        updateUserPointsAndHeaderTitle(_netResponse)
+        (_selectedSideFullFab as SmallBangView).likeAnimation(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(p0: Animator?) {}
+            override fun onAnimationEnd(p0: Animator?) {
+                updateAdapter(_position)
+            }
+
+            override fun onAnimationCancel(p0: Animator?) {}
+            override fun onAnimationStart(p0: Animator?) {}
+        })
+    }
+
     private fun resetView(_view: View) {
         showProgress(false)
         header_title.text = getString(R.string.which_one)
@@ -670,7 +743,6 @@ class HomeActivity : BaseActivity() {
         no_more_items_layout.visibility = View.GONE
         _view.right_item_full_layout.visibility = View.GONE
         _view.left_item_full_layout.visibility = View.GONE
-
     }
 
     private fun updateAdapter(_position: Int) {
@@ -685,7 +757,7 @@ class HomeActivity : BaseActivity() {
                 }
             }
 
-        }, 1000)
+        }, 800)
     }
 
     override fun resume() {

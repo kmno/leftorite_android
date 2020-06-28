@@ -11,7 +11,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.kmno.leftorite.core.Constants.dbName
 import com.kmno.leftorite.data.db.dao.CategoryDao
+import com.kmno.leftorite.data.db.dao.ItemDao
 import com.kmno.leftorite.data.model.Category
 
 /**
@@ -22,24 +24,27 @@ import com.kmno.leftorite.data.model.Category
 abstract class LeftoriteDatabase : RoomDatabase() {
 
     abstract fun categoryDao(): CategoryDao
+    abstract fun itemDao(): ItemDao
 
     companion object {
 
-        @Volatile
-        private var INSTANCE: LeftoriteDatabase? = null
+        // @Volatile
+        //private var INSTANCE: LeftoriteDatabase? = null
+
+        private lateinit var INSTANCE: LeftoriteDatabase
 
         fun getDatabase(context: Context): LeftoriteDatabase? {
-            if (INSTANCE == null) {
-                synchronized(LeftoriteDatabase::class.java) {
-                    if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(
-                            context.applicationContext,
-                            LeftoriteDatabase::class.java, "db_leftorite"
-                        )
-                            .build()
-                    }
+            // if (INSTANCE == null) {
+            synchronized(LeftoriteDatabase::class.java) {
+                // if (INSTANCE == null) {
+                if (!::INSTANCE.isInitialized) {
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        LeftoriteDatabase::class.java, dbName
+                    ).build()
                 }
             }
+            //  }
             return INSTANCE
         }
     }

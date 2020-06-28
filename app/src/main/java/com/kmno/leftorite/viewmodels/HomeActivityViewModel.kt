@@ -14,9 +14,11 @@ import androidx.lifecycle.liveData
 import com.elconfidencial.bubbleshowcase.BubbleShowCase
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.Item
+import com.kmno.leftorite.data.repository.DbRepository
 import com.kmno.leftorite.ui.activities.HomeActivity
 import com.kmno.leftorite.utils.ShowCase
 import com.kmno.leftorite.utils.UserInfo
@@ -26,7 +28,11 @@ import kotlinx.coroutines.Dispatchers
  * Created by Kamran Noorinejad on 5/17/2020 AD 10:48.
  * Edited by Kamran Noorinejad on 5/17/2020 AD 10:48.
  */
-class HomeActivityViewModel(private val context: Context, apiProvider: ApiClientProvider) :
+class HomeActivityViewModel(
+    private val context: Context,
+    apiProvider: ApiClientProvider,
+    private val dbRepository: DbRepository
+) :
     ViewModel() {
 
     private val api = apiProvider.createApiClient()
@@ -83,9 +89,6 @@ class HomeActivityViewModel(private val context: Context, apiProvider: ApiClient
                         response.body()?.response?.message,
                         response.body()?.response?.data
                     )
-
-                    // items = response.body().response.data.items
-                    // pairs = response.body().response.data.finalPairs
                 )
             } else {
                 emit(
@@ -106,7 +109,25 @@ class HomeActivityViewModel(private val context: Context, apiProvider: ApiClient
                 )
             )
         }
+    }
 
+
+    fun selectAllItems() = liveData(Dispatchers.IO) {
+        emit(Resource.loading())
+        try {
+            val response = dbRepository.getAllItemsList()
+            App.logger.error(response.toString())
+            emit(response)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(
+                Resource.error(
+                    false,
+                    context.getString(R.string.network_error_text),
+                    null
+                )
+            )
+        }
     }
 
     //get items list based on selected category

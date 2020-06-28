@@ -11,11 +11,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.kmno.leftorite.R
-import com.kmno.leftorite.data.api.ApiClientProvider
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.Resource
-import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.data.repository.DbRepository
-import com.kmno.leftorite.utils.UserInfo
 import kotlinx.coroutines.Dispatchers
 
 /**
@@ -24,20 +22,14 @@ import kotlinx.coroutines.Dispatchers
  */
 class CategoryBottomSheetViewModel(
     private val context: Context,
-    apiProvider: ApiClientProvider,
+    //apiProvider: ApiClientProvider,
     private val dbRepository: DbRepository
 ) :
     ViewModel() {
 
-    private val api = apiProvider.createApiClient()
-
-
-    fun insertCategories(categoriesList: List<Category>) =
-        dbRepository.insertCategory(categoriesList)
-
-
+    //private val api = apiProvider.createApiClient()
     //get all categories list
-    fun getCategories() = liveData(Dispatchers.IO) {
+    /*fun getCategories() = liveData(Dispatchers.IO) {
         emit(Resource.loading())
         try {
             val response = api.getCategories(UserInfo.id, UserInfo.token)
@@ -59,7 +51,6 @@ class CategoryBottomSheetViewModel(
                 )
             }
         } catch (e: Exception) {
-            e.printStackTrace()
             emit(
                 Resource.error(
                     false,
@@ -68,16 +59,23 @@ class CategoryBottomSheetViewModel(
                 )
             )
         }
-    }
+    }*/
 
     fun selectAllCategories() = liveData(Dispatchers.IO) {
+        emit(Resource.loading())
         try {
             val response = dbRepository.getCategoriesList()
-            emit(
-                response
-            )
+            App.logger.error(response.toString())
+            emit(response)
         } catch (e: Exception) {
             e.printStackTrace()
+            emit(
+                Resource.error(
+                    false,
+                    context.getString(R.string.network_error_text),
+                    null
+                )
+            )
         }
     }
 

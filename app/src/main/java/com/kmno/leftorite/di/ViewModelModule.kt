@@ -20,6 +20,6 @@ val viewModelModule = module {
     viewModel { SplashActivityViewModel() }
     viewModel { SettingActivityViewModel(androidContext()) }
     viewModel { AuthActivityViewModel(androidContext(), get()) }
-    viewModel { HomeActivityViewModel(androidContext(), get()) }
-    viewModel { CategoryBottomSheetViewModel(androidContext(), get(), get()) }
+    viewModel { HomeActivityViewModel(androidContext(), get(), get()) }
+    viewModel { CategoryBottomSheetViewModel(androidContext(), get()) }
 }

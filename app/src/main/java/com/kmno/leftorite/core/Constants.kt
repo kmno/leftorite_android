@@ -18,4 +18,5 @@ object Constants {
     const val itemsImageUrl = "${assetsUrl}item/"
     const val categoryImageUrl = "${assetsUrl}category/"
     const val userImageUrl = "${assetsUrl}user/"
+    const val dbName = "db_leftorite"
 }

@@ -34,27 +34,41 @@
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:id="@+id/user_avatar"
+            android:id="@+id/category_avatar"
             android:layout_width="58dp"
             android:layout_height="58dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside" />
 
-        <com.nex3z.notificationbadge.NotificationBadge
+        <xyz.hanks.library.bang.SmallBangView
             android:id="@+id/user_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/user_avatar"
-            android:layout_marginTop="-15dp"
-            android:layout_toEndOf="@id/user_avatar"
-            android:background="@drawable/point_badge_bg"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="22sp"
-            app:nbAnimationDuration="100"
-            app:nbBackground="@color/secondaryColor"
-            app:nbEllipsizeText="+9999"
-            app:nbMaxTextLength="5" />
+            android:layout_alignTop="@id/category_avatar"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="-25dp"
+            android:layout_toEndOf="@id/category_avatar"
+            app:circle_end_color="@color/secondaryLightColor"
+            app:circle_start_color="@color/secondaryDarkColor"
+            app:dots_primary_color="@color/secondaryColor"
+            app:dots_secondary_color="@color/secondaryDarkColor">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/user_points_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/point_badge_bg"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="22sp"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxEms="5"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:textStyle="bold" />
+
+        </xyz.hanks.library.bang.SmallBangView>
 
     </RelativeLayout>
 
@@ -130,7 +144,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:tint="@color/secondaryLightTextColor"
-            app:srcCompat="@drawable/ic_down_hand" />
+            android:src="@drawable/ic_down_hand" />
 
     </LinearLayout>
 

@@ -30,7 +30,7 @@
     <string name="loading_title">Please wait....</string>
     <string name="loading_desc">fetching data from network</string>
     <string name="network_error_text">error loading data from network</string>
-    <string name="which_one">which one?</string>
+    <string name="which_one">Left or Right?</string>
     <string name="select_category_title">Select Category :</string>
     <string name="current_category">Current Category :\t</string>
     <string name="no_more_items">No More Items…</string>
@@ -40,10 +40,6 @@
     <!-- Preference Titles -->
     <string name="profile_header">Profile</string>
     <string name="network_header">Network</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
 
     <!-- Network Preferences -->
     <string name="data_saver_title">Use Less Data</string>
@@ -64,7 +60,7 @@
     <string name="your_points">Your Points</string>
     <string name="points_description">You can earn more points by like more items!</string>
     <string name="categories_list">Categories List</string>
-    <string name="categories_list_description">Here you can view the list of available exciting categories.</string>
+    <string name="categories_list_description">Swipe up to see the list of exciting categories.</string>
     <string name="how_like">How can i \'Like\' my favorite side?</string>
     <string name="how_like_description">\'Double Tap\' on side to Like!\nYou can also \'Drag\' the sides to like them.\nHold your finger on side to see item details</string>
 

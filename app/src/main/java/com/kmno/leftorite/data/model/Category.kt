@@ -12,13 +12,14 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.kmno.leftorite.core.Constants
 
 /**
  * Created by Kamran Noorinejad on 6/2/2020 AD 09:33.
  * Edited by Kamran Noorinejad on 6/2/2020 AD 09:33.
  */
 @Keep
-@Entity(tableName = "db_leftorite_categories")
+@Entity(tableName = "${Constants.dbName}_categories")
 data class Category(
     @SerializedName("id")
     @PrimaryKey
