@@ -14,7 +14,6 @@ import androidx.lifecycle.liveData
 import com.elconfidencial.bubbleshowcase.BubbleShowCase
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.kmno.leftorite.R
-import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.Item
@@ -112,7 +111,7 @@ class HomeActivityViewModel(
     }
 
 
-    fun selectAllItems() = liveData(Dispatchers.IO) {
+    /*fun selectAllItems() = liveData(Dispatchers.IO) {
         emit(Resource.loading())
         try {
             val response = dbRepository.getAllItemsList()
@@ -128,7 +127,7 @@ class HomeActivityViewModel(
                 )
             )
         }
-    }
+    }*/
 
     //get items list based on selected category
     fun getItemsByCategory(categoryId: Int) = liveData(Dispatchers.IO) {

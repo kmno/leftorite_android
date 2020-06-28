@@ -16,7 +16,6 @@ import com.kmno.leftorite.data.db.LeftoriteDatabase
 import com.kmno.leftorite.data.db.dao.CategoryDao
 import com.kmno.leftorite.data.db.dao.ItemDao
 import com.kmno.leftorite.data.model.Category
-import com.kmno.leftorite.data.model.Item
 import com.kmno.leftorite.utils.NetworkInfo
 import com.kmno.leftorite.utils.UserInfo
 import kotlinx.coroutines.CoroutineScope
@@ -120,7 +119,7 @@ class DbRepository(
         }
 
     /* ITEMS */
-    suspend fun getAllItemsList(): Resource<List<Item>>? {
+    /*suspend fun getAllItemsList(): Resource<List<Item>>? {
         if (networkState.isOnline()) {
             try {
                 val response = api.getAllItems(UserInfo.id, UserInfo.token)
@@ -168,5 +167,5 @@ class DbRepository(
             items.forEach { record ->
                 itemDao?.insertItem(record)
             }
-        }
+        }*/
 }

@@ -8,11 +8,6 @@
 package com.kmno.leftorite.data.db.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.kmno.leftorite.core.Constants
-import com.kmno.leftorite.data.model.Item
 
 /**
  * Created by Kamran Noorinejad on 6/28/2020 AD 10:10.
@@ -20,7 +15,7 @@ import com.kmno.leftorite.data.model.Item
  */
 @Dao
 interface ItemDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+ /*   @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItem(item: Item)
 
     @Query("SELECT * from ${Constants.dbName}_items ORDER BY id ASC")
@@ -33,6 +28,6 @@ interface ItemDao {
     fun getItemsById(itemId: Int): Item
 
     @Query("DELETE FROM ${Constants.dbName}_items")
-    fun deleteAll()
+    fun deleteAll()*/
 
 }
