@@ -7,16 +7,10 @@
 
 package com.kmno.leftorite.ui.activities
 
-import android.content.Intent
-import android.net.Uri
 import android.view.View
-import androidx.lifecycle.Observer
 import com.kmno.leftorite.R
 import com.kmno.leftorite.core.App
-import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.ui.base.BaseActivity
-import com.kmno.leftorite.utils.Alerts
-import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.launchActivity
 import com.kmno.leftorite.viewmodels.SplashActivityViewModel
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -36,14 +30,13 @@ class SplashActivity : BaseActivity() {
             app_version_text.text = this
         }
 
-        with(splashActivityViewModel.isUserLoggedIn) {
-            // goToDestinationActivity(this)
-        }
-
         if (isNetworkAvailable) {
 
         }
 
+        retry_button.setOnClickListener {
+            callInitialConfigApi()
+        }
     }
 
     override fun ready() {
@@ -71,9 +64,14 @@ class SplashActivity : BaseActivity() {
     override fun destroy() {
     }
 
-    override fun networkStatus(state: Boolean) {
-        if (state) {
-            splashActivityViewModel.getInitialConfig().observe(this, Observer { networkResource ->
+    private fun callInitialConfigApi() {
+        lazy_loader_progress.visibility = View.VISIBLE
+        retry_button.visibility = View.GONE
+
+        goToDestinationActivity(splashActivityViewModel.isUserLoggedIn)
+
+        /*splashActivityViewModel.getInitialConfig().observe(this,
+            Observer { networkResource ->
                 when (networkResource?.state) {
                     State.LOADING -> {
                         lazy_loader_progress.visibility = View.VISIBLE
@@ -110,26 +108,28 @@ class SplashActivity : BaseActivity() {
                                     }
                                 }
                                 false -> {
-                                    lazy_loader_progress.visibility = View.GONE
-                                    Alerts.showBottomSheetErrorWithActionButton(
-                                        msg = networkResource.message!!,
-                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                        activity = this
-                                    )
+                                    onNetworkFail(networkResource.message.toString())
                                 }
                             }
                         }
                     }
                     State.ERROR -> {
-                        lazy_loader_progress.visibility = View.GONE
-                        Alerts.showBottomSheetErrorWithActionButton(
-                            msg = networkResource.message!!,
-                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                            activity = this
-                        )
+                        onNetworkFail(networkResource.message.toString())
                     }
                 }
-            })
+            })*/
+    }
+
+    private fun onNetworkFail(errorMessage: String) {
+        lazy_loader_progress.visibility = View.GONE
+        retry_button.visibility = View.VISIBLE
+        //call error dialog from parent
+        handleNetworkErrors(errorMessage, ::callInitialConfigApi)
+    }
+
+    override fun networkStatus(state: Boolean) {
+        if (state) {
+            callInitialConfigApi()
         }
     }
 

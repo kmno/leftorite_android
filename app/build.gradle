@@ -25,6 +25,7 @@ android {
         archivesBaseName = "leftorite-v$versionName($versionCode)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
 
     signingConfigs {

@@ -44,8 +44,23 @@ class HomeActivityViewModel(
         return ShowCase.welcomeDialogIsShown
     }
 
+    fun setLastSelectedCategoryData(_selectedIndex: Int, _selectedId: Int, _selectedTitle: String) {
+        UserInfo.lastSelectedCategoryIndex = _selectedIndex
+        UserInfo.lastSelectedCategoryId = _selectedId
+        UserInfo.lastSelectedCategoryTitle = _selectedTitle
+    }
+
+
     fun getLastSelectedCategoryIndex(): Int {
         return UserInfo.lastSelectedCategoryIndex
+    }
+
+    fun getLastSelectedCategoryId(): Int {
+        return UserInfo.lastSelectedCategoryId
+    }
+
+    fun getLastSelectedCategoryTitle(): String {
+        return UserInfo.lastSelectedCategoryTitle
     }
 
     fun getLastSelectedCategoryObject(): Category {

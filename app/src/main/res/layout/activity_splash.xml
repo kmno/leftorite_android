@@ -34,24 +34,13 @@
         android:gravity="center"
         android:text="@string/logo_slogan"
         android:textColor="@color/primaryLightColor"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/splash_progress_bar"
+        app:layout_constraintBottom_toTopOf="@+id/lazy_loader_progress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/splash_logo"
         app:layout_constraintVertical_bias="0.13" />
-
-    <ProgressBar
-        android:id="@+id/splash_progress_bar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/app_version_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/splash_logo" />
 
     <com.agrawalsuneet.dotsloader.loaders.TashieLoader
         android:id="@+id/lazy_loader_progress"
@@ -70,6 +59,20 @@
         app:tashieloader_dotsRadius="5dp"
         app:tashieloader_interpolator="@android:anim/accelerate_interpolator"
         app:tashieloader_noOfDots="3" />
+
+    <ImageButton
+        android:id="@+id/retry_button"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ic_retry"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/app_version_text"
+        app:layout_constraintEnd_toEndOf="@+id/splash_logo"
+        app:layout_constraintStart_toStartOf="@+id/splash_logo"
+        app:layout_constraintTop_toBottomOf="@+id/splash_logo"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/app_version_text"

@@ -27,30 +27,25 @@ class ApiClientProvider {
     private val okHttpClient by lazy { OkHttpClient() }
 
     fun createApiClient(): ApiService {
-
         val retrofit: Retrofit by lazy {
             App.logger.warn("Creating Retrofit Client")
             val builder = Retrofit.Builder()
                 .baseUrl(Constants.baseUrl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-
             val dispatcher = Dispatcher()
             dispatcher.maxRequests = 1
-
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-
             val client: OkHttpClient = okHttpClient.newBuilder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
                 .dispatcher(dispatcher)
                 .build()
             builder.client(client).build()
         }
-
         return retrofit.create(ApiService::class.java)
     }
 }

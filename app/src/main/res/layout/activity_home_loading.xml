@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Creator: Kamran Noorinejad on 7/20/20 11:57 AM
+  ~ Last modified: 7/20/20 11:57 AM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/homeLoadingBackgroundColor">
+
+    <com.agrawalsuneet.dotsloader.loaders.TashieLoader
+        android:id="@+id/home_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tashieloader_animDelay="100"
+        app:tashieloader_animDur="200"
+        app:tashieloader_dotsColor="@color/secondaryColor"
+        app:tashieloader_dotsDist="5dp"
+        app:tashieloader_dotsRadius="8dp"
+        app:tashieloader_interpolator="@android:anim/accelerate_interpolator"
+        app:tashieloader_noOfDots="3" />
+
+    <ImageButton
+        android:id="@+id/home_retry_button"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:tint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_retry"
+        tools:ignore="ContentDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

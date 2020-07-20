@@ -168,10 +168,35 @@ object Alerts {
         flashbar?.show()
     }
 
+    fun showNoNetworkFlashbar(
+        bgColor: Int,
+        title: Int,
+        msg: Int,
+        duration: Int,
+        activity: BaseActivity
+    ) {
+        dismissFlashbar()
+        flashbarConfig = Flashbar.Builder(activity)
+            .gravity(Flashbar.Gravity.TOP)
+            .backgroundColorRes(bgColor)
+            .messageSizeInSp(16f)
+            .showIcon()
+            .title(title)
+            .message(msg)
+            // .showOverlay()
+            .overlayBlockable()
+            .overlayColorRes(R.color.overlay_color)
+            .castShadow(false)
+
+        if (duration != 0) flashbarConfig?.duration(((duration * 1000).toLong()))
+        flashbar = flashbarConfig?.build()
+        flashbar?.show()
+    }
+
     fun showFlashbarWithProgress(activity: BaseActivity) {
         flashbarProgressConfig = Flashbar.Builder(activity)
             .gravity(Flashbar.Gravity.TOP)
-            .backgroundColorRes(R.color.colorAccent)
+            .backgroundColorRes(R.color.colorPrimaryDark)
             .messageSizeInSp(16f)
             .title(R.string.loading_title)
             .message(R.string.loading_desc)

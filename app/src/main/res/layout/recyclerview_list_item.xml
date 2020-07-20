@@ -46,7 +46,7 @@
                 app:borderWidth="0dp"
                 app:fabCustomSize="@dimen/fab_custom_size"
                 app:maxImageSize="@dimen/fab_max_image_size"
-                app:srcCompat="@drawable/baseline_favorite_white_24dp"
+                app:srcCompat="@drawable/ic_favorite"
                 tools:ignore="VectorDrawableCompat" />
 
         </xyz.hanks.library.bang.SmallBangView>
@@ -88,7 +88,7 @@
                 app:borderWidth="0dp"
                 app:fabCustomSize="@dimen/fab_custom_size"
                 app:maxImageSize="@dimen/fab_max_image_size"
-                app:srcCompat="@drawable/baseline_favorite_white_24dp"
+                app:srcCompat="@drawable/ic_favorite"
                 tools:ignore="VectorDrawableCompat" />
 
         </xyz.hanks.library.bang.SmallBangView>
@@ -122,7 +122,7 @@
             app:borderWidth="0dp"
             app:fabCustomSize="@dimen/fab_custom_size"
             app:maxImageSize="@dimen/fab_max_image_size"
-            app:srcCompat="@drawable/baseline_favorite_white_24dp"
+            app:srcCompat="@drawable/ic_favorite"
             tools:ignore="VectorDrawableCompat" />
 
     </RelativeLayout>
@@ -161,7 +161,7 @@
             app:borderWidth="0dp"
             app:fabCustomSize="@dimen/fab_custom_size"
             app:maxImageSize="@dimen/fab_max_image_size"
-            app:srcCompat="@drawable/baseline_favorite_white_24dp"
+            app:srcCompat="@drawable/ic_favorite"
             tools:ignore="VectorDrawableCompat" />
 
     </RelativeLayout>

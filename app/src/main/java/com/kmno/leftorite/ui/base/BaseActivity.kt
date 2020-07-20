@@ -26,6 +26,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.kmno.leftorite.R
 import com.kmno.leftorite.core.App
+import com.kmno.leftorite.utils.Alerts
 import com.kmno.leftorite.utils.Alerts.dismissFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbar
 import render.animations.Render
@@ -114,6 +115,15 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun destroy()
 
+    fun handleNetworkErrors(errorMessage: String, retryFunctionRef: () -> Unit = {}) {
+        Alerts.showBottomSheetErrorWithActionButton(
+            msg = errorMessage,
+            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+            actionPositiveCallback = retryFunctionRef,
+            activity = this
+        )
+    }
+
     abstract fun networkStatus(state: Boolean)
 
     override fun onStart() {
@@ -158,8 +168,6 @@ abstract class BaseActivity : AppCompatActivity() {
         isNetworkAvailable = false
         networkStatus(false)
         App.logger.error("onNetDisConnected")
-        // val alert = AlertView("No Network!", "check your internet connection...", AlertStyle.BOTTOM_SHEET)
-        // alert.show(this)
         showFlashbar(R.color.error, R.string.no_network, R.string.no_network_desc, 0, this)
     }
 

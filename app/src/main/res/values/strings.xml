@@ -66,7 +66,7 @@
 
     <string name="network_request_error_title">Oops!</string>
     <string name="network_request_error_msg">Something Went Wrong…\nTry Again Later</string>
-    <string name="error_dialog_try_again_button_text">Try Again Later</string>
+    <string name="error_dialog_try_again_button_text">Try Again</string>
     <string name="new_version_dialog_title">Version \'%1$s\' is on board!</string>
     <string name="update_now">Update Now</string>
     <string name="update_later">Maybe Later</string>

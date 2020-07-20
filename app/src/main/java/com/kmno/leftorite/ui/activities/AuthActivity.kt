@@ -14,7 +14,6 @@ import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.User
 import com.kmno.leftorite.ui.base.BaseActivity
-import com.kmno.leftorite.utils.Alerts
 import com.kmno.leftorite.utils.Alerts.dismissProgressFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbarWithProgress
@@ -41,94 +40,7 @@ class AuthActivity : BaseActivity() {
         requestPermission()
 
         auth_action_btn.setOnClickListener {
-            email = email_edit_text_field.text.toString().trim()
-            pass = password_edit_text_field.text.toString().trim()
-            rpass = password_confirm_edit_text_field.text.toString().trim()
-            if (validate()) {
-                if (loginState) {
-                    authActivityViewModel.signInUser(
-                        email_edit_text_field.text.toString(),
-                        password_edit_text_field.text.toString()
-                    )
-                        .observe(this, Observer { networkResource ->
-                            when (networkResource.state) {
-                                State.LOADING -> {
-                                    showFlashbarWithProgress(this)
-                                }
-                                State.SUCCESS -> {
-                                    val status = networkResource.status
-                                    status?.let {
-                                        when (it) {
-                                            true -> {
-                                                dismissProgressFlashbar()
-                                                authActivityViewModel.storeUserPrefs(networkResource.data as User)
-                                                authActivityViewModel.setLoggedInPref(true)
-                                                this.launchActivity<HomeActivity>(finish = true)
-                                            }
-                                            false -> {
-                                                dismissProgressFlashbar()
-                                                Alerts.showBottomSheetErrorWithActionButton(
-                                                    msg = networkResource.message!!,
-                                                    actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                                    activity = this
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                                State.ERROR -> {
-                                    dismissProgressFlashbar()
-                                    Alerts.showBottomSheetErrorWithActionButton(
-                                        msg = networkResource.message!!,
-                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                        activity = this
-                                    )
-                                }
-                            }
-                        })
-                } else {
-                    authActivityViewModel.signUpUser(
-                        email_edit_text_field.text.toString(),
-                        password_edit_text_field.text.toString()
-                    )
-                        .observe(this, Observer { networkResource ->
-                            when (networkResource.state) {
-                                State.LOADING -> {
-                                    App.logger.error("loading data from network")
-                                }
-                                State.SUCCESS -> {
-                                    val status = networkResource.status
-                                    status?.let {
-                                        when (it) {
-                                            true -> {
-                                                dismissProgressFlashbar()
-                                                authActivityViewModel.storeUserPrefs(networkResource.data as User)
-                                                authActivityViewModel.setLoggedInPref(true)
-                                                this.launchActivity<HomeActivity>(finish = true)
-                                            }
-                                            false -> {
-                                                dismissProgressFlashbar()
-                                                Alerts.showBottomSheetErrorWithActionButton(
-                                                    msg = networkResource.message!!,
-                                                    actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                                    activity = this
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                                State.ERROR -> {
-                                    dismissProgressFlashbar()
-                                    Alerts.showBottomSheetErrorWithActionButton(
-                                        msg = networkResource.message!!,
-                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                        activity = this
-                                    )
-                                }
-                            }
-                        })
-                }
-            }
+            callAuthenticationApi()
         }
 
         signin_signup_layout.setOnClickListener {
@@ -154,6 +66,83 @@ class AuthActivity : BaseActivity() {
             }
         }
 
+    }
+
+    private fun callAuthenticationApi() {
+        email = email_edit_text_field.text.toString().trim()
+        pass = password_edit_text_field.text.toString().trim()
+        rpass = password_confirm_edit_text_field.text.toString().trim()
+        if (validate()) {
+            if (loginState) {
+                authActivityViewModel.signInUser(
+                    email_edit_text_field.text.toString(),
+                    password_edit_text_field.text.toString()
+                )
+                    .observe(this, Observer { networkResource ->
+                        when (networkResource.state) {
+                            State.LOADING -> {
+                                showFlashbarWithProgress(this)
+                            }
+                            State.SUCCESS -> {
+                                val status = networkResource.status
+                                status?.let {
+                                    when (it) {
+                                        true -> {
+                                            dismissProgressFlashbar()
+                                            authActivityViewModel.storeUserPrefs(networkResource.data as User)
+                                            authActivityViewModel.setLoggedInPref(true)
+                                            this.launchActivity<HomeActivity>(finish = true)
+                                        }
+                                        false -> {
+                                            onNetworkFail(networkResource.message.toString())
+                                        }
+                                    }
+                                }
+                            }
+                            State.ERROR -> {
+                                onNetworkFail(networkResource.message.toString())
+                            }
+                        }
+                    })
+            } else {
+                authActivityViewModel.signUpUser(
+                    email_edit_text_field.text.toString(),
+                    password_edit_text_field.text.toString()
+                )
+                    .observe(this, Observer { networkResource ->
+                        when (networkResource.state) {
+                            State.LOADING -> {
+                                App.logger.error("loading data from network")
+                            }
+                            State.SUCCESS -> {
+                                val status = networkResource.status
+                                status?.let {
+                                    when (it) {
+                                        true -> {
+                                            dismissProgressFlashbar()
+                                            authActivityViewModel.storeUserPrefs(networkResource.data as User)
+                                            authActivityViewModel.setLoggedInPref(true)
+                                            this.launchActivity<HomeActivity>(finish = true)
+                                        }
+                                        false -> {
+                                            onNetworkFail(networkResource.message.toString())
+                                        }
+                                    }
+                                }
+                            }
+                            State.ERROR -> {
+                                onNetworkFail(networkResource.message.toString())
+                            }
+                        }
+                    })
+            }
+        }
+    }
+
+    private fun onNetworkFail(errorMessage: String) {
+        dismissProgressFlashbar()
+        //call error dialog from parent
+        handleNetworkErrors(errorMessage, ::callAuthenticationApi)
     }
 
     override fun ready() {}
@@ -199,16 +188,12 @@ class AuthActivity : BaseActivity() {
         return false
     }
 
-    override fun resume() {
-    }
+    override fun resume() {}
 
-    override fun pause() {
-    }
+    override fun pause() {}
 
-    override fun destroy() {
-    }
+    override fun destroy() {}
 
-    override fun networkStatus(state: Boolean) {
-    }
+    override fun networkStatus(state: Boolean) {}
 
 }

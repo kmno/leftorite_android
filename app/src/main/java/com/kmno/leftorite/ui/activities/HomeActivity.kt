@@ -10,6 +10,7 @@ package com.kmno.leftorite.ui.activities
 import android.animation.Animator
 import android.annotation.SuppressLint
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -46,6 +47,8 @@ import com.kmno.leftorite.viewmodels.HomeActivityViewModel
 import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_home_content.*
+import kotlinx.android.synthetic.main.activity_home_loading.*
 import kotlinx.android.synthetic.main.category_bottom_sheet.view.*
 import kotlinx.android.synthetic.main.item_detail_bottom_sheet.view.*
 import kotlinx.android.synthetic.main.recyclerview_list_category.view.*
@@ -53,6 +56,7 @@ import kotlinx.android.synthetic.main.recyclerview_list_item.*
 import kotlinx.android.synthetic.main.recyclerview_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import xyz.hanks.library.bang.SmallBangView
+
 
 @Suppress("UNCHECKED_CAST")
 class HomeActivity : BaseActivity() {
@@ -113,13 +117,14 @@ class HomeActivity : BaseActivity() {
         //generate fcm token for push notifications
         generateFCMToken()
 
-        //render.setAnimation(Bounce().InDown(header_title_layout))
-        // render.setAnimation(Attention().Swing(header_title_layout))
-        //render.start()
+        //when a network request failed, user clicks retry
+        home_retry_button.setOnClickListener {
+            callHomeActivityApi()
+        }
 
     }
 
-    //TODO: set retrieved config values and messages
+    //set retrieved config values and messages
     private fun setUpConfigValues() {
         ConfigPref.let {
             header_title.text = it.top_text
@@ -209,7 +214,7 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    //TODO: initial setups
+    //initial setups
     private fun setupUserInfo() {
         category_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}") {
             crossfade(true)
@@ -246,6 +251,11 @@ class HomeActivity : BaseActivity() {
                 autoDismiss = true,
                 listener = {
                     this.onClick {
+                        homeActivityViewModel.setLastSelectedCategoryData(
+                            -1,
+                            -1,
+                            "All"
+                        )
                         getAllItems()
                     }
                 })
@@ -260,6 +270,10 @@ class HomeActivity : BaseActivity() {
 
             override fun onSlide(slideOffset: Float) {}
         })
+        // if (this::categoryBottomDialog.isInitialized)
+        /*categoryBottomDialog.contentView.categories_retry_button.setOnClickListener {
+            getCategories()
+        }*/
     }
 
     private fun setUpItemDetailsBottomDialog() {
@@ -274,11 +288,12 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    //TODO: api calls
+    //api calls
     private fun getAllItems() {
         homeActivityViewModel.getAllItems().observe(this, Observer { networkResource ->
             when (networkResource.state) {
                 State.LOADING -> {
+                    showFullscreenProgress(true)
                     showProgress(true)
                 }
                 State.SUCCESS -> {
@@ -286,30 +301,24 @@ class HomeActivity : BaseActivity() {
                     status?.let {
                         when (it) {
                             true -> {
+                                showFullscreenProgress(false)
                                 showProgress(false)
                                 networkResource.data?.let { response ->
-                                    current_category_text.text = UserInfo.lastSelectedCategoryTitle
+                                    current_category_text.text =
+                                        homeActivityViewModel.getLastSelectedCategoryTitle()
                                     allItems = response.items as MutableList<Item>
                                     allPairs = response.finalPairs as MutableList<Any>
                                     setUpItems()
                                 }
                             }
                             false -> {
-                                Alerts.showBottomSheetErrorWithActionButton(
-                                    msg = networkResource.message!!,
-                                    actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                    activity = this
-                                )
+                                onNetworkFail(networkResource.message.toString())
                             }
                         }
                     }
                 }
                 State.ERROR -> {
-                    Alerts.showBottomSheetErrorWithActionButton(
-                        msg = networkResource.message!!,
-                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                        activity = this
-                    )
+                    onNetworkFail(networkResource.message.toString())
                 }
             }
         })
@@ -320,6 +329,8 @@ class HomeActivity : BaseActivity() {
             .observe(this, Observer { networkResource ->
                 when (networkResource?.state) {
                     State.LOADING -> {
+                        categoryBottomDialog.contentView.categories_retry_button.visibility =
+                            View.GONE
                         categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
                             View.VISIBLE
                     }
@@ -329,6 +340,8 @@ class HomeActivity : BaseActivity() {
                             when (it) {
                                 true -> {
                                     categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                                        View.GONE
+                                    categoryBottomDialog.contentView.categories_retry_button.visibility =
                                         View.GONE
                                     networkResource.data?.let { response ->
                                         categoriesLoaded = true
@@ -346,32 +359,37 @@ class HomeActivity : BaseActivity() {
                                                     category_title.text = category.title
                                                     category_new_badge.visibility = View.GONE
                                                     category_layout.setBackgroundResource(R.drawable.category_circular_item)
-                                                    if (index == UserInfo.lastSelectedCategoryIndex)
+                                                    if (index == homeActivityViewModel.getLastSelectedCategoryIndex())
                                                         category_layout.setBackgroundResource(R.drawable.category_circular_item_selected)
                                                     if (category.is_new == 1) category_new_badge.visibility =
                                                         View.VISIBLE
                                                     setOnClickListener {
-                                                        UserInfo.lastSelectedCategoryIndex = index
-                                                        UserInfo.lastSelectedCategoryId =
-                                                            category.id
-                                                        UserInfo.lastSelectedCategoryTitle =
+                                                        homeActivityViewModel.setLastSelectedCategoryData(
+                                                            index,
+                                                            category.id,
                                                             category.title
+                                                        )
                                                         getItemsByCategory(category)
                                                         categoryBottomDialog.dismiss()
                                                     }
                                                 }
                                             }
                                         }
+                                        categoryBottomDialog.contentView.categories_retry_button.setOnClickListener {
+                                            getCategories()
+                                        }
                                     }
                                 }
                                 false -> {
                                     categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
                                         View.GONE
-                                    Alerts.showBottomSheetErrorWithActionButton(
+                                    categoryBottomDialog.contentView.categories_retry_button.visibility =
+                                        View.VISIBLE
+                                    /*Alerts.showBottomSheetErrorWithActionButton(
                                         msg = networkResource.message!!,
                                         actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
                                         activity = this
-                                    )
+                                    )*/
                                 }
                             }
                         }
@@ -379,76 +397,16 @@ class HomeActivity : BaseActivity() {
                     State.ERROR -> {
                         categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
                             View.GONE
-                        Alerts.showBottomSheetErrorWithActionButton(
+                        categoryBottomDialog.contentView.categories_retry_button.visibility =
+                            View.VISIBLE
+                        /*Alerts.showBottomSheetErrorWithActionButton(
                             msg = networkResource.message!!,
                             actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
                             activity = this
-                        )
+                        )*/
                     }
                 }
             })
-
-        /* categoryBottomSheetViewModel.getCategories().observe(this, Observer { networkResource ->
-             when (networkResource.state) {
-                 State.LOADING -> {
-                     categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
-                         View.VISIBLE
-                 }
-                 State.SUCCESS -> {
-                     val status = networkResource.status
-                     status?.let {
-                         when (it) {
-                             true -> {
-                                 categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
-                                     View.GONE
-                                 networkResource.data?.let { response ->
-                                     //categoryBottomSheetViewModel.insertCategories(response)
-                                     categoriesLoaded = true
-                                     categoryBottomDialog.contentView.categories_recyclerview.run {
-                                         this.visibility = View.VISIBLE
-                                         this.setUp<Category> {
-                                             withLayoutManager(GridLayoutManager(context, 2))
-                                             withLayoutResId(R.layout.recyclerview_list_category)
-                                             withItems(response as MutableList<Category>)
-                                             bindIndexed { category, _ ->
-                                                 user_avatar.load("${Constants.categoryImageUrl}${category.id}.png") {
-                                                     crossfade(true)
-                                                     placeholder(R.color.colorPrimaryDark)
-                                                 }
-                                                 category_title.text = category.title
-                                                 setOnClickListener {
-                                                     App.logger.error(category.id.toString())
-                                                     getItemsByCategory(category)
-                                                     categoryBottomDialog.dismiss()
-                                                 }
-                                             }
-                                         }
-                                     }
-                                 }
-                             }
-                             false -> {
-                                 categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
-                                     View.GONE
-                                 Alerts.showAlertDialogWithDefaultButton(
-                                     "Error",
-                                     networkResource.message!!,
-                                     "Try Again",
-                                     this
-                                 )
-                             }
-                         }
-                     }
-                 }
-                 State.ERROR -> {
-                     categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
-                         View.GONE
-                     Alerts.showAlertDialogWithDefaultButton(
-                         "Error",
-                         networkResource.message!!, "Try Again", this
-                     )
-                 }
-             }
-         })*/
     }
 
     private fun getItemsByCategory(_category: Category) {
@@ -465,6 +423,7 @@ class HomeActivity : BaseActivity() {
                 when (networkResource.state) {
                     State.LOADING -> {
                         showProgress(true)
+                        showFullscreenProgress(true)
                     }
                     State.SUCCESS -> {
                         val status = networkResource.status
@@ -472,6 +431,7 @@ class HomeActivity : BaseActivity() {
                             when (it) {
                                 true -> {
                                     showProgress(false)
+                                    showFullscreenProgress(false)
                                     networkResource.data?.let { response ->
                                         current_category_text.text = _category.title
                                         allItems = response.items as MutableList<Item>
@@ -480,21 +440,13 @@ class HomeActivity : BaseActivity() {
                                     }
                                 }
                                 false -> {
-                                    Alerts.showBottomSheetErrorWithActionButton(
-                                        msg = networkResource.message!!,
-                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                        activity = this
-                                    )
+                                    onNetworkFail(networkResource.message.toString())
                                 }
                             }
                         }
                     }
                     State.ERROR -> {
-                        Alerts.showBottomSheetErrorWithActionButton(
-                            msg = networkResource.message!!,
-                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                            activity = this
-                        )
+                        onNetworkFail(networkResource.message.toString())
                     }
                 }
             })
@@ -508,7 +460,7 @@ class HomeActivity : BaseActivity() {
             .build()
     }
 
-    //TODO: adapters and select handlers
+    //adapters and select handlers
     private fun setUpItems() {
         itemsAdapter = recyclerView.setUp<Any> {
             withLayoutResId(R.layout.recyclerview_list_item)
@@ -730,6 +682,61 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    private fun showFullscreenProgress(_show: Boolean) {
+        when (_show) {
+            true -> {
+                App.logger.error("showFullscreenProgress true")
+                activity_loading.visibility = View.VISIBLE
+                home_progress.visibility = View.VISIBLE
+                home_retry_button.visibility = View.GONE
+                enableDisableInnerViews(false)
+            }
+            false -> {
+                App.logger.error("showFullscreenProgress false")
+                // render.setAnimation(Fade().Out(activity_loading))
+                // render.setDuration(300)
+                //render.start()
+                enableDisableInnerViews(true)
+                activity_loading.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun disableEnableControls(enable: Boolean, vg: ViewGroup) {
+        vg.isEnabled = enable
+        for (i in 0 until vg.childCount) {
+            val child = vg.getChildAt(i)
+            if (child.id != R.id.home_retry_button) {
+                child.isEnabled = enable
+                child.isClickable = enable
+                if (child is ViewGroup) {
+                    disableEnableControls(enable, child)
+                }
+            }
+        }
+    }
+
+    private fun enableDisableInnerViews(enable: Boolean) {
+        when (enable) {
+            true -> {
+                change_category_layout.isEnabled = true
+                change_category_layout.isClickable = true
+                more.isEnabled = true
+                more.isClickable = true
+                recyclerView.isEnabled = true
+                recyclerView.isClickable = true
+            }
+            false -> {
+                change_category_layout.isEnabled = false
+                change_category_layout.isClickable = false
+                more.isEnabled = false
+                more.isClickable = false
+                recyclerView.isEnabled = false
+                recyclerView.isClickable = false
+            }
+        }
+    }
+
     private fun setSelectedItem(
         _selectedItemId: Int,
         _position: Int,
@@ -826,11 +833,22 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun networkStatus(state: Boolean) {
-        if (state) {
-            App.logger.error(homeActivityViewModel.getLastSelectedCategoryObject().toString())
-            if (homeActivityViewModel.getLastSelectedCategoryIndex() == -1) getAllItems()
-            else getItemsByCategory(homeActivityViewModel.getLastSelectedCategoryObject())
-        }
+        if (state) callHomeActivityApi()
+    }
+
+    private fun callHomeActivityApi() {
+        setupUserInfo()
+        if (homeActivityViewModel.getLastSelectedCategoryIndex() == -1)
+            getAllItems()
+        else getItemsByCategory(homeActivityViewModel.getLastSelectedCategoryObject())
+    }
+
+    private fun onNetworkFail(errorMessage: String) {
+        home_progress.visibility = View.GONE
+        home_retry_button.visibility = View.VISIBLE
+        home_retry_button.isEnabled = true
+        //call error dialog from parent
+        handleNetworkErrors(errorMessage)
     }
 
     //FCM
