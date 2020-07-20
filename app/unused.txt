@@ -308,8 +308,6 @@ kotlin.time.DurationKt:
     private static synthetic void storageUnit$annotations()
     private static final double times-mvk6XK0(int,double)
     private static final double times-kIfJnKk(double,double)
-kotlin.AutoCloseableKt:
-    private static final java.lang.Object use(java.lang.AutoCloseable,kotlin.jvm.functions.Function1)
 kotlin.jvm.internal.DefaultConstructorMarker:
     private void <init>()
 androidx.appcompat.view.SupportMenuInflater:
@@ -563,13 +561,13 @@ com.google.android.material.internal.NavigationMenuPresenter:
     private static final java.lang.String STATE_HEADER
 androidx.core.content.res.ResourcesCompat$ThemeCompat$ImplApi23:
     private void <init>()
-androidx.preference.PreferenceManager:
-    private static final int STORAGE_DEFAULT
-    private static final int STORAGE_DEVICE_PROTECTED
 androidx.appcompat.widget.ActionMenuView:
     private static final java.lang.String TAG
     static final int MIN_CELL_SIZE
     static final int GENERATED_ITEM_PADDING
+androidx.preference.PreferenceManager:
+    private static final int STORAGE_DEFAULT
+    private static final int STORAGE_DEVICE_PROTECTED
 androidx.recyclerview.widget.ViewInfoStore:
     private static final boolean DEBUG
 kotlin.UShort:
@@ -1012,13 +1010,6 @@ com.google.android.gms.internal.measurement.zzhk:
     void <init>()
 androidx.preference.EditTextPreferenceDialogFragment:
     private static final java.lang.String SAVE_STATE_TEXT
-com.nex3z.notificationbadge.NotificationBadge:
-    private static final long DEFAULT_TEXT_COLOR
-    private static final int DEFAULT_TEXT_SIZE
-    private static final boolean DEFAULT_ANIMATION_ENABLED
-    private static final int DEFAULT_ANIMATION_DURATION
-    private static final int DEFAULT_MAX_TEXT_LENGTH
-    private static final java.lang.String DEFAULT_ELLIPSIZE_TEXT
 com.google.android.material.bottomnavigation.BottomNavigationView:
     private static final int MENU_PRESENTER_ID
 androidx.preference.PreferenceFragment:
@@ -1444,9 +1435,6 @@ coil.ImageLoader:
 kotlin.sequences.SequencesKt__SequencesKt:
     private static final kotlin.sequences.Sequence Sequence(kotlin.jvm.functions.Function0)
     private static final kotlin.sequences.Sequence orEmpty(kotlin.sequences.Sequence)
-com.github.florent37.kotlin.pleaseanimate.core.scale.ScaleAnimExpectation:
-    private final void setGravityHorizontal(java.lang.Integer)
-    private final void setGravityVertical(java.lang.Integer)
 androidx.constraintlayout.solver.Pools$SimplePool:
     private boolean isInPool(java.lang.Object)
 android.support.v4.media.session.MediaSessionCompat:
@@ -1765,6 +1753,10 @@ kotlin.text.StringsKt__StringBuilderJVMKt:
 okhttp3.internal.tls.OkHostnameVerifier:
     private static final int ALT_DNS_NAME
     private static final int ALT_IPA_NAME
+com.kmno.leftorite.utils.Alerts:
+    private static final java.lang.String default_message
+    private static final java.lang.String default_positive_button_text
+    private static final java.lang.String default_negative_button_text
 kotlinx.coroutines.internal.MainDispatchersKt:
     private static synthetic void SUPPORT_MISSING$annotations()
     private static final java.lang.String FAST_SERVICE_LOADER_PROPERTY_NAME
@@ -1950,6 +1942,8 @@ kotlin.coroutines.intrinsics.IntrinsicsKt__IntrinsicsJvmKt:
     private static final java.lang.Object startCoroutineUninterceptedOrReturn(kotlin.jvm.functions.Function1,kotlin.coroutines.Continuation)
     private static final java.lang.Object startCoroutineUninterceptedOrReturn(kotlin.jvm.functions.Function2,java.lang.Object,kotlin.coroutines.Continuation)
     private static final kotlin.coroutines.Continuation createCoroutineFromSuspendFunction$IntrinsicsKt__IntrinsicsJvmKt(kotlin.coroutines.Continuation,kotlin.jvm.functions.Function1)
+xyz.hanks.library.bang.SmallBangView:
+    private boolean init
 kotlin.NumbersKt__NumbersKt:
     private static final int countOneBits(byte)
     private static final int countLeadingZeroBits(byte)
@@ -2457,6 +2451,9 @@ com.google.android.material.datepicker.DateStrings:
     private void <init>()
 androidx.transition.AnimatorUtils:
     private void <init>()
+xyz.hanks.library.bang.DotsView:
+    private static final int DOTS_COUNT
+    private static final int OUTER_DOTS_POSITION_ANGLE
 com.google.android.material.datepicker.CalendarConstraints$Builder:
     private static final java.lang.String DEEP_COPY_VALIDATOR_KEY
 com.google.android.material.appbar.AppBarLayout:
@@ -3190,6 +3187,7 @@ coil.decode.DrawableDecoderService:
 androidx.core.app.AppLaunchChecker:
     private static final java.lang.String SHARED_PREFS_NAME
     private static final java.lang.String KEY_STARTED_FROM_LAUNCHER
+com.kmno.leftorite.data.db.LeftoriteDatabase$Companion$getDatabase$1$1
 com.google.gson.FieldAttributes:
     java.lang.Object get(java.lang.Object)
     boolean isSynthetic()
@@ -3941,10 +3939,6 @@ kotlinx.coroutines.flow.FlowKt__CollectKt:
     private static final java.lang.Object collect$$forInline(kotlinx.coroutines.flow.Flow,kotlin.jvm.functions.Function2,kotlin.coroutines.Continuation)
     private static final java.lang.Object collectIndexed$$forInline(kotlinx.coroutines.flow.Flow,kotlin.jvm.functions.Function3,kotlin.coroutines.Continuation)
     private static final java.lang.Object emitAll$$forInline(kotlinx.coroutines.flow.FlowCollector,kotlinx.coroutines.flow.Flow,kotlin.coroutines.Continuation)
-com.github.florent37.kotlin.pleaseanimate.core.rotation.PleaseAnimRotationManager:
-    private final void setRotation(java.lang.Float)
-    private final void setRotationX(java.lang.Float)
-    private final void setRotationY(java.lang.Float)
 androidx.recyclerview.widget.LinearLayoutManager:
     private void logChildren()
     void validateChildOrder()
@@ -4201,9 +4195,6 @@ androidx.transition.Styleable$Fade
 coil.transform.BlurTransformation:
     private static final float DEFAULT_RADIUS
     private static final float DEFAULT_SAMPLING
-com.github.florent37.kotlin.pleaseanimate.core.scale.PleaseAnimScaleManager:
-    private final void setScaleX(java.lang.Float)
-    private final void setScaleY(java.lang.Float)
 androidx.appcompat.widget.AbsActionBarView:
     void <init>(android.content.Context)
     private static final int FADE_DURATION
@@ -5096,8 +5087,6 @@ okhttp3.internal.http2.Http2ExchangeCodec:
     private static final java.lang.String TE
     private static final java.lang.String ENCODING
     private static final java.lang.String UPGRADE
-com.github.florent37.kotlin.pleaseanimate.core.anim3d.PleaseAnimCameraDistanceManager:
-    private final void setCameraDistance(java.lang.Float)
 androidx.preference.PreferenceGroup:
     private static final java.lang.String TAG
 kotlinx.coroutines.flow.StateFlowImpl:
@@ -5388,6 +5377,7 @@ com.google.android.gms.common.api.internal.RegistrationMethods$Builder:
 androidx.cardview.widget.CardViewBaseImpl:
     public void initStatic()
     public final androidx.cardview.widget.RoundRectDrawableWithShadow createBackground(android.content.Context,android.content.res.ColorStateList,float,float,float)
+com.kmno.leftorite.utils.Alerts$showAlertDialogWithTwoActionButton$3
 androidx.vectordrawable.graphics.drawable.VectorDrawableCompat$VClipPath:
     public void inflate(android.content.res.Resources,android.util.AttributeSet,android.content.res.Resources$Theme,org.xmlpull.v1.XmlPullParser)
     public final void updateStateFromTypedArray(android.content.res.TypedArray,org.xmlpull.v1.XmlPullParser)
@@ -5764,6 +5754,18 @@ com.google.android.material.shape.ShapePath$ShadowCompatOperation:
     public final void draw(com.google.android.material.shadow.ShadowRenderer,int,android.graphics.Canvas)
 androidx.appcompat.view.SupportMenuInflater:
     public java.lang.Object getRealOwner()
+com.elconfidencial.bubbleshowcase.BubbleMessageView:
+    public final void inflateXML()
+    public final void bindViews()
+    public final void prepareToDraw()
+    public final void drawRectangle(android.graphics.Canvas)
+    public final void drawArrow(android.graphics.Canvas,com.elconfidencial.bubbleshowcase.BubbleShowCase$ArrowPosition,android.graphics.RectF)
+    public final boolean isOutOfRightBound(android.graphics.RectF)
+    public final boolean isOutOfLeftBound(android.graphics.RectF)
+    public final boolean isOutOfBottomBound(android.graphics.RectF)
+    public final boolean isOutOfTopBound(android.graphics.RectF)
+    public final void drawRhombus(android.graphics.Canvas,android.graphics.Paint,int,int,int)
+    public androidx.constraintlayout.widget.ConstraintLayout showCaseMessageViewLayout
 com.kmno.leftorite.ui.activities.HomeActivity$setSelectedItem$1:
     public final void onChanged(com.kmno.leftorite.data.api.Resource)
 android.support.v4.media.MediaDescriptionCompatApi23
@@ -5838,6 +5840,8 @@ androidx.constraintlayout.solver.widgets.Analyzer:
     public static void setConnection(androidx.constraintlayout.solver.widgets.ConstraintAnchor)
     public static void singleGroup(androidx.constraintlayout.solver.widgets.ConstraintWidgetContainer)
     public static void updateSizeDependentWidgets(androidx.constraintlayout.solver.widgets.ConstraintWidget,int,int)
+com.kmno.leftorite.data.repository.DbRepository$getCategoriesList$3:
+    public int label
 androidx.fragment.app.FragmentStateManager:
     public androidx.fragment.app.Fragment getFragment()
     public void setFragmentManagerState(int)
@@ -6019,6 +6023,7 @@ com.chibatching.kotpref.KotprefPreferences$KotprefEditor:
     public final synthetic com.chibatching.kotpref.KotprefPreferences this$0
 retrofit2.converter.scalars.ScalarResponseBodyConverters$BooleanResponseBodyConverter:
     public java.lang.Boolean convert(okhttp3.ResponseBody)
+com.kmno.leftorite.utils.Alerts$showAlertDialogWithTwoActionButton$4
 com.google.gson.internal.LinkedTreeMap$KeySet$1:
     public final synthetic com.google.gson.internal.LinkedTreeMap$KeySet this$1
 androidx.transition.ViewUtilsBase:
@@ -6052,13 +6057,9 @@ com.google.android.gms.internal.measurement.zzip:
     public static synthetic int zza(int,int,int)
 androidx.coordinatorlayout.widget.ViewGroupUtils:
     public static void offsetDescendantRect(android.view.ViewGroup,android.view.View,android.graphics.Rect)
-com.kmno.leftorite.ui.activities.HomeActivity$getCategories$2$$special$$inlined$let$lambda$2$1:
-    public final void invoke(android.view.View,com.kmno.leftorite.data.model.Category)
 com.google.android.material.datepicker.DaysOfWeekAdapter:
     public java.lang.Integer getItem(int)
     public final int positionToDayOfWeek(int)
-com.github.florent37.kotlin.pleaseanimate.PleaseAnim$Companion:
-    public final long getDEFAULT_DURATION()
 io.fabric.sdk.android.ActivityLifecycleManager$ActivityLifecycleCallbacksWrapper$1:
     public final synthetic io.fabric.sdk.android.ActivityLifecycleManager$ActivityLifecycleCallbacksWrapper this$0
 com.google.android.gms.internal.measurement.zzag$zzb:
@@ -6153,13 +6154,13 @@ androidx.loader.app.LoaderManagerImpl$LoaderViewModel:
 io.fabric.sdk.android.services.common.CommonUtils$Architecture:
     public static io.fabric.sdk.android.services.common.CommonUtils$Architecture getValue()
 com.kmno.leftorite.ui.activities.AuthActivity$afterCreate$1$1
+androidx.appcompat.widget.ActionMenuView:
+    public final void onMeasureExactFormat(int,int)
 androidx.preference.PreferenceManager:
     public static int getDefaultSharedPreferencesMode()
     public long getNextId()
     public boolean shouldCommit()
     public final void setNoCommit(boolean)
-androidx.appcompat.widget.ActionMenuView:
-    public final void onMeasureExactFormat(int,int)
 com.google.android.gms.ads.identifier.AdvertisingIdClient$zza:
     public final void disconnect()
 mu.internal.KLoggerFactory:
@@ -6360,6 +6361,8 @@ androidx.appcompat.widget.AppCompatSpinner$DropdownPopup$1:
     public final synthetic androidx.appcompat.widget.AppCompatSpinner val$this$0
 android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$5:
     public final synthetic android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase this$0
+com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder:
+    public final com.elconfidencial.bubbleshowcase.BubbleShowCase build()
 com.google.firebase.iid.zzbh:
     public void <init>(android.content.Context,java.lang.String,java.util.concurrent.ScheduledExecutorService)
 android.support.v4.media.MediaBrowserCompat$ItemCallback$StubApi23:
@@ -6550,9 +6553,6 @@ okhttp3.internal.http.RequestLine:
     public final boolean includeAuthorityInRequestLine(okhttp3.Request,java.net.Proxy$Type)
 com.google.android.gms.internal.measurement.zzlg:
     public void <init>(com.google.android.gms.internal.measurement.zzdj)
-com.kmno.leftorite.ui.activities.HomeActivity$getItemsByCategory$2$$special$$inlined$let$lambda$2:
-    public final java.util.List invoke()
-    public final synthetic com.kmno.leftorite.data.api.Resource $networkResource$inlined
 kotlin.jvm.internal.DoubleCompanionObject:
     public static final double MIN_VALUE
     public static final double MAX_VALUE
@@ -6723,6 +6723,8 @@ com.google.android.gms.common.GoogleApiAvailabilityLight:
 android.support.v4.media.session.MediaSessionCompatApi23
 androidx.core.view.ViewPropertyAnimatorCompat$1:
     public final synthetic androidx.core.view.ViewPropertyAnimatorCompat this$0
+com.kmno.leftorite.ui.activities.HomeActivity$getCategories$1$$special$$inlined$let$lambda$2$1:
+    public final void invoke(android.view.View,com.kmno.leftorite.data.model.Category)
 com.google.android.material.textfield.PasswordToggleEndIconDelegate:
     public static synthetic android.text.TextWatcher access$100(com.google.android.material.textfield.PasswordToggleEndIconDelegate)
     public final boolean hasPasswordTransformation()
@@ -6863,8 +6865,6 @@ com.google.android.gms.internal.measurement.zzhk:
     public static com.google.android.gms.internal.measurement.zzhk zzd()
 com.google.firebase.installations.remote.AutoValue_TokenResult:
     public void <init>(java.lang.String,long,com.google.firebase.installations.remote.TokenResult$ResponseCode)
-com.nex3z.notificationbadge.NotificationBadge:
-    public final float dpToPx(int)
 com.google.android.material.bottomnavigation.BottomNavigationView:
     public static synthetic com.google.android.material.bottomnavigation.BottomNavigationView$OnNavigationItemReselectedListener access$000(com.google.android.material.bottomnavigation.BottomNavigationView)
     public static synthetic com.google.android.material.bottomnavigation.BottomNavigationView$OnNavigationItemSelectedListener access$100(com.google.android.material.bottomnavigation.BottomNavigationView)
@@ -7060,6 +7060,9 @@ com.google.android.material.internal.ParcelableSparseIntArray$1:
 androidx.fragment.app.FragmentManagerState$1:
     public androidx.fragment.app.FragmentManagerState createFromParcel(android.os.Parcel)
     public androidx.fragment.app.FragmentManagerState[] newArray(int)
+xyz.hanks.library.bang.DotsView$1:
+    public java.lang.Float get(xyz.hanks.library.bang.DotsView)
+    public void set(xyz.hanks.library.bang.DotsView,java.lang.Float)
 com.google.firebase.installations.local.PersistedInstallation:
     public final org.json.JSONObject readJSONFromFile()
 androidx.lifecycle.SavedStateHandleController:
@@ -7205,6 +7208,24 @@ com.google.android.gms.internal.measurement.zzkc:
 kotlin.collections.AbstractMap:
     public final java.lang.String toString(java.util.Map$Entry)
     public final java.lang.String toString(java.lang.Object)
+com.elconfidencial.bubbleshowcase.BubbleShowCase:
+    public final void notifyDismissToSequenceListener()
+    public final android.widget.RelativeLayout getBackgroundDimLayout()
+    public final void setBackgroundDimListener(android.widget.RelativeLayout)
+    public final boolean isBubbleShowCaseHasBeenShowedPreviously(java.lang.String)
+    public final void registerBubbleShowCaseInPreferences(java.lang.String)
+    public final java.lang.String getString(android.content.SharedPreferences,java.lang.String)
+    public final void setString(android.content.SharedPreferences,java.lang.String,java.lang.String)
+    public final void addTargetViewAtBackgroundDimLayout(android.view.View,android.widget.RelativeLayout)
+    public final void addBubbleMessageViewDependingOnTargetView(android.view.View,com.elconfidencial.bubbleshowcase.BubbleMessageView$Builder,android.widget.RelativeLayout)
+    public final void addBubbleMessageViewOnScreenCenter(com.elconfidencial.bubbleshowcase.BubbleMessageView$Builder,android.widget.RelativeLayout)
+    public final int createViewId()
+    public final android.graphics.Bitmap takeScreenshot(android.view.View,com.elconfidencial.bubbleshowcase.BubbleShowCase$HighlightMode)
+    public final android.graphics.Bitmap takeScreenshotOfLayoutView(android.view.View)
+    public final android.graphics.Bitmap takeScreenshotOfSurfaceView(android.view.View)
+    public final boolean isVisibleOnScreen(android.view.View)
+    public final int getScreenVerticalOffset()
+    public final int getScreenHorizontalOffset()
 com.google.gson.Gson$3:
     public java.lang.Number read(com.google.gson.stream.JsonReader)
     public void write(com.google.gson.stream.JsonWriter,java.lang.Number)
@@ -7488,8 +7509,6 @@ androidx.core.app.SharedElementCallback:
     public static android.graphics.Bitmap createDrawableBitmap(android.graphics.drawable.Drawable)
 com.crashlytics.android.answers.AnswersEventValidator:
     public boolean isFullMap(java.util.Map,java.lang.String)
-com.kmno.leftorite.data.repository.DbRepository$getCategoriesList$2:
-    public int label
 com.google.gson.internal.ConstructorConstructor$9:
     public final synthetic com.google.gson.internal.ConstructorConstructor this$0
 com.google.android.gms.internal.measurement.zzfd:
@@ -7834,6 +7853,8 @@ com.google.gson.internal.Excluder:
     public final boolean isStatic(java.lang.Class)
     public final boolean isValidSince(com.google.gson.annotations.Since)
     public final boolean isValidUntil(com.google.gson.annotations.Until)
+com.kmno.leftorite.utils.Alerts$showBottomSheetWithActionButton$2:
+    public final void invoke(com.irozon.alertview.objects.AlertAction)
 androidx.appcompat.graphics.drawable.DrawableContainer$BlockInvalidateCallback:
     public androidx.appcompat.graphics.drawable.DrawableContainer$BlockInvalidateCallback wrap(android.graphics.drawable.Drawable$Callback)
     public android.graphics.drawable.Drawable$Callback unwrap()
@@ -8184,8 +8205,6 @@ androidx.recyclerview.widget.RecyclerView$RecycledViewPool:
     public void attach()
     public void detach()
     public void onAdapterChanged(androidx.recyclerview.widget.RecyclerView$Adapter,androidx.recyclerview.widget.RecyclerView$Adapter,boolean)
-com.github.florent37.kotlin.pleaseanimate.PleaseAnim$thenCouldYou$1:
-    public final void invoke(com.github.florent37.kotlin.pleaseanimate.PleaseAnim)
 kotlinx.coroutines.sync.SemaphoreKt:
     public static final boolean tryResume(kotlinx.coroutines.CancellableContinuation)
     public static final kotlinx.coroutines.sync.SemaphoreSegment createSegment(long,kotlinx.coroutines.sync.SemaphoreSegment)
@@ -8407,8 +8426,14 @@ com.google.android.gms.measurement.internal.zzfm:
     public final java.lang.String zzb
 io.fabric.sdk.android.services.common.ExecutorUtils$1$1:
     public final synthetic io.fabric.sdk.android.services.common.ExecutorUtils$1 this$0
+xyz.hanks.library.bang.SmallBangView:
+    public static synthetic xyz.hanks.library.bang.CircleView access$000(xyz.hanks.library.bang.SmallBangView)
+    public static synthetic xyz.hanks.library.bang.DotsView access$100(xyz.hanks.library.bang.SmallBangView)
+    public static synthetic android.view.View access$200(xyz.hanks.library.bang.SmallBangView)
+    public final android.view.View findScaleView()
+    public final boolean isScaleView(android.view.View)
 com.kmno.leftorite.utils.Alerts$showBottomSheetWithActionButton$1:
-    public final void invoke(com.irozon.alertview.objects.AlertAction)
+    public final void invoke()
 androidx.exifinterface.media.ExifInterface$ExifTag:
     public boolean isFormatCompatible(int)
 com.crashlytics.android.core.CrashlyticsController$16
@@ -8932,8 +8957,6 @@ com.crashlytics.android.core.CLSUUID:
     public final void populateTime(byte[])
     public final void populateSequenceNumber(byte[])
     public final void populatePID(byte[])
-com.nex3z.notificationbadge.NotificationBadge$hide$2:
-    public final android.view.animation.ScaleAnimation invoke()
 com.google.android.gms.internal.measurement.zzjv:
     public void <init>(com.google.android.gms.internal.measurement.zzdj)
 com.google.android.material.shape.ShapeAppearanceModel:
@@ -9019,7 +9042,8 @@ kotlinx.coroutines.flow.internal.CombineKt:
     public static final kotlinx.coroutines.channels.ReceiveChannel asChannel(kotlinx.coroutines.CoroutineScope,kotlinx.coroutines.flow.Flow)
 com.kmno.leftorite.data.repository.DbRepository:
     public final synthetic java.lang.Object insertCategoryInBackground(java.util.List,kotlin.coroutines.Continuation)
-    public final com.kmno.leftorite.data.api.ApiService api
+    public final void refreshCategoriesOfflineCache(java.util.List)
+    public com.kmno.leftorite.data.db.dao.ItemDao itemDao
 androidx.lifecycle.DispatchQueue:
     public final boolean canRun()
 androidx.constraintlayout.solver.widgets.ConstraintWidgetGroup:
@@ -9066,7 +9090,6 @@ org.slf4j.impl.SimpleLogger:
     public void write(java.lang.StringBuilder,java.lang.Throwable)
     public final java.lang.String getFormattedDate()
     public final java.lang.String computeShortName()
-com.nex3z.notificationbadge.NotificationBadge$update$2
 io.fabric.sdk.android.services.common.AdvertisingInfoReflectionStrategy:
     public boolean isGooglePlayServiceAvailable(android.content.Context)
     public final java.lang.String getAdvertisingId()
@@ -9156,7 +9179,6 @@ com.google.android.gms.common.api.internal.zaah:
     public final void zaam()
 androidx.core.app.ActivityCompat$SharedElementCallback21Impl$1:
     public final synthetic androidx.core.app.ActivityCompat$SharedElementCallback21Impl this$0
-com.nex3z.notificationbadge.NotificationBadge$show$2
 androidx.transition.AnimatorUtils$AnimatorPauseListenerCompat
 androidx.cardview.widget.CardView$1:
     public void setCardBackground(android.graphics.drawable.Drawable)
@@ -9341,6 +9363,13 @@ okhttp3.MediaType:
     public void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String)
 com.google.android.material.datepicker.DateStrings
 androidx.transition.AnimatorUtils
+xyz.hanks.library.bang.DotsView:
+    public final void drawOuterDotsFrame(android.graphics.Canvas)
+    public final void drawInnerDotsFrame(android.graphics.Canvas)
+    public final void updateInnerDotsPosition()
+    public final void updateOuterDotsPosition()
+    public final void updateDotsPaints()
+    public final void updateDotsAlpha()
 coil.memory.ViewTargetRequestManager:
     public final java.util.UUID newRequestId()
 com.google.android.gms.common.internal.zze:
@@ -9391,10 +9420,6 @@ okhttp3.internal.connection.RealConnection:
 androidx.collection.LruCacheKt$lruCache$4:
     public final synthetic int $maxSize
 androidx.recyclerview.widget.ScrollbarHelper
-com.github.florent37.kotlin.pleaseanimate.PleaseAnim:
-    public final void notifyListenerStart()
-    public final void notifyListenerEnd()
-    public final boolean hasDependency(com.github.florent37.kotlin.pleaseanimate.ViewExpectation)
 com.crashlytics.android.core.CrashPromptDialog$AlwaysSendCallback:
     public abstract void sendUserReportsWithoutPrompting(boolean)
 kotlin.sequences.SequencesKt___SequencesKt$zip$1:
@@ -9504,6 +9529,7 @@ androidx.appcompat.widget.SuggestionsAdapter:
     public final android.app.SearchManager mSearchManager
 com.kmno.leftorite.ui.activities.HomeActivity:
     public final com.kmno.leftorite.viewmodels.CategoryBottomSheetViewModel getCategoryBottomSheetViewModel()
+    public final void setUpShowcase()
     public final void setupUserInfo()
     public final void updateUserPointsAndHeaderTitle(java.lang.String)
     public final void setUpCategoriesBottomDialog()
@@ -9511,9 +9537,11 @@ com.kmno.leftorite.ui.activities.HomeActivity:
     public final void getAllItems()
     public final void getCategories()
     public final void getItemsByCategory(com.kmno.leftorite.data.model.Category)
+    public final coil.request.LoadRequest preloadImagesIntoMemory(java.lang.String,android.widget.ImageView)
     public final void setUpItems()
     public final void handleSelectedView(java.lang.String,int,int,android.view.View)
-    public final void setSelectedItem(int,int,android.view.View)
+    public final void setSelectedItem(int,int,android.view.View,android.view.View)
+    public final void likeAnimationAndContinue(java.lang.String,int,android.view.View)
     public final void resetView(android.view.View)
     public final void updateAdapter(int)
 com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton$3:
@@ -9725,8 +9753,6 @@ okhttp3.internal.HostnamesKt:
 kotlinx.coroutines.flow.internal.SafeCollector:
     public final void checkContext(kotlin.coroutines.CoroutineContext,kotlin.coroutines.CoroutineContext,java.lang.Object)
     public final void exceptionTransparencyViolated(kotlinx.coroutines.flow.internal.DownstreamExceptionElement,java.lang.Object)
-com.kmno.leftorite.ui.activities.SettingsActivity$SettingsFragment$onPreferenceTreeClick$2:
-    public final void invoke()
 okhttp3.internal.cache.DiskLruCache$Editor$newSink$$inlined$synchronized$lambda$1:
     public final void invoke(java.io.IOException)
     public final synthetic int $index$inlined
@@ -10151,8 +10177,6 @@ com.google.gson.internal.ConstructorConstructor$4:
     public final synthetic com.google.gson.internal.ConstructorConstructor this$0
 kotlin.coroutines.jvm.internal.DebugMetadataKt:
     public static final kotlin.coroutines.jvm.internal.DebugMetadata getDebugMetadataAnnotation(kotlin.coroutines.jvm.internal.BaseContinuationImpl)
-com.kmno.leftorite.ui.activities.HomeActivity$getCategories$2:
-    public final void onChanged(com.kmno.leftorite.data.api.Resource)
 com.kmno.leftorite.ui.activities.HomeActivity$setUpItemDetailsBottomDialog$1:
     public final void invoke(cn.vove7.bottomdialog.builder.BottomDialogBuilder)
 androidx.cardview.widget.RoundRectDrawable:
@@ -10325,6 +10349,7 @@ android.support.v4.media.MediaBrowserCompat$ConnectionCallback$StubApi21:
     public void onConnectionFailed()
 kotlinx.coroutines.sync.MutexImpl$registerSelectClause2$$inlined$addLastIf$1:
     public final synthetic kotlinx.coroutines.internal.LockFreeLinkedListNode $node
+com.elconfidencial.bubbleshowcase.BubbleMessageView$setBubbleListener$1
 com.crashlytics.android.core.CrashlyticsController$PrivacyDialogCheck$2:
     public final synthetic com.crashlytics.android.core.CrashlyticsController$PrivacyDialogCheck this$0
 retrofit2.ParameterHandler$Headers:
@@ -10394,6 +10419,8 @@ io.fabric.sdk.android.services.concurrency.internal.AbstractFuture:
 com.google.android.material.floatingactionbutton.FloatingActionButtonImpl$InternalVisibilityChangedListener:
     public abstract void onShown()
     public abstract void onHidden()
+com.kmno.leftorite.viewmodels.HomeActivityViewModel:
+    public final com.kmno.leftorite.data.repository.DbRepository dbRepository
 androidx.preference.EditTextPreference:
     public androidx.preference.EditTextPreference$OnBindEditTextListener getOnBindEditTextListener()
 com.google.android.gms.internal.measurement.zzdz:
@@ -10480,6 +10507,9 @@ kotlinx.coroutines.internal.ThreadContextKt$findOne$1:
 com.google.gson.internal.bind.TypeAdapters$EnumTypeAdapter:
     public java.lang.Enum read(com.google.gson.stream.JsonReader)
     public void write(com.google.gson.stream.JsonWriter,java.lang.Enum)
+xyz.hanks.library.bang.SmallBangView$1:
+    public void setValue(android.view.View,float)
+    public java.lang.Float get(android.view.View)
 com.google.gson.internal.LinkedHashTreeMap$EntrySet$1:
     public java.util.Map$Entry next()
     public final synthetic com.google.gson.internal.LinkedHashTreeMap$EntrySet this$1
@@ -10536,6 +10566,8 @@ retrofit2.RequestFactory$Builder:
     public final retrofit2.ParameterHandler parseParameter(int,java.lang.reflect.Type,java.lang.annotation.Annotation[],boolean)
     public final retrofit2.ParameterHandler parseParameterAnnotation(int,java.lang.reflect.Type,java.lang.annotation.Annotation[],java.lang.annotation.Annotation)
     public final void validatePathName(int,java.lang.String)
+xyz.hanks.library.bang.CircleView:
+    public final void updateCircleColor()
 androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat$AnimatedVectorDrawableCompatState:
     public void setupAnimatorSet()
 kotlin.jvm.internal.ClassReference:
@@ -10844,6 +10876,7 @@ com.crashlytics.android.answers.SessionEvent$Builder:
     public com.crashlytics.android.answers.SessionEvent$Builder predefinedType(java.lang.String)
     public com.crashlytics.android.answers.SessionEvent$Builder predefinedAttributes(java.util.Map)
     public com.crashlytics.android.answers.SessionEvent build(com.crashlytics.android.answers.SessionEventMetadata)
+com.elconfidencial.bubbleshowcase.BubbleMessageView$setBubbleListener$2
 okhttp3.internal.connection.RealConnection$connectTls$1:
     public final java.util.List invoke()
 androidx.fragment.app.FragmentManager:
@@ -11006,6 +11039,7 @@ cn.vove7.bottomdialog.builder.ListAdapterBuilder$layoutManager$2:
 com.google.android.gms.common.api.zac:
     public static final java.util.Map zack
     public static final java.lang.Object sLock
+com.kmno.leftorite.utils.Alerts$showBottomSheetWithTwoActionButton$3
 okhttp3.internal.http2.Hpack:
     public final java.util.Map nameToFirstIndex()
 androidx.appcompat.app.AlertController$AlertParams:
@@ -11270,16 +11304,6 @@ android.support.v4.media.session.PlaybackStateCompat$1:
     public android.support.v4.media.session.PlaybackStateCompat[] newArray(int)
 kotlin.random.KotlinRandom:
     public final kotlin.random.Random getImpl()
-com.github.florent37.kotlin.pleaseanimate.ViewExpectation:
-    public final void calculatePosition(com.github.florent37.kotlin.pleaseanimate.ViewCalculator)
-    public final void calculateScale(com.github.florent37.kotlin.pleaseanimate.ViewCalculator)
-    public final void calculateAlpha(com.github.florent37.kotlin.pleaseanimate.ViewCalculator)
-    public final void calculate3DTransforms(com.github.florent37.kotlin.pleaseanimate.ViewCalculator)
-    public final void calculateRotation(com.github.florent37.kotlin.pleaseanimate.ViewCalculator)
-    public final void calculateCustom(com.github.florent37.kotlin.pleaseanimate.ViewCalculator)
-    public java.lang.Float willHaveRotationX
-    public java.lang.Float willHaveRotationY
-    public java.lang.Float willHaveCameraDistance
 io.fabric.sdk.android.services.network.DefaultHttpRequestFactory$1
 androidx.core.provider.SelfDestructiveThread$3:
     public final synthetic androidx.core.provider.SelfDestructiveThread this$0
@@ -11984,9 +12008,6 @@ androidx.transition.ViewUtilsApi21:
     public static void <clinit>()
 org.koin.core.context.KoinContextHandler:
     public final org.koin.core.context.KoinContext getContext()
-com.kmno.leftorite.ui.activities.HomeActivity$getCategories$2$$special$$inlined$let$lambda$2:
-    public final void invoke(com.link184.kidadapter.simple.SingleKidAdapterConfiguration)
-    public final synthetic com.kmno.leftorite.data.api.Resource $networkResource$inlined
 com.kmno.leftorite.data.api.ApiClientProvider$okHttpClient$2:
     public final okhttp3.OkHttpClient invoke()
 androidx.preference.PreferenceInflater:
@@ -12063,7 +12084,7 @@ com.google.android.gms.common.api.internal.zax:
     public final boolean zaa(com.google.android.gms.common.api.internal.zaw,com.google.android.gms.common.ConnectionResult)
     public final com.google.android.gms.common.ConnectionResult zaaf()
 com.kmno.leftorite.ui.activities.HomeActivity$getCategories$1:
-    public final void onChanged(java.util.List)
+    public final void onChanged(com.kmno.leftorite.data.api.Resource)
 com.google.android.material.internal.CollapsingTextHelper:
     public static boolean isClose(float,float)
     public final void getTextPaintExpanded(android.text.TextPaint)
@@ -12189,6 +12210,9 @@ androidx.core.content.res.FontResourcesParserCompat:
     public static androidx.core.content.res.FontResourcesParserCompat$FontFileResourceEntry readFont(org.xmlpull.v1.XmlPullParser,android.content.res.Resources)
 com.crashlytics.android.core.CrashlyticsController$21:
     public final synthetic com.crashlytics.android.core.CrashlyticsController this$0
+com.kmno.leftorite.ui.activities.HomeActivity$getCategories$1$$special$$inlined$let$lambda$2:
+    public final void invoke(com.link184.kidadapter.simple.SingleKidAdapterConfiguration)
+    public final synthetic com.kmno.leftorite.data.api.Resource $networkResource$inlined
 com.google.android.material.datepicker.MaterialCalendar$OnDayClickListener:
     public abstract void onDayClick(long)
 androidx.appcompat.widget.DropDownListView$ResolveHoverRunnable:
@@ -12234,6 +12258,8 @@ coil.transition.CrossfadeTransition$Callback:
 com.google.gson.internal.bind.TypeAdapters$15:
     public java.lang.Character read(com.google.gson.stream.JsonReader)
     public void write(com.google.gson.stream.JsonWriter,java.lang.Character)
+com.kmno.leftorite.ui.activities.HomeActivity$setUpShowcase$2:
+    public final void invoke()
 com.google.android.gms.internal.measurement.zzkb:
     public void <init>(com.google.android.gms.internal.measurement.zzdj)
 com.google.android.material.datepicker.RangeDateSelector$3:
@@ -12452,12 +12478,6 @@ com.google.gson.internal.LinkedTreeMap:
     public com.google.gson.internal.LinkedTreeMap$Node removeInternalByKey(java.lang.Object)
     public final boolean equal(java.lang.Object,java.lang.Object)
     public static final synthetic boolean $assertionsDisabled
-com.github.florent37.kotlin.pleaseanimate.ViewCalculator:
-    public final float widthScaled(com.github.florent37.kotlin.pleaseanimate.ViewExpectation,float)
-    public final float widthRotated(com.github.florent37.kotlin.pleaseanimate.ViewExpectation,android.view.View,float)
-    public final float heightScaled(com.github.florent37.kotlin.pleaseanimate.ViewExpectation,float)
-    public final float heightRotated(com.github.florent37.kotlin.pleaseanimate.ViewExpectation,android.view.View,float)
-    public final boolean enableScale
 com.google.gson.internal.bind.TypeAdapters$8:
     public java.util.concurrent.atomic.AtomicInteger read(com.google.gson.stream.JsonReader)
     public void write(com.google.gson.stream.JsonWriter,java.util.concurrent.atomic.AtomicInteger)
@@ -12678,6 +12698,8 @@ androidx.lifecycle.ProcessLifecycleOwner:
     public void attach(android.content.Context)
 retrofit2.converter.scalars.ScalarResponseBodyConverters$ByteResponseBodyConverter:
     public java.lang.Byte convert(okhttp3.ResponseBody)
+com.kmno.leftorite.core.App$newImageLoader$1:
+    public final okhttp3.OkHttpClient invoke()
 androidx.customview.view.AbsSavedState$2:
     public androidx.customview.view.AbsSavedState createFromParcel(android.os.Parcel,java.lang.ClassLoader)
     public androidx.customview.view.AbsSavedState createFromParcel(android.os.Parcel)
@@ -12719,6 +12741,7 @@ com.google.firebase.analytics.connector.internal.zze:
 com.google.android.gms.measurement.module.Analytics:
     public final com.google.android.gms.measurement.internal.zzfy zzb
 com.google.android.gms.internal.measurement.zzbx
+com.kmno.leftorite.utils.Alerts$showBottomSheetWithTwoActionButton$4
 com.google.android.gms.dynamite.DynamiteModule$zzb:
     public final int zziq
 coil.collection.GroupedLinkedMap:
@@ -12733,6 +12756,8 @@ com.google.firebase.heartbeatinfo.HeartBeatInfoStorage:
     public static synchronized com.google.firebase.heartbeatinfo.HeartBeatInfoStorage getInstance(android.content.Context)
     public static void <clinit>()
     public synchronized boolean shouldSendGlobalHeartBeat(long)
+com.kmno.leftorite.ui.activities.HomeActivity$setUpShowcase$1:
+    public final void invoke()
 com.google.android.gms.measurement.internal.zzq:
     public void <init>(com.google.android.gms.measurement.internal.zzo,java.lang.String)
     public void <init>(com.google.android.gms.measurement.internal.zzo,java.lang.String,com.google.android.gms.internal.measurement.zzcb$zzi,java.util.BitSet,java.util.BitSet,java.util.Map,java.util.Map)
@@ -12750,6 +12775,8 @@ com.google.android.material.internal.NavigationMenuPresenter$NavigationMenuAdapt
     public void setUpdateSuspended(boolean)
     public int getRowCount()
     public final void appendTransparentIconIfMissing(int,int)
+com.kmno.leftorite.data.db.dao.ItemDao_Impl:
+    public final androidx.room.RoomDatabase __db
 okio.Throttler:
     public final long nanosToBytes(long)
     public final void waitNanos(long)
@@ -12878,8 +12905,6 @@ androidx.appcompat.view.menu.MenuBuilder:
     public final androidx.appcompat.view.menu.MenuItemImpl createNewMenuItem(int,int,int,int,java.lang.CharSequence,int)
 retrofit2.OptionalConverterFactory$OptionalConverter:
     public java.util.Optional convert(okhttp3.ResponseBody)
-com.github.florent37.kotlin.pleaseanimate.core.alpha.PleaseAnimAlphaManager$getAnimators$$inlined$let$lambda$3:
-    public final synthetic java.util.List $animations$inlined
 androidx.appcompat.widget.ThemeUtils:
     public static android.util.TypedValue getTypedValue()
     public static int getThemeAttrColor(android.content.Context,int,float)
@@ -13109,6 +13134,9 @@ androidx.core.content.pm.ShortcutManagerCompat:
     public static void <clinit>()
 com.kmno.leftorite.ui.activities.HomeActivity$setUpCategoriesBottomDialog$1:
     public final void invoke(cn.vove7.bottomdialog.builder.BottomDialogBuilder)
+xyz.hanks.library.bang.CircleView$1:
+    public java.lang.Float get(xyz.hanks.library.bang.CircleView)
+    public void set(xyz.hanks.library.bang.CircleView,java.lang.Float)
 com.google.android.gms.common.api.internal.zaz:
     public void <init>(com.google.android.gms.common.api.internal.zax)
 androidx.appcompat.graphics.drawable.AnimatedStateListDrawableCompat$AnimatedStateListState:
@@ -13708,8 +13736,6 @@ androidx.appcompat.app.AppCompatDelegate:
     public static void applyDayNightToActiveDelegates()
 androidx.core.view.inputmethod.EditorInfoCompat:
     public static int getProtocol(android.view.inputmethod.EditorInfo)
-com.github.florent37.kotlin.pleaseanimate.core.alpha.PleaseAnimAlphaManager$getAnimators$$inlined$let$lambda$2:
-    public final synthetic java.util.List $animations$inlined
 com.google.android.gms.security.zza:
     public final varargs java.lang.Integer zza()
 kotlinx.coroutines.ThreadPoolDispatcher$executor$1:
@@ -14365,8 +14391,6 @@ androidx.core.view.ViewCompat:
     public static boolean sMinWidthFieldFetched
     public static java.lang.reflect.Field sMinHeightField
     public static boolean sMinHeightFieldFetched
-com.github.florent37.kotlin.pleaseanimate.core.alpha.PleaseAnimAlphaManager$getAnimators$$inlined$let$lambda$1:
-    public final synthetic java.util.List $animations$inlined
 androidx.core.os.CancellationSignal:
     public final void waitForCancelFinishedLocked()
 com.google.gson.GsonBuilder:
@@ -14551,11 +14575,13 @@ com.google.android.material.transformation.ExpandableBehavior:
 -$$LambdaGroup$js$x-3DlT_bP5BDhGSv2fm3FQGhKZA:
     public final void onChanged(com.kmno.leftorite.data.api.Resource)
 -$$LambdaGroup$ks$PZMriiU-RfFUkbHb84Bx1f9U01k:
+    public final void invoke()
+-$$LambdaGroup$ks$ZeRNz4R_Fr6iBGuJbB0qBk7gDWM:
     public final void invoke(com.irozon.alertview.objects.AlertAction)
 -$$LambdaGroup$ks$JkpVencFNo8TVGobidHnoMaH45k:
+    public final void invoke()
+-$$LambdaGroup$ks$cytk843wS8h2VcAinnlZHUrQ-Es:
     public final void invoke(com.irozon.alertview.objects.AlertAction)
--$$LambdaGroup$ks$s_SZUcVpi8eDUongm0J-a1Dq3lc:
-    public final android.view.animation.ScaleAnimation invoke()
 -$$LambdaGroup$ks$QfC1OsU7PuNCodiK58NeMQnxOoE:
     public final java.lang.Void invoke()
 -$$LambdaGroup$ks$pwVtDOF2QycU93vtnS_5uF3D-Lg:

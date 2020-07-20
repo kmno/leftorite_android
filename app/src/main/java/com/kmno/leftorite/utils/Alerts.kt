@@ -13,6 +13,7 @@ import com.irozon.alertview.AlertStyle
 import com.irozon.alertview.AlertView
 import com.irozon.alertview.objects.AlertAction
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.ui.base.BaseActivity
 
 /**
@@ -66,18 +67,61 @@ object Alerts {
         alert?.show(activity)
     }
 
+    fun showVersionAlertDialogWithTwoActionButton(
+        title: String,
+        msg: String,
+        actionPositiveTitle: String = App.resourcesCtx.getString(R.string.update_now),
+        actionNegativeTitle: String = App.resourcesCtx.getString(R.string.update_later),
+        actionPositiveCallback: () -> Unit = {},
+        actionNegativeCallback: () -> Unit = {},
+        activity: BaseActivity
+    ) {
+        alert = AlertView(title, msg, AlertStyle.DIALOG)
+        alert?.addAction(
+            AlertAction(
+                actionPositiveTitle,
+                AlertActionStyle.POSITIVE
+            ) { actionPositiveCallback() })
+        alert?.addAction(
+            AlertAction(
+                actionNegativeTitle,
+                AlertActionStyle.NEGATIVE
+            ) { actionNegativeCallback() })
+        alert?.show(activity)
+    }
+
     fun showBottomSheetWithActionButton(
         title: String, msg: String = default_message,
         actionPositiveTitle: String = default_positive_button_text,
         actionPositiveCallback: () -> Unit = {},
         activity: BaseActivity
     ) {
-        alert = AlertView(title, msg, AlertStyle.BOTTOM_SHEET)
-        alert?.addAction(
-            AlertAction(
-                actionPositiveTitle,
-                AlertActionStyle.DEFAULT
-            ) { actionPositiveCallback() })
+        alert = AlertView(title, msg, AlertStyle.IOS)
+        if (actionPositiveTitle.isNotEmpty()) {
+            alert?.addAction(
+                AlertAction(
+                    actionPositiveTitle,
+                    AlertActionStyle.NEGATIVE
+                ) { actionPositiveCallback() })
+        }
+        alert?.show(activity)
+    }
+
+    fun showBottomSheetErrorWithActionButton(
+        title: String = App.resourcesCtx.getString(R.string.network_request_error_title),
+        msg: String = App.resourcesCtx.getString(R.string.network_request_error_msg),
+        actionPositiveTitle: String = "",
+        actionPositiveCallback: () -> Unit = {},
+        activity: BaseActivity
+    ) {
+        alert = AlertView(title, msg, AlertStyle.IOS)
+        if (actionPositiveTitle.isNotEmpty()) {
+            alert?.addAction(
+                AlertAction(
+                    actionPositiveTitle,
+                    AlertActionStyle.NEGATIVE
+                ) { actionPositiveCallback() })
+        }
         alert?.show(activity)
     }
 
@@ -88,7 +132,7 @@ object Alerts {
         actionPositiveCallback: () -> Unit = {}, actionNegativeCallback: () -> Unit = {},
         activity: BaseActivity
     ) {
-        alert = AlertView(title, msg, AlertStyle.BOTTOM_SHEET)
+        alert = AlertView(title, msg, AlertStyle.IOS)
         alert?.addAction(
             AlertAction(
                 actionPositiveTitle,
@@ -141,15 +185,10 @@ object Alerts {
     }
 
     fun dismissFlashbar() {
-        if (flashbar != null) {
-            // if (flashbar!!.isShowing())
-            flashbar?.dismiss()
-        }
+        if (flashbar != null) flashbar?.dismiss()
     }
 
     fun dismissProgressFlashbar() {
-        if (flashbarProgress != null) {
-            flashbarProgress?.dismiss()
-        }
+        if (flashbarProgress != null) flashbarProgress?.dismiss()
     }
 }

@@ -25,8 +25,13 @@ data class Category(
     @PrimaryKey
     @ColumnInfo(name = "id")
     var id: Int,
-
     @SerializedName("title")
     @ColumnInfo(name = "title")
-    var title: String
+    var title: String,
+    @SerializedName("is_active")
+    @ColumnInfo(name = "is_active")
+    var is_active: Int,
+    @SerializedName("is_new")
+    @ColumnInfo(name = "is_new")
+    var is_new: Int
 )

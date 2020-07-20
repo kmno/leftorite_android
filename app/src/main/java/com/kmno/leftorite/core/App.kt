@@ -9,6 +9,7 @@ package com.kmno.leftorite.core
 
 import android.app.Activity
 import android.app.Application
+import android.content.res.Resources
 import android.os.Bundle
 import coil.Coil
 import coil.ImageLoader
@@ -32,7 +33,9 @@ import org.koin.core.logger.Level
  */
 open class App : Application(), ImageLoaderFactory, Application.ActivityLifecycleCallbacks {
 
-    companion object : KLogging()
+    companion object : KLogging() {
+        lateinit var resourcesCtx: Resources
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -45,7 +48,7 @@ open class App : Application(), ImageLoaderFactory, Application.ActivityLifecycl
                 apiModule
             )
         }
-
+        resourcesCtx = resources
         Coil.setImageLoader(newImageLoader())
         registerActivityLifecycleCallbacks(this)
     }

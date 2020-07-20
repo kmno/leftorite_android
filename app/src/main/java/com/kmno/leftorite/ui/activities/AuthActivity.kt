@@ -14,8 +14,8 @@ import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.User
 import com.kmno.leftorite.ui.base.BaseActivity
-import com.kmno.leftorite.utils.Alerts.dismissFlashbar
-import com.kmno.leftorite.utils.Alerts.showAlertDialogWithDefaultButton
+import com.kmno.leftorite.utils.Alerts
+import com.kmno.leftorite.utils.Alerts.dismissProgressFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbarWithProgress
 import com.kmno.leftorite.utils.launchActivity
@@ -60,26 +60,28 @@ class AuthActivity : BaseActivity() {
                                     status?.let {
                                         when (it) {
                                             true -> {
-                                                dismissFlashbar()
+                                                dismissProgressFlashbar()
                                                 authActivityViewModel.storeUserPrefs(networkResource.data as User)
                                                 authActivityViewModel.setLoggedInPref(true)
                                                 this.launchActivity<HomeActivity>(finish = true)
                                             }
                                             false -> {
-                                                showAlertDialogWithDefaultButton(
-                                                    "Error",
-                                                    networkResource.message!!,
-                                                    "Try Again",
-                                                    this
+                                                dismissProgressFlashbar()
+                                                Alerts.showBottomSheetErrorWithActionButton(
+                                                    msg = networkResource.message!!,
+                                                    actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                                    activity = this
                                                 )
                                             }
                                         }
                                     }
                                 }
                                 State.ERROR -> {
-                                    showAlertDialogWithDefaultButton(
-                                        "Error",
-                                        networkResource.message!!, "Try Again", this
+                                    dismissProgressFlashbar()
+                                    Alerts.showBottomSheetErrorWithActionButton(
+                                        msg = networkResource.message!!,
+                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                        activity = this
                                     )
                                 }
                             }
@@ -99,28 +101,28 @@ class AuthActivity : BaseActivity() {
                                     status?.let {
                                         when (it) {
                                             true -> {
-                                                val user = networkResource.data as User
-                                                authActivityViewModel.storeUserPrefs(user)
+                                                dismissProgressFlashbar()
+                                                authActivityViewModel.storeUserPrefs(networkResource.data as User)
                                                 authActivityViewModel.setLoggedInPref(true)
                                                 this.launchActivity<HomeActivity>(finish = true)
                                             }
                                             false -> {
-                                                showAlertDialogWithDefaultButton(
-                                                    "Error",
-                                                    networkResource.message!!,
-                                                    "Try Again",
-                                                    this
+                                                dismissProgressFlashbar()
+                                                Alerts.showBottomSheetErrorWithActionButton(
+                                                    msg = networkResource.message!!,
+                                                    actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                                    activity = this
                                                 )
                                             }
                                         }
-
                                     }
                                 }
                                 State.ERROR -> {
-                                    showAlertDialogWithDefaultButton(
-                                        "Error",
-                                        networkResource.message!!,
-                                        "Try Again", this
+                                    dismissProgressFlashbar()
+                                    Alerts.showBottomSheetErrorWithActionButton(
+                                        msg = networkResource.message!!,
+                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                        activity = this
                                     )
                                 }
                             }

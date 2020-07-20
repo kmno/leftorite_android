@@ -22,13 +22,19 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.eazypermissions.common.model.PermissionResult
 import com.eazypermissions.dsl.extension.requestPermissions
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.kmno.leftorite.R
 import com.kmno.leftorite.core.App
 import com.kmno.leftorite.utils.Alerts.dismissFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbar
+import render.animations.Render
 
 
 abstract class BaseActivity : AppCompatActivity() {
+
+    private val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
+    open lateinit var render: Render
 
     companion object {
         var isNetworkAvailable: Boolean = false
@@ -37,7 +43,9 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getResId())
+        render = Render(this)
         afterCreate()
+        checkPlayServices()
 
         val root = window.decorView
         val vto = root.viewTreeObserver
@@ -115,6 +123,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        checkPlayServices()
         resume()
     }
 
@@ -177,5 +186,27 @@ abstract class BaseActivity : AppCompatActivity() {
         win.attributes = winParams
     }
 
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private fun checkPlayServices(): Boolean {
+        val apiAvailability = GoogleApiAvailability.getInstance()
+        val resultCode = apiAvailability.isGooglePlayServicesAvailable(this)
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(
+                    this, resultCode,
+                    PLAY_SERVICES_RESOLUTION_REQUEST
+                )
+                    .show()
+            } else {
+                finish()
+            }
+            return false
+        }
+        return true
+    }
 
 }

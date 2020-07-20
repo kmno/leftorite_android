@@ -13,10 +13,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.elconfidencial.bubbleshowcase.BubbleShowCase
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
 import com.kmno.leftorite.R
 import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
-import com.kmno.leftorite.data.model.Item
+import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.data.repository.DbRepository
 import com.kmno.leftorite.ui.activities.HomeActivity
 import com.kmno.leftorite.utils.ShowCase
@@ -36,14 +37,23 @@ class HomeActivityViewModel(
 
     private val api = apiProvider.createApiClient()
 
-    var items = emptyList<Item>()
-    var pairs = emptyList<Any>()
-
     init {
     }
 
     fun checkIfWelcomeDialogIsShown(): Boolean {
         return ShowCase.welcomeDialogIsShown
+    }
+
+    fun getLastSelectedCategoryIndex(): Int {
+        return UserInfo.lastSelectedCategoryIndex
+    }
+
+    fun getLastSelectedCategoryObject(): Category {
+        return Category(
+            UserInfo.lastSelectedCategoryId,
+            UserInfo.lastSelectedCategoryTitle,
+            1, 0
+        )
     }
 
     fun setWelcomeDialogIsShown() {
@@ -58,7 +68,8 @@ class HomeActivityViewModel(
         _activity: HomeActivity,
         _targetView: View? = null,
         _title: String,
-        _desc: String
+        _desc: String,
+        closeAction: () -> Unit = {}
     ): BubbleShowCaseBuilder {
         val build = BubbleShowCaseBuilder(_activity) //Activity instance
             .title(_title) //Any title for the bubble view
@@ -70,6 +81,25 @@ class HomeActivityViewModel(
             .imageResourceId(R.mipmap.ic_launcher_round) //Bubble main image
             .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
             .closeActionImageResourceId(R.drawable.ic_cancel)
+            .listener(object : BubbleShowCaseListener { //Listener for user actions
+                override fun onTargetClick(bubbleShowCase: BubbleShowCase) {
+                    //Called when the user clicks the target
+                    closeAction()
+                }
+
+                override fun onCloseActionImageClick(bubbleShowCase: BubbleShowCase) {
+                    //Called when the user clicks the close button
+                    closeAction()
+                }
+
+                override fun onBubbleClick(bubbleShowCase: BubbleShowCase) {
+                    //Called when the user clicks on the bubble
+                }
+
+                override fun onBackgroundDimClick(bubbleShowCase: BubbleShowCase) {
+                    //Called when the user clicks on the background dim
+                }
+            })
         _targetView.let {
             it?.let { view -> build.targetView(view) }
         }
@@ -109,25 +139,6 @@ class HomeActivityViewModel(
             )
         }
     }
-
-
-    /*fun selectAllItems() = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val response = dbRepository.getAllItemsList()
-            App.logger.error(response.toString())
-            emit(response)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(
-                Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            )
-        }
-    }*/
 
     //get items list based on selected category
     fun getItemsByCategory(categoryId: Int) = liveData(Dispatchers.IO) {

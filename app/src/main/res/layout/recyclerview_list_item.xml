@@ -31,10 +31,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-10dp"
             app:circle_end_color="@color/primaryLightColor"
             app:circle_start_color="@color/colorPrimaryDark"
-            app:dots_primary_color="@color/secondaryColor"
-            app:dots_secondary_color="@color/secondaryDarkColor">
+            app:dots_primary_color="@color/colorPrimary"
+            app:dots_secondary_color="@color/colorPrimaryDark">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
@@ -72,10 +73,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-10dp"
             app:circle_end_color="@color/primaryLightColor"
             app:circle_start_color="@color/colorPrimaryDark"
-            app:dots_primary_color="@color/secondaryColor"
-            app:dots_secondary_color="@color/secondaryDarkColor">
+            app:dots_primary_color="@color/colorPrimary"
+            app:dots_secondary_color="@color/colorPrimaryDark">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"

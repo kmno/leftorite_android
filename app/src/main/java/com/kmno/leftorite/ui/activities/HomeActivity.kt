@@ -25,7 +25,10 @@ import coil.request.LoadRequest
 import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.core.Constants
 import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.Category
@@ -35,6 +38,7 @@ import com.kmno.leftorite.ui.builders.CategoriesViewBuilder
 import com.kmno.leftorite.ui.builders.ItemDetailsViewBuilder
 import com.kmno.leftorite.ui.listeners.OnSwipeTouchListener
 import com.kmno.leftorite.utils.Alerts
+import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.UserInfo
 import com.kmno.leftorite.utils.launchActivity
 import com.kmno.leftorite.viewmodels.CategoryBottomSheetViewModel
@@ -50,14 +54,14 @@ import kotlinx.android.synthetic.main.recyclerview_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import xyz.hanks.library.bang.SmallBangView
 
-
 @Suppress("UNCHECKED_CAST")
 class HomeActivity : BaseActivity() {
 
     private val homeActivityViewModel: HomeActivityViewModel by viewModel()
     private val categoryBottomSheetViewModel: CategoryBottomSheetViewModel by viewModel()
 
-    private lateinit var adapter: SingleKidAdapter<Any>
+    private lateinit var itemsAdapter: SingleKidAdapter<Any>
+    private lateinit var categoriesAdapter: SingleKidAdapter<Category>
     private var allItems = mutableListOf<Item>()
     private var allPairs = mutableListOf<Any>()
 
@@ -76,6 +80,9 @@ class HomeActivity : BaseActivity() {
 
         //set screen as fullscreen and change statusbar theme
         setUpScreen()
+
+        //set config params
+        setUpConfigValues()
 
         //show user avatar and points
         setupUserInfo()
@@ -103,11 +110,42 @@ class HomeActivity : BaseActivity() {
         //setting page
         more.setOnClickListener { this.launchActivity<SettingsActivity> {} }
 
+        //generate fcm token for push notifications
+        generateFCMToken()
+
+        //render.setAnimation(Bounce().InDown(header_title_layout))
+        // render.setAnimation(Attention().Swing(header_title_layout))
+        //render.start()
+
+    }
+
+    //TODO: set retrieved config values and messages
+    private fun setUpConfigValues() {
+        ConfigPref.let {
+            header_title.text = it.top_text
+            category_text.text = it.bottom_text
+        }
+    }
+
+    private fun showNewMessagesDialog() {
+        if (ConfigPref.new_msg_id != UserInfo.latestMsgId) {
+            UserInfo.latestMsgId = ConfigPref.new_msg_id
+            Alerts.showAlertDialogWithDefaultButton(
+                title = ConfigPref.new_msg_title,
+                msg = ConfigPref.new_msg_content,
+                action = getString(R.string.new_message_button_text),
+                activity = this
+            )
+        }
     }
 
     override fun ready() {
         //show app usage tips
         setUpShowcase()
+
+        //show message dialog after the showcase
+        if (homeActivityViewModel.checkIfWelcomeDialogIsShown())
+            showNewMessagesDialog()
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -116,7 +154,9 @@ class HomeActivity : BaseActivity() {
             Alerts.showAlertDialogWithTwoActionButton(getString(R.string.welcome),
                 getString(R.string.welcome_description),
                 getString(R.string.letsgo), getString(R.string.show_me_how),
-                {}, {
+                {
+                    showNewMessagesDialog()
+                }, {
                     BubbleShowCaseSequence()
                         .addShowCase(
                             homeActivityViewModel.showCaseBuilder(
@@ -154,7 +194,10 @@ class HomeActivity : BaseActivity() {
                                 this,
                                 change_category_layout,
                                 getString(R.string.categories_list),
-                                getString(R.string.categories_list_description)
+                                getString(R.string.categories_list_description),
+                                closeAction = {
+                                    showNewMessagesDialog()
+                                }
                             )
                         )
                         .show()
@@ -168,7 +211,7 @@ class HomeActivity : BaseActivity() {
 
     //TODO: initial setups
     private fun setupUserInfo() {
-        category_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}.jpg") {
+        category_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}") {
             crossfade(true)
             diskCachePolicy(CachePolicy.ENABLED)
             allowHardware(false)
@@ -245,27 +288,27 @@ class HomeActivity : BaseActivity() {
                             true -> {
                                 showProgress(false)
                                 networkResource.data?.let { response ->
-                                    current_category_text.text = "All"
+                                    current_category_text.text = UserInfo.lastSelectedCategoryTitle
                                     allItems = response.items as MutableList<Item>
                                     allPairs = response.finalPairs as MutableList<Any>
                                     setUpItems()
                                 }
                             }
                             false -> {
-                                Alerts.showAlertDialogWithDefaultButton(
-                                    "Error",
-                                    networkResource.message!!,
-                                    "Try Again",
-                                    this
+                                Alerts.showBottomSheetErrorWithActionButton(
+                                    msg = networkResource.message!!,
+                                    actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                    activity = this
                                 )
                             }
                         }
                     }
                 }
                 State.ERROR -> {
-                    Alerts.showAlertDialogWithDefaultButton(
-                        "Error",
-                        networkResource.message!!, "Try Again", this
+                    Alerts.showBottomSheetErrorWithActionButton(
+                        msg = networkResource.message!!,
+                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                        activity = this
                     )
                 }
             }
@@ -273,65 +316,77 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun getCategories() {
-        categoryBottomSheetViewModel.selectAllCategories().observe(this, Observer { networkResource ->
-            when (networkResource?.state) {
-                State.LOADING -> {
-                    categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
-                        View.VISIBLE
-                }
-                State.SUCCESS -> {
-                    val status = networkResource.status
-                    status?.let {
-                        when (it) {
-                            true -> {
-                                categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
-                                    View.GONE
-                                networkResource.data?.let { response ->
-                                    categoriesLoaded = true
-                                    categoryBottomDialog.contentView.categories_recyclerview.run {
-                                        this.visibility = View.VISIBLE
-                                        this.setUp<Category> {
-                                            withLayoutManager(GridLayoutManager(context, 2))
-                                            withLayoutResId(R.layout.recyclerview_list_category)
-                                            withItems(response as MutableList<Category>)
-                                            bindIndexed { category, _ ->
-                                                category_avatar.load("${Constants.categoryImageUrl}${category.id}.png") {
-                                                    crossfade(true)
-                                                    placeholder(R.color.colorPrimaryDark)
-                                                }
-                                                category_title.text = category.title
-                                                setOnClickListener {
-                                                    getItemsByCategory(category)
-                                                    categoryBottomDialog.dismiss()
+        categoryBottomSheetViewModel.selectAllCategories()
+            .observe(this, Observer { networkResource ->
+                when (networkResource?.state) {
+                    State.LOADING -> {
+                        categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                            View.VISIBLE
+                    }
+                    State.SUCCESS -> {
+                        val status = networkResource.status
+                        status?.let {
+                            when (it) {
+                                true -> {
+                                    categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                                        View.GONE
+                                    networkResource.data?.let { response ->
+                                        categoriesLoaded = true
+                                        categoryBottomDialog.contentView.categories_recyclerview.run {
+                                            this.visibility = View.VISIBLE
+                                            categoriesAdapter = this.setUp<Category> {
+                                                withLayoutManager(GridLayoutManager(context, 2))
+                                                withLayoutResId(R.layout.recyclerview_list_category)
+                                                withItems(response as MutableList<Category>)
+                                                bindIndexed { category, index ->
+                                                    category_avatar.load("${Constants.categoryImageUrl}${category.id}.png") {
+                                                        crossfade(true)
+                                                        placeholder(R.color.colorPrimaryDark)
+                                                    }
+                                                    category_title.text = category.title
+                                                    category_new_badge.visibility = View.GONE
+                                                    category_layout.setBackgroundResource(R.drawable.category_circular_item)
+                                                    if (index == UserInfo.lastSelectedCategoryIndex)
+                                                        category_layout.setBackgroundResource(R.drawable.category_circular_item_selected)
+                                                    if (category.is_new == 1) category_new_badge.visibility =
+                                                        View.VISIBLE
+                                                    setOnClickListener {
+                                                        UserInfo.lastSelectedCategoryIndex = index
+                                                        UserInfo.lastSelectedCategoryId =
+                                                            category.id
+                                                        UserInfo.lastSelectedCategoryTitle =
+                                                            category.title
+                                                        getItemsByCategory(category)
+                                                        categoryBottomDialog.dismiss()
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            false -> {
-                                categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
-                                    View.GONE
-                                Alerts.showAlertDialogWithDefaultButton(
-                                    "Error",
-                                    networkResource.message!!,
-                                    "Try Again",
-                                    this
-                                )
+                                false -> {
+                                    categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                                        View.GONE
+                                    Alerts.showBottomSheetErrorWithActionButton(
+                                        msg = networkResource.message!!,
+                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                        activity = this
+                                    )
+                                }
                             }
                         }
                     }
+                    State.ERROR -> {
+                        categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
+                            View.GONE
+                        Alerts.showBottomSheetErrorWithActionButton(
+                            msg = networkResource.message!!,
+                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                            activity = this
+                        )
+                    }
                 }
-                State.ERROR -> {
-                    categoryBottomDialog.contentView.bottom_sheet_progress_bar.visibility =
-                        View.GONE
-                    Alerts.showAlertDialogWithDefaultButton(
-                        "Error",
-                        networkResource.message!!, "Try Again", this
-                    )
-                }
-            }
-        })
+            })
 
         /* categoryBottomSheetViewModel.getCategories().observe(this, Observer { networkResource ->
              when (networkResource.state) {
@@ -397,12 +452,14 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun getItemsByCategory(_category: Category) {
-        adapter update {
-            it.removeAll(it)
-            adapter.clear()
-            allItems.clear()
-            allPairs.clear()
-        }
+        if (this::categoriesAdapter.isInitialized) categoriesAdapter.notifyDataSetChanged()
+        if (this::itemsAdapter.isInitialized)
+            itemsAdapter update {
+                it.removeAll(it)
+                itemsAdapter.clear()
+                allItems.clear()
+                allPairs.clear()
+            }
         homeActivityViewModel.getItemsByCategory(_category.id)
             .observe(this, Observer { networkResource ->
                 when (networkResource.state) {
@@ -423,20 +480,20 @@ class HomeActivity : BaseActivity() {
                                     }
                                 }
                                 false -> {
-                                    Alerts.showAlertDialogWithDefaultButton(
-                                        "Error",
-                                        networkResource.message!!,
-                                        "Try Again",
-                                        this
+                                    Alerts.showBottomSheetErrorWithActionButton(
+                                        msg = networkResource.message!!,
+                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                        activity = this
                                     )
                                 }
                             }
                         }
                     }
                     State.ERROR -> {
-                        Alerts.showAlertDialogWithDefaultButton(
-                            "Error",
-                            networkResource.message!!, "Try Again", this
+                        Alerts.showBottomSheetErrorWithActionButton(
+                            msg = networkResource.message!!,
+                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                            activity = this
                         )
                     }
                 }
@@ -453,11 +510,10 @@ class HomeActivity : BaseActivity() {
 
     //TODO: adapters and select handlers
     private fun setUpItems() {
-        adapter = recyclerView.setUp<Any> {
+        itemsAdapter = recyclerView.setUp<Any> {
             withLayoutResId(R.layout.recyclerview_list_item)
             withItems(allPairs)
             bindIndexed { pair, position ->
-
                 with(pair as ArrayList<*>) {
                     (this[0] as Int).let { leftItemIndex ->
                         imageLoader(context).execute(
@@ -698,11 +754,10 @@ class HomeActivity : BaseActivity() {
                                 }
                                 false -> {
                                     resetView(_selectedView)
-                                    Alerts.showAlertDialogWithDefaultButton(
-                                        "Error",
-                                        networkResource.message!!,
-                                        "Try Again",
-                                        this
+                                    Alerts.showBottomSheetErrorWithActionButton(
+                                        msg = networkResource.message!!,
+                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                        activity = this
                                     )
                                 }
                             }
@@ -710,9 +765,10 @@ class HomeActivity : BaseActivity() {
                     }
                     State.ERROR -> {
                         resetView(_selectedView)
-                        Alerts.showAlertDialogWithDefaultButton(
-                            "Error",
-                            networkResource.message!!, "Try Again", this
+                        Alerts.showBottomSheetErrorWithActionButton(
+                            msg = networkResource.message!!,
+                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                            activity = this
                         )
                     }
                 }
@@ -747,10 +803,10 @@ class HomeActivity : BaseActivity() {
 
     private fun updateAdapter(_position: Int) {
         recyclerView.postDelayed({
-            adapter update {
+            itemsAdapter update {
                 it.removeAt(_position)
-                adapter.notifyItemRemoved(_position)
-                adapter.notifyItemRangeChanged(_position, it.size)
+                itemsAdapter.notifyItemRemoved(_position)
+                itemsAdapter.notifyItemRangeChanged(_position, it.size)
                 if (it.isEmpty()) {
                     header_title.text = getString(R.string.no_more_items)
                     no_more_items_layout.visibility = View.VISIBLE
@@ -770,7 +826,22 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun networkStatus(state: Boolean) {
-        if (state) getAllItems()
+        if (state) {
+            App.logger.error(homeActivityViewModel.getLastSelectedCategoryObject().toString())
+            if (homeActivityViewModel.getLastSelectedCategoryIndex() == -1) getAllItems()
+            else getItemsByCategory(homeActivityViewModel.getLastSelectedCategoryObject())
+        }
+    }
+
+    //FCM
+    private fun generateFCMToken() {
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    App.logger.error("getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+            })
     }
 
 }

@@ -10,6 +10,7 @@ package com.kmno.leftorite.data.api
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import com.kmno.leftorite.data.model.Category
+import com.kmno.leftorite.data.model.Config
 import com.kmno.leftorite.data.model.Item
 import com.kmno.leftorite.data.model.User
 import retrofit2.Response
@@ -33,6 +34,9 @@ interface ApiService {
     suspend fun signUpUser(
         @Query("email", encoded = true) email: String,
         @Query("password", encoded = true) password: String,
+        @Query("device_os", encoded = true) device_os: String,
+        @Query("device_model", encoded = true) device_model: String,
+        @Query("ip", encoded = true) ip: String,
         @Query("apiKey", encoded = true) apiKey: String
     ): Response<ServiceResponse<ApiResponse<User>>>
 
@@ -63,6 +67,9 @@ interface ApiService {
         @Query("id", encoded = true) id: Int,
         @Query("token", encoded = true) token: String
     ): Response<ServiceResponse<ApiResponse<Any>>>
+
+    @POST("/api/v1/getConfig")
+    suspend fun getConfig(): Response<ServiceResponse<ApiResponse<Config>>>
 }
 
 @Keep

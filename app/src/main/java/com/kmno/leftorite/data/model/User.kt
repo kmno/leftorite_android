@@ -26,6 +26,8 @@ data class User(
     val nickname: String,
     @SerializedName("token")
     val token: String,
-    @SerializedName("last_login_date")
-    val last_login_date: Long
+    @SerializedName("avatar_id")
+    val avatar_id: String,
+    @SerializedName("active")
+    val active: Int
 )

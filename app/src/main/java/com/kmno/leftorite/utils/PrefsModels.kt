@@ -22,6 +22,12 @@ object UserInfo : KotprefModel() {
     var token by stringPref()
     var points by intPref(0)
     var avatar by stringPref()
+
+    var latestMsgId by intPref(0)
+
+    var lastSelectedCategoryIndex by intPref(-1)//-1 is All
+    var lastSelectedCategoryId by intPref(-1)//-1 is All
+    var lastSelectedCategoryTitle by stringPref("All")
 }
 
 object ShowCase : KotprefModel() {
@@ -31,4 +37,15 @@ object ShowCase : KotprefModel() {
 
 object AppSetting : KotprefModel() {
     var dataSaver by AppSetting.booleanPref(false)
+}
+
+object ConfigPref : KotprefModel() {
+    var top_text by stringPref()
+    var bottom_text by stringPref()
+    var new_msg_id by intPref(0)
+    var new_msg_content by stringPref()
+    var new_msg_title by stringPref()
+    var new_version_title by stringPref()
+    var force_update by intPref()
+    var new_version_changelog by stringPref()
 }
