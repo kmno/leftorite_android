@@ -7,10 +7,16 @@
 
 package com.kmno.leftorite.ui.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.view.View
+import androidx.lifecycle.Observer
 import com.kmno.leftorite.R
 import com.kmno.leftorite.core.App
+import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.ui.base.BaseActivity
+import com.kmno.leftorite.utils.Alerts
+import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.launchActivity
 import com.kmno.leftorite.viewmodels.SplashActivityViewModel
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -68,9 +74,7 @@ class SplashActivity : BaseActivity() {
         lazy_loader_progress.visibility = View.VISIBLE
         retry_button.visibility = View.GONE
 
-        goToDestinationActivity(splashActivityViewModel.isUserLoggedIn)
-
-        /*splashActivityViewModel.getInitialConfig().observe(this,
+        splashActivityViewModel.getInitialConfig().observe(this,
             Observer { networkResource ->
                 when (networkResource?.state) {
                     State.LOADING -> {
@@ -117,7 +121,7 @@ class SplashActivity : BaseActivity() {
                         onNetworkFail(networkResource.message.toString())
                     }
                 }
-            })*/
+            })
     }
 
     private fun onNetworkFail(errorMessage: String) {

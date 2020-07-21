@@ -270,10 +270,6 @@ class HomeActivity : BaseActivity() {
 
             override fun onSlide(slideOffset: Float) {}
         })
-        // if (this::categoryBottomDialog.isInitialized)
-        /*categoryBottomDialog.contentView.categories_retry_button.setOnClickListener {
-            getCategories()
-        }*/
     }
 
     private fun setUpItemDetailsBottomDialog() {
@@ -685,17 +681,12 @@ class HomeActivity : BaseActivity() {
     private fun showFullscreenProgress(_show: Boolean) {
         when (_show) {
             true -> {
-                App.logger.error("showFullscreenProgress true")
                 activity_loading.visibility = View.VISIBLE
                 home_progress.visibility = View.VISIBLE
                 home_retry_button.visibility = View.GONE
                 enableDisableInnerViews(false)
             }
             false -> {
-                App.logger.error("showFullscreenProgress false")
-                // render.setAnimation(Fade().Out(activity_loading))
-                // render.setDuration(300)
-                //render.start()
                 enableDisableInnerViews(true)
                 activity_loading.visibility = View.GONE
             }
