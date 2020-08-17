@@ -57,6 +57,7 @@ import kotlinx.android.synthetic.main.recyclerview_list_category.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import xyz.hanks.library.bang.SmallBangView
 
+
 @Suppress("UNCHECKED_CAST")
 class HomeActivity : BaseActivity() {
 
@@ -75,6 +76,7 @@ class HomeActivity : BaseActivity() {
     private val itemDetailsViewBuilder = ItemDetailsViewBuilder()
 
     private var categoriesLoaded = false
+
 
     override fun getResId(): Int {
         return R.layout.activity_home
@@ -223,7 +225,7 @@ class HomeActivity : BaseActivity() {
             allowHardware(false)
             transformations(CircleCropTransformation())
         }
-        user_points_text.text = "★ " + UserInfo.points.toString()
+        handlePoints()
     }
 
     private fun updateUserPointsAndHeaderTitle(_responseText: String) {
@@ -231,7 +233,20 @@ class HomeActivity : BaseActivity() {
             header_title.text = this[1]
             homeActivityViewModel.updateUserPointsPref(this[0].toInt())
             user_points.likeAnimation()
-            user_points_text.text = "★ " + UserInfo.points.toString()
+            handlePoints()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun handlePoints() {
+        try {
+            if (UserInfo.points > 9999) {
+                user_points_text.text = "+" + (UserInfo.points / 1000).toString() + "K"
+            } else {
+                user_points_text.text = UserInfo.points.toString()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -722,20 +737,6 @@ class HomeActivity : BaseActivity() {
                 //gesture
                 left_item_imageview_split.setOnTouchListener(object :
                     OnSwipeTouchListener(this@HomeActivity) {
-                    override fun onSwipeUp() {
-                        super.onSwipeUp()
-                        //categoryBottomDialog.show()
-                    }
-
-                    override fun onSwipeRight() {
-                        super.onSwipeRight()
-                        /*handleSelectedView(
-                            "left",
-                            allItems[pair[0] as Int].id,
-                            position,
-                            this@bindIndexed
-                        )*/
-                    }
 
                     override fun onLongClick() {
                         super.onLongClick()
@@ -770,20 +771,6 @@ class HomeActivity : BaseActivity() {
 
                 right_item_imageview_split.setOnTouchListener(object :
                     OnSwipeTouchListener(this@HomeActivity) {
-                    override fun onSwipeUp() {
-                        super.onSwipeUp()
-                        // categoryBottomDialog.show()
-                    }
-
-                    override fun onSwipeLeft() {
-                        super.onSwipeLeft()
-                        /*handleSelectedView(
-                            "right",
-                            allItems[pair[1] as Int].id,
-                            position,
-                            this@bindIndexed
-                        )*/
-                    }
 
                     override fun onLongClick() {
                         super.onLongClick()
@@ -965,7 +952,6 @@ class HomeActivity : BaseActivity() {
             override fun onAnimationEnd(p0: Animator?) {
                 updateAdapter(_position)
             }
-
             override fun onAnimationCancel(p0: Animator?) {}
             override fun onAnimationStart(p0: Animator?) {}
         })

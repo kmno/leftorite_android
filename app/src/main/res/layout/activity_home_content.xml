@@ -9,7 +9,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -24,6 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:translationY="7dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="@+id/header_title_layout"
         app:layout_constraintBottom_toTopOf="@+id/header_title_layout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +50,8 @@
             android:layout_alignTop="@id/category_avatar"
             android:layout_marginStart="10dp"
             android:layout_marginTop="-25dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:layout_toEndOf="@id/category_avatar"
             app:circle_end_color="@color/secondaryLightColor"
             app:circle_start_color="@color/secondaryDarkColor"
@@ -140,8 +146,8 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:tint="@color/secondaryLightTextColor"
-            app:srcCompat="@drawable/ic_down_hand" />
+            app:srcCompat="@drawable/ic_down_hand"
+            app:tint="@color/secondaryLightTextColor" />
 
     </LinearLayout>
 
