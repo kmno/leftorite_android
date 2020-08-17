@@ -102,11 +102,36 @@
         android:layout_weight="1"
         android:background="@color/colorPrimaryDark">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/left_item_imageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop" />-->
+
+        <!--<com.otaliastudios.zoom.ZoomImageView
+            android:id="@+id/left_item_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            app:transformation="centerCrop"
+            app:transformationGravity="center"
+            app:alignment="center"
+            app:overScrollHorizontal="false"
+            app:overScrollVertical="false"
+            app:overPinchable="false"
+            app:horizontalPanEnabled="false"
+            app:verticalPanEnabled="false"
+            app:zoomEnabled="true"
+            app:flingEnabled="false"
+            app:scrollEnabled="false"
+            app:oneFingerScrollEnabled="false"
+            app:twoFingersScrollEnabled="false"
+            app:threeFingersScrollEnabled="false"
+            app:minZoom="0.5"
+            app:minZoomType="zoom"
+            app:maxZoom="1.5"
+            app:maxZoomType="zoom"
+            app:animationDuration="280"/>-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/select_left_item_button"

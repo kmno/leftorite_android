@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Creator: Kamran Noorinejad on 8/17/20 12:37 PM
+  ~ Last modified: 8/17/20 12:37 PM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="@dimen/views_radius" />
+    <solid android:color="@color/colorPrimaryDark" />
+    <padding
+        android:bottom="@dimen/edittext_padding_left_right"
+        android:left="@dimen/edittext_padding_left_right"
+        android:right="@dimen/edittext_padding_left_right"
+        android:top="@dimen/edittext_padding_left_right" />
+</shape>

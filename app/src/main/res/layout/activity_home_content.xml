@@ -63,7 +63,7 @@
                 android:paddingEnd="5dp"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="22sp"
+                android:textSize="19sp"
                 android:textStyle="bold" />
 
         </xyz.hanks.library.bang.SmallBangView>
@@ -96,7 +96,7 @@
             android:paddingRight="15dp"
             android:paddingBottom="5dp"
             android:textColor="#FFFFFF"
-            android:textSize="25sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <com.agrawalsuneet.dotsloader.loaders.TashieLoader
@@ -135,7 +135,7 @@
             android:gravity="center"
             android:text="@string/no_more_items_description"
             android:textColor="@color/secondaryLightTextColor"
-            android:textSize="25sp" />
+            android:textSize="22sp" />
 
         <ImageView
             android:layout_width="100dp"
@@ -170,7 +170,7 @@
             android:layout_toEndOf="@id/arrow_up"
             android:gravity="center_vertical"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/current_category_text"
@@ -179,7 +179,7 @@
             android:layout_toEndOf="@id/category_text"
             android:gravity="center_vertical"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             tools:text="CATEGORY" />
 

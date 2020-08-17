@@ -194,6 +194,16 @@ abstract class BaseActivity : AppCompatActivity() {
         win.attributes = winParams
     }
 
+    fun setStatusBarTextColorWhite() {
+        val decorView = this.window.decorView
+        var systemUiVisibilityFlags = decorView.systemUiVisibility
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            systemUiVisibilityFlags =
+                systemUiVisibilityFlags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        }
+        decorView.systemUiVisibility = systemUiVisibilityFlags
+    }
+
     /**
      * Check the device to make sure it has the Google Play Services APK. If
      * it doesn't, display a dialog that allows users to download the APK from

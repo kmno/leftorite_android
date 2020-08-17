@@ -11,95 +11,146 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
     tools:context=".ui.activities.AuthActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content"
+        android:background="@color/primaryLighterColor"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="@dimen/logo_width"
-            android:layout_height="@dimen/logo_height"
-            android:layout_marginTop="120dp"
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/waveHeader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/waves_height"
+            android:scaleY="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:mwhCloseColor="@color/colorPrimaryDark"
+            app:mwhColorAlpha="0.3"
+            app:mwhIsRunning="true"
+            app:mwhStartColor="@color/colorPrimary"
+            app:mwhVelocity="5"
+            app:mwhWaves="MultiWave" />
 
-        <EditText
-            android:id="@+id/email_edit_text_field"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/authentication_fields_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="50dp"
-            android:background="@drawable/edittext_bg"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="@string/email_edit_text"
-            android:inputType="textEmailAddress"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/container_bg"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/password_edit_text_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/auth_activity_fields_top_margin"
-            android:autofillHints="@string/password_edit_text"
-            android:background="@drawable/edittext_bg"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="@string/password_edit_text"
-            android:inputType="textPassword"
-            android:maxLength="16"
-            app:layout_constraintEnd_toEndOf="@+id/email_edit_text_field"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/email_edit_text_field"
-            app:layout_constraintTop_toBottomOf="@+id/email_edit_text_field" />
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:translationY="-40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/ic_authentication" />
 
-        <EditText
-            android:id="@+id/password_confirm_edit_text_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:autofillHints="@string/password_confirm_edit_text"
-            android:background="@drawable/edittext_bg"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="@string/password_confirm_edit_text"
-            android:inputType="textPassword"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/email_edit_text_field"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/email_edit_text_field"
-            app:layout_constraintTop_toBottomOf="@+id/password_edit_text_field" />
 
-        <Button
-            android:id="@+id/auth_action_btn"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/auth_activity_fields_top_margin"
-            android:background="@drawable/button_drawable"
-            android:shadowRadius="0"
-            android:text="@string/sigin_text"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/password_edit_text_field"
-            app:layout_constraintStart_toStartOf="@+id/password_edit_text_field"
-            app:layout_constraintTop_toBottomOf="@+id/password_confirm_edit_text_field" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:gravity="center"
+                android:text="@string/welcome"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/email_edit_text_field"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/edittext_bg"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/email_edit_text"
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/edittext_font_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <EditText
+                android:id="@+id/password_edit_text_field"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/auth_activity_fields_top_margin"
+                android:autofillHints="@string/password_edit_text"
+                android:background="@drawable/edittext_bg"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/password_edit_text"
+                android:inputType="textPassword"
+                android:maxLength="16"
+                android:textSize="@dimen/edittext_font_size"
+                app:layout_constraintEnd_toEndOf="@+id/email_edit_text_field"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/email_edit_text_field"
+                app:layout_constraintTop_toBottomOf="@+id/email_edit_text_field" />
+
+            <EditText
+                android:id="@+id/password_confirm_edit_text_field"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/auth_activity_fields_top_margin"
+                android:autofillHints="@string/password_confirm_edit_text"
+                android:background="@drawable/edittext_bg"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/password_confirm_edit_text"
+                android:inputType="textPassword"
+                android:textSize="@dimen/edittext_font_size"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/email_edit_text_field"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/email_edit_text_field"
+                app:layout_constraintTop_toBottomOf="@+id/password_edit_text_field" />
+
+            <Button
+                android:id="@+id/auth_action_btn"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/auth_activity_fields_top_margin"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_background"
+                android:shadowRadius="0"
+                android:text="@string/sigin_text"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/edittext_font_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/password_edit_text_field"
+                app:layout_constraintStart_toStartOf="@+id/password_edit_text_field"
+                app:layout_constraintTop_toBottomOf="@+id/password_confirm_edit_text_field" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <LinearLayout
             android:id="@+id/signin_signup_layout"
@@ -109,14 +160,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/auth_action_btn">
+            app:layout_constraintTop_toBottomOf="@+id/authentication_fields_container">
 
             <TextView
                 android:id="@+id/dont_have_account_sign_up_text_field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/dont_have_account_sign_up_text" />
+                android:text="@string/dont_have_account_sign_up_text"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/signin_signup_action"
@@ -125,10 +177,10 @@
                 android:gravity="center"
                 android:text="@string/signup_text"
                 android:textColor="@color/colorPrimary"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

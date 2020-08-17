@@ -4,18 +4,21 @@
   ~ Copyright: All rights reserved Ⓒ 2020
   ~ http://www.itskamran.ir/
   -->
-
 <resources>
     <dimen name="fab_custom_size">75dp</dimen>
     <dimen name="fab_max_image_size">40dp</dimen>
     <dimen name="fab_margin_bottom">40dp</dimen>
-    <dimen name="separator_width">5dp</dimen>
-    <dimen name="logo_width">112dp</dimen>
-    <dimen name="logo_height">112dp</dimen>
+    <dimen name="separator_width">14dp</dimen>
+    <dimen name="logo_width">100dp</dimen>
+    <dimen name="logo_height">100dp</dimen>
     <dimen name="views_radius">10dp</dimen>
     <dimen name="points_view_radius">5dp</dimen>
     <dimen name="bottomsheet_closed_state_height">60dp</dimen>
     <dimen name="toolbar_height">60dp</dimen>
     <dimen name="item_details_image_height">180dp</dimen>
     <dimen name="auth_activity_fields_top_margin">20dp</dimen>
+    <dimen name="edittext_font_size">15sp</dimen>
+    <dimen name="edittext_padding_top_bottom">10dp</dimen>
+    <dimen name="edittext_padding_left_right">5dp</dimen>
+    <dimen name="waves_height">120dp</dimen>
 </resources>

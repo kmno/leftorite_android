@@ -51,15 +51,16 @@ import kotlinx.android.synthetic.main.activity_home_content.*
 import kotlinx.android.synthetic.main.activity_home_loading.*
 import kotlinx.android.synthetic.main.category_bottom_sheet.view.*
 import kotlinx.android.synthetic.main.item_detail_bottom_sheet.view.*
+import kotlinx.android.synthetic.main.recycleriew_list_item_splitted_view.*
+import kotlinx.android.synthetic.main.recycleriew_list_item_splitted_view.view.*
 import kotlinx.android.synthetic.main.recyclerview_list_category.view.*
-import kotlinx.android.synthetic.main.recyclerview_list_item.*
-import kotlinx.android.synthetic.main.recyclerview_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import xyz.hanks.library.bang.SmallBangView
 
-
 @Suppress("UNCHECKED_CAST")
 class HomeActivity : BaseActivity() {
+
+    private var _xDelta = 0
 
     private val homeActivityViewModel: HomeActivityViewModel by viewModel()
     private val categoryBottomSheetViewModel: CategoryBottomSheetViewModel by viewModel()
@@ -173,7 +174,7 @@ class HomeActivity : BaseActivity() {
                         .addShowCase(
                             homeActivityViewModel.showCaseBuilder(
                                 this,
-                                select_left_item_button,
+                                select_left_item_button_split,
                                 getString(R.string.like_sides_title, "'Left'"),
                                 getString(R.string.like_sides_description, "left")
                             )
@@ -181,7 +182,7 @@ class HomeActivity : BaseActivity() {
                         .addShowCase(
                             homeActivityViewModel.showCaseBuilder(
                                 this,
-                                select_right_item_button,
+                                select_right_item_button_split,
                                 getString(R.string.like_sides_title, "'Right'"),
                                 getString(R.string.like_sides_description, "right")
                             )
@@ -304,7 +305,8 @@ class HomeActivity : BaseActivity() {
                                         homeActivityViewModel.getLastSelectedCategoryTitle()
                                     allItems = response.items as MutableList<Item>
                                     allPairs = response.finalPairs as MutableList<Any>
-                                    setUpItems()
+                                    //setUpItems()
+                                    setUpItemsSplited()
                                 }
                             }
                             false -> {
@@ -432,7 +434,8 @@ class HomeActivity : BaseActivity() {
                                         current_category_text.text = _category.title
                                         allItems = response.items as MutableList<Item>
                                         allPairs = response.finalPairs as MutableList<Any>
-                                        setUpItems()
+                                        //setUpItems()
+                                        setUpItemsSplited()
                                     }
                                 }
                                 false -> {
@@ -458,8 +461,9 @@ class HomeActivity : BaseActivity() {
 
     //adapters and select handlers
     private fun setUpItems() {
-        itemsAdapter = recyclerView.setUp<Any> {
-            withLayoutResId(R.layout.recyclerview_list_item)
+        /*itemsAdapter = recyclerView.setUp<Any> {
+            //withLayoutResId(R.layout.recyclerview_list_item)
+            withLayoutResId(R.layout.recycleriew_list_item_splitted_view)
             withItems(allPairs)
             bindIndexed { pair, position ->
                 with(pair as ArrayList<*>) {
@@ -476,7 +480,7 @@ class HomeActivity : BaseActivity() {
                                 left_item_imageview
                             )
                         )
-                        /* left_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
+                        *//* left_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
                              placeholder(R.drawable.placeholder_trans)
                              diskCachePolicy(CachePolicy.ENABLED)
                              allowHardware(false)
@@ -486,7 +490,7 @@ class HomeActivity : BaseActivity() {
                              placeholder(R.drawable.placeholder_trans)
                              allowHardware(false)
                              diskCachePolicy(CachePolicy.ENABLED)
-                         }*/
+                         }*//*
                     }
                     (this[1] as Int).let { rightItemIndex ->
                         imageLoader(context).execute(
@@ -501,7 +505,7 @@ class HomeActivity : BaseActivity() {
                                 right_item_imageview
                             )
                         )
-                        /*right_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
+                        *//*right_item_imageview_full.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
                             placeholder(R.drawable.placeholder_trans)
                             allowHardware(false)
                             diskCachePolicy(CachePolicy.ENABLED)
@@ -511,7 +515,7 @@ class HomeActivity : BaseActivity() {
                             allowHardware(false)
                             placeholder(R.drawable.placeholder_trans)
                             diskCachePolicy(CachePolicy.ENABLED)
-                        }*/
+                        }*//*
                     }
                 }
 
@@ -536,6 +540,20 @@ class HomeActivity : BaseActivity() {
                     )
                 }
 
+                //zoom
+                left_item_imageview.engine.addListener(object : ZoomEngine.Listener {
+                    override fun onIdle(engine: ZoomEngine) {
+                        Log.e("onIdle:", engine.toString())
+                        // engine.zoomTo(1.0f,true)
+                        engine.moveToCenter(1.0f, true)
+                    }
+
+                    override fun onUpdate(engine: ZoomEngine, matrix: Matrix) {
+                        //Log.e("onUpdate: ", matrix.toShortString())
+                    }
+
+                })
+
                 //gesture
                 left_item_imageview.setOnTouchListener(object :
                     OnSwipeTouchListener(this@HomeActivity) {
@@ -546,12 +564,16 @@ class HomeActivity : BaseActivity() {
 
                     override fun onSwipeRight() {
                         super.onSwipeRight()
-                        handleSelectedView(
+
+                        //left_item_imageview.zoomBy(1.5f, true)
+                        //left_item_imageview.zoomIn()
+
+                        *//*handleSelectedView(
                             "left",
                             allItems[pair[0] as Int].id,
                             position,
                             this@bindIndexed
-                        )
+                        )*//*
                     }
 
                     override fun onLongClick() {
@@ -564,11 +586,11 @@ class HomeActivity : BaseActivity() {
                                     this.item_logo
                                 )
                             )
-                            /*this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[0] as Int].id}.jpg") {
+                            *//*this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[0] as Int].id}.jpg") {
                                 crossfade(true)
                                 placeholder(R.color.colorPrimary)
                                 diskCachePolicy(CachePolicy.ENABLED)
-                            }*/
+                            }*//*
                             this.item_title.text = allItems[pair[0] as Int].title
                             this.item_description.text = allItems[pair[0] as Int].description
                         }
@@ -612,11 +634,11 @@ class HomeActivity : BaseActivity() {
                                     this.item_logo
                                 )
                             )
-                            /*this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[1] as Int].id}.jpg") {
+                            *//*this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[1] as Int].id}.jpg") {
                                 crossfade(true)
                                 placeholder(R.color.colorPrimary)
                                 diskCachePolicy(CachePolicy.ENABLED)
-                            }*/
+                            }*//*
                             this.item_title.text = allItems[pair[1] as Int].title
                             this.item_description.text = allItems[pair[1] as Int].description
                         }
@@ -636,6 +658,165 @@ class HomeActivity : BaseActivity() {
                 //click item
                 setOnClickListener {}
             }
+        }*/
+
+        //disable vertical scroll
+        /*recyclerView.layoutManager = object : LinearLayoutManager(applicationContext) {
+            override fun canScrollVertically(): Boolean = false
+        }*/
+    }
+
+    //adapters and select handlers
+    private fun setUpItemsSplited() {
+        itemsAdapter = recyclerView.setUp<Any> {
+            withLayoutResId(R.layout.recycleriew_list_item_splitted_view)
+            withItems(allPairs)
+            bindIndexed { pair, position ->
+                recyclerView.recycledViewPool.setMaxRecycledViews(0, 0)
+
+                with(pair as ArrayList<*>) {
+                    (this[0] as Int).let { leftItemIndex ->
+                        left_item_imageview_split?.let {
+                            it.load("${Constants.itemsImageUrl}${allItems[leftItemIndex].id}.jpg") {
+                                crossfade(true)
+                                //placeholder(R.drawable.placeholder_trans)
+                                allowHardware(false)
+                                diskCachePolicy(CachePolicy.ENABLED)
+                            }
+                        }
+                    }
+                    (this[1] as Int).let { rightItemIndex ->
+                        right_item_imageview_split?.let {
+                            it.load("${Constants.itemsImageUrl}${allItems[rightItemIndex].id}.jpg") {
+                                crossfade(true)
+                                allowHardware(false)
+                                //placeholder(R.drawable.placeholder_trans)
+                                diskCachePolicy(CachePolicy.ENABLED)
+                            }
+                        }
+
+                    }
+                }
+
+                resetView(this)
+
+                //like button single click
+                select_right_item_button_split.setOnClickListener {
+                    handleSelectedView(
+                        "right",
+                        allItems[pair[1] as Int].id,
+                        position,
+                        this@bindIndexed
+                    )
+                }
+
+                select_left_item_button_split.setOnClickListener {
+                    handleSelectedView(
+                        "left",
+                        allItems[pair[0] as Int].id,
+                        position,
+                        this@bindIndexed
+                    )
+                }
+
+                //gesture
+                left_item_imageview_split.setOnTouchListener(object :
+                    OnSwipeTouchListener(this@HomeActivity) {
+                    override fun onSwipeUp() {
+                        super.onSwipeUp()
+                        //categoryBottomDialog.show()
+                    }
+
+                    override fun onSwipeRight() {
+                        super.onSwipeRight()
+                        /*handleSelectedView(
+                            "left",
+                            allItems[pair[0] as Int].id,
+                            position,
+                            this@bindIndexed
+                        )*/
+                    }
+
+                    override fun onLongClick() {
+                        super.onLongClick()
+                        itemDetailsBottomDialog.show()
+                        itemDetailsBottomDialog.contentView.run {
+                            imageLoader(context).execute(
+                                preloadImagesIntoMemory(
+                                    "${Constants.itemsImageUrl}${allItems[pair[0] as Int].id}.jpg",
+                                    this.item_logo
+                                )
+                            )
+                            this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[0] as Int].id}.jpg") {
+                                crossfade(true)
+                                placeholder(R.color.colorPrimary)
+                                diskCachePolicy(CachePolicy.ENABLED)
+                            }
+                            this.item_title.text = allItems[pair[0] as Int].title
+                            this.item_description.text = allItems[pair[0] as Int].description
+                        }
+                    }
+
+                    override fun onDoubleClick() {
+                        super.onDoubleClick()
+                        handleSelectedView(
+                            "left",
+                            allItems[pair[0] as Int].id,
+                            position,
+                            this@bindIndexed
+                        )
+                    }
+                })
+
+                right_item_imageview_split.setOnTouchListener(object :
+                    OnSwipeTouchListener(this@HomeActivity) {
+                    override fun onSwipeUp() {
+                        super.onSwipeUp()
+                        // categoryBottomDialog.show()
+                    }
+
+                    override fun onSwipeLeft() {
+                        super.onSwipeLeft()
+                        /*handleSelectedView(
+                            "right",
+                            allItems[pair[1] as Int].id,
+                            position,
+                            this@bindIndexed
+                        )*/
+                    }
+
+                    override fun onLongClick() {
+                        super.onLongClick()
+                        itemDetailsBottomDialog.show()
+                        itemDetailsBottomDialog.contentView.run {
+                            imageLoader(context).execute(
+                                preloadImagesIntoMemory(
+                                    "${Constants.itemsImageUrl}${allItems[pair[1] as Int].id}.jpg",
+                                    this.item_logo
+                                )
+                            )
+                            this.item_logo.load("${Constants.itemsImageUrl}${allItems[pair[1] as Int].id}.jpg") {
+                                crossfade(true)
+                                placeholder(R.color.colorPrimary)
+                                diskCachePolicy(CachePolicy.ENABLED)
+                            }
+                            this.item_title.text = allItems[pair[1] as Int].title
+                            this.item_description.text = allItems[pair[1] as Int].description
+                        }
+                    }
+
+                    override fun onDoubleClick() {
+                        super.onDoubleClick()
+                        handleSelectedView(
+                            "right",
+                            allItems[pair[1] as Int].id,
+                            position,
+                            this@bindIndexed
+                        )
+                    }
+                })
+
+            }
         }
 
         //disable vertical scroll
@@ -650,19 +831,19 @@ class HomeActivity : BaseActivity() {
         _position: Int,
         _selectedView: View
     ) {
-        _selectedView.separator.visibility = View.GONE
-        var _selectedSideFullFab = _selectedView.left_item_fab_full
+        var selectedSideFullFab = _selectedView.left_item_fab_full_split
+        _selectedView.separator_split.visibility = View.GONE
         when (_selectedSide) {
             "right" -> {
-                _selectedView.right_item_full_layout.visibility = View.VISIBLE
-                _selectedSideFullFab = _selectedView.right_item_fab_full
+                _selectedView.split_view_parent.maximizeRightContent()
+                selectedSideFullFab = _selectedView.right_item_fab_full_split
             }
             "left" -> {
-                _selectedView.left_item_full_layout.visibility = View.VISIBLE
-                _selectedSideFullFab = _selectedView.left_item_fab_full
+                _selectedView.split_view_parent.maximizeLeftContent()
+                selectedSideFullFab = _selectedView.left_item_fab_full_split
             }
         }
-        setSelectedItem(_selectedItemId, _position, _selectedView, _selectedSideFullFab)
+        setSelectedItem(_selectedItemId, _position, _selectedView, selectedSideFullFab)
     }
 
     private fun showProgress(_show: Boolean) {
@@ -791,27 +972,35 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun resetView(_view: View) {
+        App.logger.error("resetView $_view")
         showProgress(false)
         header_title.text = getString(R.string.which_one)
-        _view.separator.visibility = View.VISIBLE
+        _view.separator_split.visibility = View.VISIBLE
         no_more_items_layout.visibility = View.GONE
-        _view.right_item_full_layout.visibility = View.GONE
-        _view.left_item_full_layout.visibility = View.GONE
+        /*    val params = _view.split_view_parent.left_item_layout.layoutParams as LinearLayout.LayoutParams
+            params.weight = 1f
+            _view.split_view_parent.left_item_layout.layoutParams = params
+        App.logger.error("left_item_layout ${params.weight}")
+
+            val params2 = _view.split_view_parent.right_item_layout.layoutParams as LinearLayout.LayoutParams
+            params2.weight = 1f
+            _view.split_view_parent.right_item_layout.layoutParams = params2
+        App.logger.error("right_item_layout ${params2.weight}")*/
     }
 
     private fun updateAdapter(_position: Int) {
-        recyclerView.postDelayed({
+        // recyclerView.postDelayed({
             itemsAdapter update {
                 it.removeAt(_position)
-                itemsAdapter.notifyItemRemoved(_position)
+                //itemsAdapter.notifyItemRemoved(_position)
                 itemsAdapter.notifyItemRangeChanged(_position, it.size)
+                //itemsAdapter.notifyDataSetChanged()
                 if (it.isEmpty()) {
                     header_title.text = getString(R.string.no_more_items)
                     no_more_items_layout.visibility = View.VISIBLE
                 }
             }
-
-        }, 800)
+        //}, 800)
     }
 
     override fun resume() {
@@ -852,5 +1041,4 @@ class HomeActivity : BaseActivity() {
                 }
             })
     }
-
 }

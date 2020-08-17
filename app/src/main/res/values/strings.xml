@@ -71,5 +71,6 @@
     <string name="update_now">Update Now</string>
     <string name="update_later">Maybe Later</string>
     <string name="new_message_button_text">Okay!</string>
+    <string name="new_label">NEW</string>
 
 </resources>

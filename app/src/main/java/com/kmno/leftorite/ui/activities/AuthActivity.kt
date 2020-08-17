@@ -22,11 +22,11 @@ import com.kmno.leftorite.viewmodels.AuthActivityViewModel
 import kotlinx.android.synthetic.main.activity_auth.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
+
 class AuthActivity : BaseActivity() {
 
     private val authActivityViewModel: AuthActivityViewModel by viewModel()
     private var loginState = true
-
     private var email = ""
     private var pass = ""
     private var rpass = ""
@@ -36,6 +36,10 @@ class AuthActivity : BaseActivity() {
     }
 
     override fun afterCreate() {
+
+        setUpScreen()
+
+        setStatusBarTextColorWhite()
 
         requestPermission()
 

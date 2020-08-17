@@ -19,6 +19,7 @@ import com.kmno.leftorite.data.model.Config
 import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.UserInfo
 import kotlinx.coroutines.Dispatchers
+import java.util.*
 
 /**
  * Created by Kamran Noorinejad on 5/13/2020 AD 12:55.
@@ -31,7 +32,8 @@ class SplashActivityViewModel(
 
     private val api = apiProvider.createApiClient()
 
-    var appVersionText: String = "v ${BuildConfig.VERSION_NAME}\nⒸ 2020"
+    var appVersionText: String =
+        "v${BuildConfig.VERSION_NAME} Ⓒ ${Calendar.getInstance().get(Calendar.YEAR)}"
     var isUserLoggedIn: Boolean
 
     init {

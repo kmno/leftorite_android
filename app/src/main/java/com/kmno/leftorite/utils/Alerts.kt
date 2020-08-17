@@ -194,18 +194,20 @@ object Alerts {
     }
 
     fun showFlashbarWithProgress(activity: BaseActivity) {
-        flashbarProgressConfig = Flashbar.Builder(activity)
-            .gravity(Flashbar.Gravity.TOP)
-            .backgroundColorRes(R.color.colorPrimaryDark)
-            .messageSizeInSp(16f)
-            .title(R.string.loading_title)
-            .message(R.string.loading_desc)
-            .showProgress(Flashbar.ProgressPosition.LEFT)
-            .showOverlay()
-            .overlayBlockable()
-            .overlayColorRes(R.color.overlay_color)
-            .castShadow(false)
-        flashbarProgress = flashbarProgressConfig?.build()
+        if (flashbarProgressConfig == null) {
+            flashbarProgressConfig = Flashbar.Builder(activity)
+                .gravity(Flashbar.Gravity.TOP)
+                .backgroundColorRes(R.color.colorPrimaryDark)
+                .messageSizeInSp(16f)
+                .title(R.string.loading_title)
+                .message(R.string.loading_desc)
+                .showProgress(Flashbar.ProgressPosition.LEFT)
+                .showOverlay()
+                .overlayBlockable()
+                .overlayColorRes(R.color.overlay_color)
+                .castShadow(false)
+            flashbarProgress = flashbarProgressConfig?.build()
+        }
         flashbarProgress?.show()
     }
 
@@ -214,6 +216,6 @@ object Alerts {
     }
 
     fun dismissProgressFlashbar() {
-        if (flashbarProgress != null) flashbarProgress?.dismiss()
+        if (flashbarProgress != null /*&& flashbarProgress!!.isShowing()*/) flashbarProgress?.dismiss()
     }
 }

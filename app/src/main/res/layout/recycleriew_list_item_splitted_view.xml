@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kmno.leftorite.utils.SplitView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:splitview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/split_view_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal"
+    splitview:handle="@+id/separator_split"
+    splitview:primaryContent="@+id/left_item_layout"
+    splitview:secondaryContent="@+id/right_item_layout">
+
+    <!-- left item -->
+    <RelativeLayout
+        android:id="@+id/left_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageView
+            android:id="@+id/left_item_imageview_split"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <xyz.hanks.library.bang.SmallBangView
+            android:id="@+id/left_item_fab_full_split"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:circle_end_color="@color/primaryLightColor"
+            app:circle_start_color="@color/colorPrimaryDark"
+            app:dots_primary_color="@color/colorPrimary"
+            app:dots_secondary_color="@color/colorPrimaryDark">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/select_left_item_button_split"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/colorPrimary"
+                android:clickable="true"
+                android:focusable="true"
+                android:tint="@color/colorAccent"
+                app:borderWidth="0dp"
+                app:fabCustomSize="@dimen/fab_custom_size"
+                app:maxImageSize="@dimen/fab_max_image_size"
+                app:srcCompat="@drawable/ic_favorite"
+                tools:ignore="VectorDrawableCompat" />
+
+        </xyz.hanks.library.bang.SmallBangView>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_drag_handle" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- drag handler -->
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/separator_split"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/colorPrimary"
+        android:foregroundGravity="center"
+        android:tint="@color/white"
+        app:borderWidth="0dp"
+        app:srcCompat="@drawable/ic_drag_handle"
+        splitview:fabCustomSize="40dp"
+        tools:ignore="VectorDrawableCompat" />-->
+
+    <LinearLayout
+        android:id="@+id/separator_split"
+        android:layout_width="@dimen/separator_width"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:padding="10dp"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_more" />
+
+    </LinearLayout>
+
+    <!-- right item -->
+    <RelativeLayout
+        android:id="@+id/right_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageView
+            android:id="@+id/right_item_imageview_split"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <xyz.hanks.library.bang.SmallBangView
+            android:id="@+id/right_item_fab_full_split"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:circle_end_color="@color/primaryLightColor"
+            app:circle_start_color="@color/colorPrimaryDark"
+            app:dots_primary_color="@color/colorPrimary"
+            app:dots_secondary_color="@color/colorPrimaryDark">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/select_right_item_button_split"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/colorPrimary"
+                android:clickable="true"
+                android:focusable="true"
+                android:tint="@color/colorAccent"
+                app:borderWidth="0dp"
+                app:fabCustomSize="@dimen/fab_custom_size"
+                app:maxImageSize="@dimen/fab_max_image_size"
+                app:srcCompat="@drawable/ic_favorite"
+                tools:ignore="VectorDrawableCompat" />
+
+        </xyz.hanks.library.bang.SmallBangView>
+
+    </RelativeLayout>
+
+</com.kmno.leftorite.utils.SplitView>

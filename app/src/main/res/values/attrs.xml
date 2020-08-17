@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Creator: Kamran Noorinejad on 8/10/20 3:31 PM
+  ~ Last modified: 8/10/20 3:31 PM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<resources>
+    <declare-styleable name="SplitView">
+        <attr name="handle" format="reference" />
+        <attr name="primaryContent" format="reference" />
+        <attr name="secondaryContent" format="reference" />
+    </declare-styleable>
+</resources>

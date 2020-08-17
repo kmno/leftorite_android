@@ -12,7 +12,6 @@ import android.net.Uri
 import android.view.View
 import androidx.lifecycle.Observer
 import com.kmno.leftorite.R
-import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.utils.Alerts
@@ -32,6 +31,11 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun afterCreate() {
+
+        setUpScreen()
+
+        setStatusBarTextColorWhite()
+
         with(splashActivityViewModel.appVersionText) {
             app_version_text.text = this
         }
@@ -51,11 +55,9 @@ class SplashActivity : BaseActivity() {
     private fun goToDestinationActivity(_loggedIn: Boolean) {
         when (_loggedIn) {
             true -> {
-                App.logger.error("HomeActivity")
                 this.launchActivity<HomeActivity>(finish = true)
             }
             false -> {
-                App.logger.error("AuthActivity")
                 this.launchActivity<AuthActivity>(finish = true)
             }
         }
