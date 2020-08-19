@@ -9,10 +9,7 @@ package com.kmno.leftorite.data.api
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import com.kmno.leftorite.data.model.Category
-import com.kmno.leftorite.data.model.Config
-import com.kmno.leftorite.data.model.Item
-import com.kmno.leftorite.data.model.User
+import com.kmno.leftorite.data.model.*
 import retrofit2.Response
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -52,14 +49,16 @@ interface ApiService {
     suspend fun getAllItems(
         @Query("id", encoded = true) id: Int,
         @Query("token", encoded = true) token: String
-    ): Response<ServiceResponse<ApiResponse<ItemsResponse>>>
+    ): Response<ServiceResponse<ApiResponse<List<Pair>>>>
+    // ): Response<ServiceResponse<ApiResponse<ItemsResponse>>>
 
     @POST("/api/v1/getItemsByCategory")
     suspend fun getItemsByCategory(
         @Query("catId", encoded = true) catId: Int,
         @Query("id", encoded = true) id: Int,
         @Query("token", encoded = true) token: String
-    ): Response<ServiceResponse<ApiResponse<ItemsResponse>>>
+    ): Response<ServiceResponse<ApiResponse<List<Pair>>>>
+    // ): Response<ServiceResponse<ApiResponse<ItemsResponse>>>
 
     @POST("/api/v1/setSelectedItem")
     suspend fun setSelectedItem(
@@ -88,8 +87,8 @@ data class ApiResponse<T>(
 
 @Keep
 data class ItemsResponse(
-    @SerializedName("finalPairs")
-    val finalPairs: List<List<Int>>,
+    @SerializedName("pairs")
+    val pairs: List<List<Int>>,
     @SerializedName("items")
     val items: List<Item>
 )
