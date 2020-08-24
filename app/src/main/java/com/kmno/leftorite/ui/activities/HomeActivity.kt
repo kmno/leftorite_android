@@ -500,21 +500,23 @@ class HomeActivity : BaseActivity() {
 
                         override fun onLongClick() {
                             super.onLongClick()
-                            itemDetailsBottomDialog.show()
-                            itemDetailsBottomDialog.contentView.run {
-                                imageLoader(context).execute(
-                                    preloadImagesIntoMemory(
-                                        "${Constants.itemsImageUrl}${this@with.first_item_id}.jpg",
-                                        this.item_logo
+                            if (this@with.first_item_description != "") {
+                                itemDetailsBottomDialog.show()
+                                itemDetailsBottomDialog.contentView.run {
+                                    imageLoader(context).execute(
+                                        preloadImagesIntoMemory(
+                                            "${Constants.itemsImageUrl}${this@with.first_item_id}.jpg",
+                                            this.item_logo
+                                        )
                                     )
-                                )
-                                this.item_logo.load("${Constants.itemsImageUrl}${this@with.first_item_id}.jpg") {
-                                    crossfade(true)
-                                    placeholder(R.color.colorPrimary)
-                                    diskCachePolicy(CachePolicy.ENABLED)
+                                    this.item_logo.load("${Constants.itemsImageUrl}${this@with.first_item_id}.jpg") {
+                                        crossfade(true)
+                                        placeholder(R.color.colorPrimary)
+                                        diskCachePolicy(CachePolicy.ENABLED)
+                                    }
+                                    this.item_title.text = this@with.first_item_title
+                                    this.item_description.text = this@with.first_item_description
                                 }
-                                this.item_title.text = this@with.first_item_title
-                                this.item_description.text = this@with.first_item_description
                             }
                         }
 
@@ -555,21 +557,23 @@ class HomeActivity : BaseActivity() {
 
                         override fun onLongClick() {
                             super.onLongClick()
-                            itemDetailsBottomDialog.show()
-                            itemDetailsBottomDialog.contentView.run {
-                                imageLoader(context).execute(
-                                    preloadImagesIntoMemory(
-                                        "${Constants.itemsImageUrl}${this@with.second_item_id}.jpg",
-                                        this.item_logo
+                            if (this@with.second_item_description != "") {
+                                itemDetailsBottomDialog.show()
+                                itemDetailsBottomDialog.contentView.run {
+                                    imageLoader(context).execute(
+                                        preloadImagesIntoMemory(
+                                            "${Constants.itemsImageUrl}${this@with.second_item_id}.jpg",
+                                            this.item_logo
+                                        )
                                     )
-                                )
-                                this.item_logo.load("${Constants.itemsImageUrl}${this@with.second_item_id}.jpg") {
-                                    crossfade(true)
-                                    placeholder(R.color.colorPrimary)
-                                    diskCachePolicy(CachePolicy.ENABLED)
+                                    this.item_logo.load("${Constants.itemsImageUrl}${this@with.second_item_id}.jpg") {
+                                        crossfade(true)
+                                        placeholder(R.color.colorPrimary)
+                                        diskCachePolicy(CachePolicy.ENABLED)
+                                    }
+                                    this.item_title.text = this@with.second_item_title
+                                    this.item_description.text = this@with.second_item_description
                                 }
-                                this.item_title.text = this@with.second_item_title
-                                this.item_description.text = this@with.second_item_description
                             }
                         }
 

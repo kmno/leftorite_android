@@ -39,7 +39,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/select_left_item_button_split"
-                android:layout_width="80dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center"
@@ -132,7 +132,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/select_right_item_button_split"
-                android:layout_width="80dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center"

@@ -9,7 +9,10 @@ package com.kmno.leftorite.data.api
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import com.kmno.leftorite.data.model.*
+import com.kmno.leftorite.data.model.Category
+import com.kmno.leftorite.data.model.Config
+import com.kmno.leftorite.data.model.Pair
+import com.kmno.leftorite.data.model.User
 import retrofit2.Response
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -50,7 +53,6 @@ interface ApiService {
         @Query("id", encoded = true) id: Int,
         @Query("token", encoded = true) token: String
     ): Response<ServiceResponse<ApiResponse<List<Pair>>>>
-    // ): Response<ServiceResponse<ApiResponse<ItemsResponse>>>
 
     @POST("/api/v1/getItemsByCategory")
     suspend fun getItemsByCategory(
@@ -58,7 +60,6 @@ interface ApiService {
         @Query("id", encoded = true) id: Int,
         @Query("token", encoded = true) token: String
     ): Response<ServiceResponse<ApiResponse<List<Pair>>>>
-    // ): Response<ServiceResponse<ApiResponse<ItemsResponse>>>
 
     @POST("/api/v1/setSelectedItem")
     suspend fun setSelectedItem(
@@ -83,12 +84,4 @@ data class ApiResponse<T>(
     val message: String,
     @SerializedName("data")
     val data: T
-)
-
-@Keep
-data class ItemsResponse(
-    @SerializedName("pairs")
-    val pairs: List<List<Int>>,
-    @SerializedName("items")
-    val items: List<Item>
 )
