@@ -41,7 +41,6 @@ class SplashActivity : BaseActivity() {
         }
 
         if (isNetworkAvailable) {
-
         }
 
         retry_button.setOnClickListener {

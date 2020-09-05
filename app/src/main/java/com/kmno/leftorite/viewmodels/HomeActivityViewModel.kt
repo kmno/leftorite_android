@@ -20,6 +20,7 @@ import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.data.repository.DbRepository
 import com.kmno.leftorite.ui.activities.HomeActivity
+import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.ShowCase
 import com.kmno.leftorite.utils.UserInfo
 import kotlinx.coroutines.Dispatchers
@@ -69,6 +70,18 @@ class HomeActivityViewModel(
             UserInfo.lastSelectedCategoryTitle,
             1, 0
         )
+    }
+
+    fun getInitialDefaultCategory(): Category {
+        return Category(
+            ConfigPref.default_cat_id,
+            "People",
+            1, 0
+        )
+    }
+
+    fun getInitialDefaultCategoryId(): Int {
+        return ConfigPref.default_cat_id
     }
 
     fun setWelcomeDialogIsShown() {

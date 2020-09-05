@@ -58,6 +58,7 @@ class SplashActivityViewModel(
                 this.new_version_title = config.new_version_title
                 this.force_update = config.force_update
                 this.new_version_changelog = config.new_version_changelog
+                this.default_cat_id = config.default_cat_id
             }
         } catch (e: Exception) {
             e.printStackTrace()

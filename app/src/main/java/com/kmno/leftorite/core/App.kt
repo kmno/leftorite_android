@@ -74,7 +74,7 @@ open class App : Application(), ImageLoaderFactory, Application.ActivityLifecycl
     override fun onActivityResumed(p0: Activity) {
     }
 
-    //create default imageloader
+    //create default image loader
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this@App)
             .availableMemoryPercentage(0.25)

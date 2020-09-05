@@ -114,6 +114,7 @@ dependencies {
 
     //test
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:3.5.5'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
@@ -143,5 +144,8 @@ dependencies {
     implementation 'pub.hanks:smallbang:1.2.2'
     implementation 'com.github.gayanvoice:android-animations-kotlin:1.0.1'
     implementation 'com.scwang.wave:MultiWaveHeader:1.0.0-andx'
+
+    // debugImplementation because LeakCanary should only run in debug builds.
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 }
 apply plugin: 'com.google.gms.google-services'

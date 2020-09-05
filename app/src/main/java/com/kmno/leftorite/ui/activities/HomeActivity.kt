@@ -57,7 +57,6 @@ import kotlinx.android.synthetic.main.recyclerview_list_category.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import xyz.hanks.library.bang.SmallBangView
 
-
 @Suppress("UNCHECKED_CAST")
 class HomeActivity : BaseActivity() {
 
@@ -73,7 +72,6 @@ class HomeActivity : BaseActivity() {
     private val itemDetailsViewBuilder = ItemDetailsViewBuilder()
 
     private var categoriesLoaded = false
-
 
     override fun getResId(): Int {
         return R.layout.activity_home
@@ -133,7 +131,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun showNewMessagesDialog() {
-        if (ConfigPref.new_msg_id != UserInfo.latestMsgId) {
+        if (ConfigPref.new_msg_id > UserInfo.latestMsgId) {
             UserInfo.latestMsgId = ConfigPref.new_msg_id
             Alerts.showAlertDialogWithDefaultButton(
                 title = ConfigPref.new_msg_title,
@@ -145,6 +143,7 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun ready() {
+
         //show app usage tips
         setUpShowcase()
 
@@ -184,6 +183,14 @@ class HomeActivity : BaseActivity() {
                                 select_right_item_button_split,
                                 getString(R.string.like_sides_title, "'Right'"),
                                 getString(R.string.like_sides_description, "right")
+                            )
+                        )
+                        .addShowCase(
+                            homeActivityViewModel.showCaseBuilder(
+                                this,
+                                separator_split_drag,
+                                getString(R.string.separator_split_drag),
+                                getString(R.string.separator_split_drag_description)
                             )
                         )
                         .addShowCase(
@@ -264,6 +271,10 @@ class HomeActivity : BaseActivity() {
                 autoDismiss = true,
                 listener = {
                     this.onClick {
+                        categoriesAdapter update { list ->
+                            // list[homeActivityViewModel.getLastSelectedCategoryIndex()].isSelected = true
+                            categoriesAdapter.notifyItemChanged(homeActivityViewModel.getLastSelectedCategoryIndex())
+                        }
                         homeActivityViewModel.setLastSelectedCategoryData(
                             -1,
                             -1,
@@ -281,7 +292,8 @@ class HomeActivity : BaseActivity() {
                 if (!categoriesLoaded) getCategories()
             }
 
-            override fun onSlide(slideOffset: Float) {}
+            override fun onSlide(slideOffset: Float) {
+            }
         })
     }
 
@@ -356,7 +368,7 @@ class HomeActivity : BaseActivity() {
                                         categoryBottomDialog.contentView.categories_recyclerview.run {
                                             this.visibility = View.VISIBLE
                                             categoriesAdapter = this.setUp<Category> {
-                                                withLayoutManager(GridLayoutManager(context, 2))
+                                                withLayoutManager(GridLayoutManager(context, 3))
                                                 withLayoutResId(R.layout.recyclerview_list_category)
                                                 withItems(response as MutableList<Category>)
                                                 bindIndexed { category, index ->
@@ -367,10 +379,16 @@ class HomeActivity : BaseActivity() {
                                                     category_title.text = category.title
                                                     category_new_badge.visibility = View.GONE
                                                     category_layout.setBackgroundResource(R.drawable.category_circular_item)
-                                                    if (index == homeActivityViewModel.getLastSelectedCategoryIndex())
+
+                                                    if (homeActivityViewModel.getLastSelectedCategoryIndex() == -1) {
+                                                        if (category.id == homeActivityViewModel.getInitialDefaultCategoryId())
+                                                            category_layout.setBackgroundResource(R.drawable.category_circular_item_selected)
+                                                    } else if (index == homeActivityViewModel.getLastSelectedCategoryIndex())
                                                         category_layout.setBackgroundResource(R.drawable.category_circular_item_selected)
-                                                    if (category.is_new == 1) category_new_badge.visibility =
-                                                        View.VISIBLE
+
+                                                    if (category.is_new == 1)
+                                                        category_new_badge.visibility = View.VISIBLE
+
                                                     setOnClickListener {
                                                         homeActivityViewModel.setLastSelectedCategoryData(
                                                             index,
@@ -757,11 +775,8 @@ class HomeActivity : BaseActivity() {
     private fun updateAdapter(_position: Int) {
         try {
             itemsAdapter update {
-                App.logger.error(_position.toString())
                 it.removeFirst()
-                //itemsAdapter.notifyItemRemoved(_position)
                 itemsAdapter.notifyItemRangeChanged(_position, it.size)
-                //itemsAdapter.notifyDataSetChanged()
                 if (it.isEmpty()) {
                     header_title.text = getString(R.string.no_more_items)
                     no_more_items_layout.visibility = View.VISIBLE
@@ -789,8 +804,10 @@ class HomeActivity : BaseActivity() {
     private fun callHomeActivityApi() {
         setupUserInfo()
         if (homeActivityViewModel.getLastSelectedCategoryIndex() == -1)
-            getAllItems()
-        else getItemsByCategory(homeActivityViewModel.getLastSelectedCategoryObject())
+        // getAllItems()
+            getItemsByCategory(homeActivityViewModel.getInitialDefaultCategory())
+        else
+            getItemsByCategory(homeActivityViewModel.getLastSelectedCategoryObject())
     }
 
     private fun onNetworkFail(errorMessage: String) {

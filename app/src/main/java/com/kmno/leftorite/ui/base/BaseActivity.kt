@@ -29,14 +29,11 @@ import com.kmno.leftorite.core.App
 import com.kmno.leftorite.utils.Alerts
 import com.kmno.leftorite.utils.Alerts.dismissFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbar
-import render.animations.Render
 
 
 abstract class BaseActivity : AppCompatActivity() {
 
     private val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
-    open lateinit var render: Render
-
     companion object {
         var isNetworkAvailable: Boolean = false
     }
@@ -44,8 +41,9 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getResId())
-        render = Render(this)
+
         afterCreate()
+
         checkPlayServices()
 
         val root = window.decorView

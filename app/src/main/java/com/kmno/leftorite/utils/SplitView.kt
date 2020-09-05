@@ -9,11 +9,15 @@ package com.kmno.leftorite.utils
 import android.content.Context
 import android.os.SystemClock
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 import kotlin.math.max
 import kotlin.math.min
 
@@ -36,6 +40,9 @@ class SplitView(context: Context, attrs: AttributeSet?) :
     private var mDragStartX = 0f
     private var mDragStartY = 0f
     private val mPointerOffset = 0f
+    private var primaryDim: View? = null
+    private var secondaryDim: View? = null
+    private var deviceWidth = 0
 
     public override fun onFinishInflate() {
         super.onFinishInflate()
@@ -56,6 +63,18 @@ class SplitView(context: Context, attrs: AttributeSet?) :
             throw RuntimeException("Your Panel must have a child View whose id attribute is 'R.id.$name'")
         }
         handle!!.setOnTouchListener(this)
+
+        primaryDim = mPrimaryContent?.findViewById<FrameLayout>(R.id.left_item_dim)
+        secondaryDim = mSecondaryContent?.findViewById<FrameLayout>(R.id.right_item_dim)
+        getDeviceWidth()
+
+    }
+
+    private fun getDeviceWidth() {
+        val displayMetrics = DisplayMetrics()
+        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        deviceWidth = displayMetrics.widthPixels
     }
 
     override fun onTouch(view: View, me: MotionEvent): Boolean {
@@ -63,33 +82,57 @@ class SplitView(context: Context, attrs: AttributeSet?) :
         if (view !== handle) {
             return false
         }
-        if (me.action == MotionEvent.ACTION_DOWN) {
-            mDragging = true
-            mDraggingStarted = SystemClock.elapsedRealtime()
-            mDragStartX = me.x
-            mDragStartY = me.y
-            /*if (getOrientation() == VERTICAL) {
-                mPointerOffset = me.getRawY() - getPrimaryContentSize();
-            } else {
-                mPointerOffset = me.getRawX() - getPrimaryContentSize();
-            }*/return true
-        } else if (me.action == MotionEvent.ACTION_UP) {
-            mDragging = false
-            if (mDragStartX < me.x + TAP_DRIFT_TOLERANCE && mDragStartX > me.x - TAP_DRIFT_TOLERANCE && mDragStartY < me.y + TAP_DRIFT_TOLERANCE && mDragStartY > me.y - TAP_DRIFT_TOLERANCE &&
-                SystemClock.elapsedRealtime() - mDraggingStarted < SINGLE_TAP_MAX_TIME
-            ) {
-                if (isPrimaryContentMaximized || isSecondaryContentMaximized) {
-                    setPrimaryContentSize(mLastPrimaryContentSize)
+        when (me.action) {
+            MotionEvent.ACTION_DOWN -> {
+                mDragging = true
+                mDraggingStarted = SystemClock.elapsedRealtime()
+                mDragStartX = me.x
+                mDragStartY = me.y
+                /*if (getOrientation() == VERTICAL) {
+                    mPointerOffset = me.getRawY() - getPrimaryContentSize();
                 } else {
-                    maximizeRightContent()
-                }
+                    mPointerOffset = me.getRawX() - getPrimaryContentSize();
+                }*/return true
             }
-            return true
-        } else if (me.action == MotionEvent.ACTION_MOVE) {
-            if (orientation == VERTICAL) {
-                setPrimaryContentHeight((me.rawY - mPointerOffset).toInt())
-            } else {
+            MotionEvent.ACTION_UP -> {
+                mDragging = false
+                if (mDragStartX < me.x + TAP_DRIFT_TOLERANCE &&
+                    mDragStartX > me.x - TAP_DRIFT_TOLERANCE &&
+                    mDragStartY < me.y + TAP_DRIFT_TOLERANCE &&
+                    mDragStartY > me.y - TAP_DRIFT_TOLERANCE &&
+                    SystemClock.elapsedRealtime() - mDraggingStarted < SINGLE_TAP_MAX_TIME
+                ) {
+                    if (isPrimaryContentMaximized || isSecondaryContentMaximized) {
+                        setPrimaryContentSize(mLastPrimaryContentSize)
+                    } else {
+                        maximizeRightContent()
+                    }
+                }
+
+                //  handle?.animate()?.x(500f)?.setDuration(500)?.start()
+                setPrimaryContentWidth(deviceWidth / 2)
+                secondaryDim?.animate()?.alpha(0f)?.start()
+                primaryDim?.animate()?.alpha(0f)?.start()
+                return true
+            }
+            MotionEvent.ACTION_MOVE -> {
+                App.logger.error((me.rawX - mPointerOffset).toString())
+                if ((me.rawX - mPointerOffset).toInt() < 150 || (me.rawX - mPointerOffset).toInt() > (deviceWidth - 150)) return false
                 setPrimaryContentWidth((me.rawX - mPointerOffset).toInt())
+                when {
+                    (1 - (me.rawX / 1000)) < 0.45f -> {
+                        primaryDim?.animate()?.alpha(0f)?.duration = 100
+                        secondaryDim?.animate()?.alpha(((me.rawX / 1000)))?.duration = 100
+                    }
+                    (1 - (me.rawX / 1000)) > 0.55f -> {
+                        secondaryDim?.animate()?.alpha(0f)?.duration = 100
+                        primaryDim?.animate()?.alpha((1 - (me.rawX / 1000) * 2))?.duration = 100
+                    }
+                    else -> {
+                        secondaryDim?.animate()?.alpha(0f)?.start()
+                        primaryDim?.animate()?.alpha(0f)?.start()
+                    }
+                }
             }
         }
         return true
@@ -102,12 +145,13 @@ class SplitView(context: Context, attrs: AttributeSet?) :
             mPrimaryContent!!.measuredWidth
         }
 
-    fun setPrimaryContentSize(newSize: Int): Boolean {
-        return if (orientation == VERTICAL) {
+    private fun setPrimaryContentSize(newSize: Int): Boolean {
+        return setPrimaryContentWidth(newSize)
+        /*if (orientation == VERTICAL) {
             setPrimaryContentHeight(newSize)
         } else {
             setPrimaryContentWidth(newSize)
-        }
+        //}*/
     }
 
     private fun setPrimaryContentHeight(_newHeight: Int): Boolean {
@@ -133,10 +177,10 @@ class SplitView(context: Context, attrs: AttributeSet?) :
         return true
     }
 
-    private fun setPrimaryContentWidth(newWidth: Int): Boolean {
+    private fun setPrimaryContentWidth(_newWidth: Int): Boolean {
         // the new primary content width should not be less than 0 to make the
         // handler always visible
-        var newWidth = newWidth
+        var newWidth = _newWidth
         newWidth = max(0, newWidth)
         // the new primary content width should not be more than the SplitView
         // width minus handler width to make the handler always visible
@@ -153,6 +197,7 @@ class SplitView(context: Context, attrs: AttributeSet?) :
         }
         unMinimizeSecondaryContent()
         mPrimaryContent!!.layoutParams = params
+
         return true
     }
 

@@ -47,5 +47,6 @@ object ConfigPref : KotprefModel() {
     var new_msg_title by stringPref()
     var new_version_title by stringPref()
     var force_update by intPref()
+    var default_cat_id by intPref()
     var new_version_changelog by stringPref()
 }

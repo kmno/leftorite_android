@@ -18,10 +18,7 @@ import com.kmno.leftorite.data.db.dao.ItemDao
 import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.utils.NetworkInfo
 import com.kmno.leftorite.utils.UserInfo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -97,26 +94,20 @@ class DbRepository(
     /**
      * Refresh the categories stored in the offline cache.
      **/
-    private fun refreshCategoriesOfflineCache(categories: List<Category>) {
+    private suspend fun refreshCategoriesOfflineCache(categories: List<Category>) {
         try {
-            launch { insertCategoryInBackground(categories) }
+            val insertJob = GlobalScope.launch {
+                withContext(Dispatchers.IO) {
+                    categories.forEach { record ->
+                        categoryDao?.insertCategory(record)
+                    }
+                }
+            }
+            insertJob.join()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-
-    /**
-     * This function uses the IO dispatcher to ensure the database insert database operation
-     * happens on the IO dispatcher. By switching to the IO dispatcher using `withContext` this
-     * function is now safe to call from any thread including the Main thread.
-     *
-     */
-    private suspend fun insertCategoryInBackground(categories: List<Category>) =
-        withContext(Dispatchers.IO) {
-            categories.forEach { record ->
-                categoryDao?.insertCategory(record)
-            }
-        }
 
     /* ITEMS */
     /*suspend fun getAllItemsList(): Resource<List<Item>>? {

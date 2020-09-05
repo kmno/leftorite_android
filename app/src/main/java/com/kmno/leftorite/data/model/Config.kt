@@ -32,6 +32,8 @@ data class Config(
     var new_version_title: String,
     @SerializedName("force_update")
     var force_update: Int,
+    @SerializedName("default_cat_id")
+    var default_cat_id: Int,
     @SerializedName("new_version_changelog")
     var new_version_changelog: String
 )
