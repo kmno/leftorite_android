@@ -22,7 +22,9 @@ import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.User
 import com.kmno.leftorite.utils.UserInfo
 import com.kmno.leftorite.utils.UserInfo.loggedIn
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.util.*
@@ -37,7 +39,9 @@ class AuthActivityViewModel(private val context: Context, apiProvider: ApiClient
     private val api = apiProvider.createApiClient()
 
     init {
+        var test = CoroutineScope(Dispatchers.IO).launch {
 
+        }
     }
 
     fun setLoggedInPref(_loggedIn: Boolean) {

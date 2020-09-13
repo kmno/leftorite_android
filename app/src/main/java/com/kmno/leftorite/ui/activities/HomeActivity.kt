@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.StatusCallback
-import cn.vove7.bottomdialog.builder.oneButton
 import cn.vove7.bottomdialog.toolbar
 import coil.Coil.imageLoader
 import coil.api.load
@@ -38,10 +37,7 @@ import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.ui.builders.CategoriesViewBuilder
 import com.kmno.leftorite.ui.builders.ItemDetailsViewBuilder
 import com.kmno.leftorite.ui.listeners.OnSwipeTouchListener
-import com.kmno.leftorite.utils.Alerts
-import com.kmno.leftorite.utils.ConfigPref
-import com.kmno.leftorite.utils.UserInfo
-import com.kmno.leftorite.utils.launchActivity
+import com.kmno.leftorite.utils.*
 import com.kmno.leftorite.viewmodels.CategoryBottomSheetViewModel
 import com.kmno.leftorite.viewmodels.HomeActivityViewModel
 import com.link184.kidadapter.setUp
@@ -72,6 +68,7 @@ class HomeActivity : BaseActivity() {
     private val itemDetailsViewBuilder = ItemDetailsViewBuilder()
 
     private var categoriesLoaded = false
+    private var itemsByCategoryOffset = 0
 
     override fun getResId(): Int {
         return R.layout.activity_home
@@ -264,7 +261,7 @@ class HomeActivity : BaseActivity() {
                     it.dismiss()
                 }
             }
-            oneButton(
+            /*oneButton(
                 getString(R.string.select_all_categories),
                 bgColorId = R.color.colorPrimaryDark,
                 textColorId = R.color.white,
@@ -280,9 +277,10 @@ class HomeActivity : BaseActivity() {
                             -1,
                             "All"
                         )
+                        allItemsOffset = 0
                         getAllItems()
                     }
-                })
+                })*/
             theme(R.style.BottomDialog_Dark)
             content(CategoriesViewBuilder())
         }
@@ -310,8 +308,9 @@ class HomeActivity : BaseActivity() {
     }
 
     //api calls
-    private fun getAllItems() {
-        homeActivityViewModel.getAllItems().observe(this, Observer { networkResource ->
+    //items
+    /*private fun getAllItems() {
+        homeActivityViewModel.getAllItems(allItemsOffset).observe(this, Observer { networkResource ->
             when (networkResource.state) {
                 State.LOADING -> {
                     showFullscreenProgress(true)
@@ -342,8 +341,100 @@ class HomeActivity : BaseActivity() {
                 }
             }
         })
+    }*/
+
+    private fun getItemsByCategory(_category: Category) {
+        if (this::categoriesAdapter.isInitialized) categoriesAdapter.notifyDataSetChanged()
+        if (this::itemsAdapter.isInitialized)
+            itemsAdapter update {
+                it.removeAll(it)
+                itemsAdapter.clear()
+                pairsOfItems.clear()
+            }
+        homeActivityViewModel.getItemsByCategory(_category.id, itemsByCategoryOffset)
+            .observe(this, Observer { networkResource ->
+                when (networkResource.state) {
+                    State.LOADING -> {
+                        showProgress(true)
+                        showFullscreenProgress(true)
+                    }
+                    State.SUCCESS -> {
+                        val status = networkResource.status
+                        status?.let {
+                            when (it) {
+                                true -> {
+                                    showProgress(false)
+                                    showFullscreenProgress(false)
+                                    networkResource.data?.let { response ->
+                                        current_category_text.text = _category.title
+                                        if (response.count() > 0) {
+                                            pairsOfItems = response as MutableList<Any>
+                                            setUpItems()
+                                        } else {
+                                            header_title.text = getString(R.string.no_more_items)
+                                            no_more_items_layout.visibility = View.VISIBLE
+                                        }
+                                    }
+                                }
+                                false -> {
+                                    onNetworkFail(networkResource.message.toString())
+                                }
+                            }
+                        }
+                    }
+                    State.ERROR -> {
+                        onNetworkFail(networkResource.message.toString())
+                    }
+                }
+            })
     }
 
+    private fun setSelectedItem(
+        _selectedItemId: Int,
+        _position: Int,
+        _selectedView: View,
+        _selectedSideFullFab: View
+    ) {
+        homeActivityViewModel.setSelectedItem(_selectedItemId)
+            .observe(this, Observer { networkResource ->
+                when (networkResource.state) {
+                    State.LOADING -> {
+                        showProgress(true)
+                    }
+                    State.SUCCESS -> {
+                        val status = networkResource.status
+                        status?.let { respStatus ->
+                            when (respStatus) {
+                                true -> {
+                                    likeAnimationAndContinue(
+                                        networkResource.data as String,
+                                        _position, _selectedSideFullFab
+                                    )
+                                }
+                                false -> {
+                                    resetView(_selectedView)
+                                    Alerts.showBottomSheetErrorWithActionButton(
+                                        msg = networkResource.message!!,
+                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                        activity = this
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    State.ERROR -> {
+                        resetView(_selectedView)
+                        Alerts.showBottomSheetErrorWithActionButton(
+                            msg = networkResource.message!!,
+                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                            activity = this
+                        )
+                    }
+                }
+            })
+    }
+
+    //categories
     private fun getCategories() {
         categoryBottomSheetViewModel.selectAllCategories()
             .observe(this, Observer { networkResource ->
@@ -395,6 +486,7 @@ class HomeActivity : BaseActivity() {
                                                             category.id,
                                                             category.title
                                                         )
+                                                        itemsByCategoryOffset = 0
                                                         getItemsByCategory(category)
                                                         categoryBottomDialog.dismiss()
                                                     }
@@ -433,55 +525,6 @@ class HomeActivity : BaseActivity() {
                     }
                 }
             })
-    }
-
-    private fun getItemsByCategory(_category: Category) {
-        if (this::categoriesAdapter.isInitialized) categoriesAdapter.notifyDataSetChanged()
-        if (this::itemsAdapter.isInitialized)
-            itemsAdapter update {
-                it.removeAll(it)
-                itemsAdapter.clear()
-                pairsOfItems.clear()
-            }
-        homeActivityViewModel.getItemsByCategory(_category.id)
-            .observe(this, Observer { networkResource ->
-                when (networkResource.state) {
-                    State.LOADING -> {
-                        showProgress(true)
-                        showFullscreenProgress(true)
-                    }
-                    State.SUCCESS -> {
-                        val status = networkResource.status
-                        status?.let {
-                            when (it) {
-                                true -> {
-                                    showProgress(false)
-                                    showFullscreenProgress(false)
-                                    networkResource.data?.let { response ->
-                                        current_category_text.text = _category.title
-                                        pairsOfItems = response as MutableList<Any>
-                                        setUpItems()
-                                    }
-                                }
-                                false -> {
-                                    onNetworkFail(networkResource.message.toString())
-                                }
-                            }
-                        }
-                    }
-                    State.ERROR -> {
-                        onNetworkFail(networkResource.message.toString())
-                    }
-                }
-            })
-    }
-
-    private fun preloadImagesIntoMemory(_imageUrl: String, _target: ImageView): LoadRequest {
-        return LoadRequest.Builder(this)
-            .data(_imageUrl)
-            .target(_target)
-            .size(ViewSizeResolver(_target))
-            .build()
     }
 
     //adapters and select handlers
@@ -639,6 +682,31 @@ class HomeActivity : BaseActivity() {
         setSelectedItem(_selectedItemId, _position, _selectedView, selectedSideFullFab)
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
+    private fun updateAdapter(_position: Int) {
+        try {
+            itemsAdapter update {
+                it.removeFirst()
+                itemsAdapter.notifyItemRangeChanged(_position, it.size)
+                if (it.isEmpty()) {
+                    itemsByCategoryOffset += AppSetting.itemsPerRequestLimit
+                    getItemsByCategory(homeActivityViewModel.getLastSelectedCategoryObject())
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun preloadImagesIntoMemory(_imageUrl: String, _target: ImageView): LoadRequest {
+        return LoadRequest.Builder(this)
+            .data(_imageUrl)
+            .target(_target)
+            .size(ViewSizeResolver(_target))
+            .build()
+    }
+
     private fun showProgress(_show: Boolean) {
         when (_show) {
             true -> {
@@ -702,51 +770,6 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    private fun setSelectedItem(
-        _selectedItemId: Int,
-        _position: Int,
-        _selectedView: View,
-        _selectedSideFullFab: View
-    ) {
-        homeActivityViewModel.setSelectedItem(_selectedItemId)
-            .observe(this, Observer { networkResource ->
-                when (networkResource.state) {
-                    State.LOADING -> {
-                        showProgress(true)
-                    }
-                    State.SUCCESS -> {
-                        val status = networkResource.status
-                        status?.let { respStatus ->
-                            when (respStatus) {
-                                true -> {
-                                    likeAnimationAndContinue(
-                                        networkResource.data as String,
-                                        _position, _selectedSideFullFab
-                                    )
-                                }
-                                false -> {
-                                    resetView(_selectedView)
-                                    Alerts.showBottomSheetErrorWithActionButton(
-                                        msg = networkResource.message!!,
-                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                        activity = this
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    State.ERROR -> {
-                        resetView(_selectedView)
-                        Alerts.showBottomSheetErrorWithActionButton(
-                            msg = networkResource.message!!,
-                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                            activity = this
-                        )
-                    }
-                }
-            })
-    }
-
     private fun likeAnimationAndContinue(
         _netResponse: String, _position: Int,
         _selectedSideFullFab: View
@@ -766,26 +789,9 @@ class HomeActivity : BaseActivity() {
 
     private fun resetView(_view: View) {
         showProgress(false)
-        header_title.text = getString(R.string.which_one)
+        header_title.text = ConfigPref.top_text
         _view.separator_split.visibility = View.VISIBLE
         no_more_items_layout.visibility = View.GONE
-    }
-
-    @OptIn(ExperimentalStdlibApi::class)
-    private fun updateAdapter(_position: Int) {
-        try {
-            itemsAdapter update {
-                it.removeFirst()
-                itemsAdapter.notifyItemRangeChanged(_position, it.size)
-                if (it.isEmpty()) {
-                    header_title.text = getString(R.string.no_more_items)
-                    no_more_items_layout.visibility = View.VISIBLE
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
     }
 
     override fun resume() {
@@ -804,7 +810,6 @@ class HomeActivity : BaseActivity() {
     private fun callHomeActivityApi() {
         setupUserInfo()
         if (homeActivityViewModel.getLastSelectedCategoryIndex() == -1)
-        // getAllItems()
             getItemsByCategory(homeActivityViewModel.getInitialDefaultCategory())
         else
             getItemsByCategory(homeActivityViewModel.getLastSelectedCategoryObject())

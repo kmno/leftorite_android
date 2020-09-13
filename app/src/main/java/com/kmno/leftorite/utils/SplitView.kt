@@ -17,7 +17,6 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.kmno.leftorite.R
-import com.kmno.leftorite.core.App
 import kotlin.math.max
 import kotlin.math.min
 
@@ -62,7 +61,9 @@ class SplitView(context: Context, attrs: AttributeSet?) :
             val name = resources.getResourceEntryName(mSecondaryContentId)
             throw RuntimeException("Your Panel must have a child View whose id attribute is 'R.id.$name'")
         }
-        handle!!.setOnTouchListener(this)
+        // mPrimaryContent!!.setOnTouchListener(this)
+        // mSecondaryContent!!.setOnTouchListener(this)
+        handle?.setOnTouchListener(this)
 
         primaryDim = mPrimaryContent?.findViewById<FrameLayout>(R.id.left_item_dim)
         secondaryDim = mSecondaryContent?.findViewById<FrameLayout>(R.id.right_item_dim)
@@ -79,9 +80,9 @@ class SplitView(context: Context, attrs: AttributeSet?) :
 
     override fun onTouch(view: View, me: MotionEvent): Boolean {
         // Only capture drag events if we start
-        if (view !== handle) {
-            return false
-        }
+        // if (view !== handle) {
+        //  return false
+        // }
         when (me.action) {
             MotionEvent.ACTION_DOWN -> {
                 mDragging = true
@@ -92,7 +93,8 @@ class SplitView(context: Context, attrs: AttributeSet?) :
                     mPointerOffset = me.getRawY() - getPrimaryContentSize();
                 } else {
                     mPointerOffset = me.getRawX() - getPrimaryContentSize();
-                }*/return true
+                }*/
+                return true
             }
             MotionEvent.ACTION_UP -> {
                 mDragging = false
@@ -116,7 +118,6 @@ class SplitView(context: Context, attrs: AttributeSet?) :
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
-                App.logger.error((me.rawX - mPointerOffset).toString())
                 if ((me.rawX - mPointerOffset).toInt() < 150 || (me.rawX - mPointerOffset).toInt() > (deviceWidth - 150)) return false
                 setPrimaryContentWidth((me.rawX - mPointerOffset).toInt())
                 when {

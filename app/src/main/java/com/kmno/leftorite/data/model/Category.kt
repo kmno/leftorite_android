@@ -33,5 +33,8 @@ data class Category(
     var is_active: Int,
     @SerializedName("is_new")
     @ColumnInfo(name = "is_new")
-    var is_new: Int
+    var is_new: Int/*,
+    @SerializedName("question_text")
+    @ColumnInfo(name = "question_text")
+    var question_text: String*/
 )

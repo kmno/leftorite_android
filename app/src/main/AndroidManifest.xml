@@ -19,6 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup"
         tools:targetApi="m">
+        <activity android:name=".ui.activities.PlaygroundActivity"></activity>
         <activity
             android:name=".ui.activities.SplashActivity"
             android:launchMode="singleTop"
@@ -26,6 +27,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

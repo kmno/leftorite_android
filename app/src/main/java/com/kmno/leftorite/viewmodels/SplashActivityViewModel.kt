@@ -97,4 +97,8 @@ class SplashActivityViewModel(
             )
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+    }
 }

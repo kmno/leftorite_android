@@ -19,4 +19,6 @@ object Constants {
     const val categoryImageUrl = "${assetsUrl}category/"
     const val userImageUrl = "${assetsUrl}user/"
     const val dbName = "db_leftorite"
+    const val itemsPerRequestLimitDefault = 15
+    const val itemsPerRequestLimitMin = 5
 }

@@ -40,9 +40,6 @@ class SplashActivity : BaseActivity() {
             app_version_text.text = this
         }
 
-        if (isNetworkAvailable) {
-        }
-
         retry_button.setOnClickListener {
             callInitialConfigApi()
         }

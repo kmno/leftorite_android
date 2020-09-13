@@ -15,11 +15,13 @@ import com.elconfidencial.bubbleshowcase.BubbleShowCase
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.data.repository.DbRepository
 import com.kmno.leftorite.ui.activities.HomeActivity
+import com.kmno.leftorite.utils.AppSetting
 import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.ShowCase
 import com.kmno.leftorite.utils.UserInfo
@@ -37,10 +39,6 @@ class HomeActivityViewModel(
     ViewModel() {
 
     private val api = apiProvider.createApiClient()
-
-    init {
-    }
-
     fun checkIfWelcomeDialogIsShown(): Boolean {
         return ShowCase.welcomeDialogIsShown
     }
@@ -135,10 +133,11 @@ class HomeActivityViewModel(
     }
 
     //get all items list
-    fun getAllItems() = liveData(Dispatchers.IO) {
+    /*fun getAllItems(offset: Int) = liveData(Dispatchers.IO) {
         emit(Resource.loading())
         try {
-            val response = api.getAllItems(UserInfo.id, UserInfo.token)
+            val response = api.getAllItems(UserInfo.id, UserInfo.token,
+                AppSetting.itemsPerRequestLimit, offset)
             if (response.isSuccessful) {
                 emit(
                     Resource.success(
@@ -157,7 +156,6 @@ class HomeActivityViewModel(
                 )
             }
         } catch (e: Exception) {
-            e.printStackTrace()
             emit(
                 Resource.error(
                     false,
@@ -166,13 +164,16 @@ class HomeActivityViewModel(
                 )
             )
         }
-    }
+    }*/
 
     //get items list based on selected category
-    fun getItemsByCategory(categoryId: Int) = liveData(Dispatchers.IO) {
+    fun getItemsByCategory(categoryId: Int, offset: Int) = liveData(Dispatchers.IO) {
         emit(Resource.loading())
         try {
-            val response = api.getItemsByCategory(categoryId, UserInfo.id, UserInfo.token)
+            val response = api.getItemsByCategory(
+                categoryId, UserInfo.id, UserInfo.token,
+                AppSetting.itemsPerRequestLimit, offset
+            )
             if (response.isSuccessful) {
                 emit(
                     Resource.success(
@@ -191,7 +192,6 @@ class HomeActivityViewModel(
                 )
             }
         } catch (e: Exception) {
-            e.printStackTrace()
             emit(
                 Resource.error(
                     false,
@@ -244,5 +244,6 @@ class HomeActivityViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        App.logger.error("HomeActivityViewModel onCleared called ++++++++++++++++++++++++++++++++++++++++")
     }
 }

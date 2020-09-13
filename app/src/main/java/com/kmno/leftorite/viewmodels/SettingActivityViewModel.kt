@@ -10,6 +10,7 @@ package com.kmno.leftorite.viewmodels
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.kmno.leftorite.BuildConfig
+import com.kmno.leftorite.core.Constants
 import com.kmno.leftorite.utils.AppSetting
 import com.kmno.leftorite.utils.ShowCase
 import com.kmno.leftorite.utils.UserInfo
@@ -36,10 +37,9 @@ class SettingActivityViewModel(private val context: Context) : ViewModel() {
 
     fun setDataSaverPref(_state: Boolean) {
         AppSetting.dataSaver = _state
-    }
+        if (_state) AppSetting.itemsPerRequestLimit = Constants.itemsPerRequestLimitMin
+        else AppSetting.itemsPerRequestLimit = Constants.itemsPerRequestLimitDefault
 
-    override fun onCleared() {
-        super.onCleared()
     }
 
 }

@@ -48,17 +48,21 @@ interface ApiService {
     ): Response<ServiceResponse<ApiResponse<List<Category>>>>
 
     //Items
-    @POST("/api/v1/getItems")
+/*    @POST("/api/v1/getItems")
     suspend fun getAllItems(
         @Query("id", encoded = true) id: Int,
-        @Query("token", encoded = true) token: String
-    ): Response<ServiceResponse<ApiResponse<List<Pair>>>>
+        @Query("token", encoded = true) token: String,
+        @Query("limit", encoded = true) limit: Int,
+        @Query("offset", encoded = true) offset: Int
+    ): Response<ServiceResponse<ApiResponse<List<Pair>>>>*/
 
     @POST("/api/v1/getItemsByCategory")
     suspend fun getItemsByCategory(
         @Query("catId", encoded = true) catId: Int,
         @Query("id", encoded = true) id: Int,
-        @Query("token", encoded = true) token: String
+        @Query("token", encoded = true) token: String,
+        @Query("limit", encoded = true) limit: Int,
+        @Query("offset", encoded = true) offset: Int
     ): Response<ServiceResponse<ApiResponse<List<Pair>>>>
 
     @POST("/api/v1/setSelectedItem")
