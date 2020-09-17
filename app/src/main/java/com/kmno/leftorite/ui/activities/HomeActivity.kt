@@ -108,6 +108,7 @@ class HomeActivity : BaseActivity() {
 
         //setting page
         more.setOnClickListener { this.launchActivity<SettingsActivity> {} }
+       // more.setOnClickListener { this.launchActivity<PlaygroundActivity> {} }
 
         //generate fcm token for push notifications
         generateFCMToken()
@@ -438,6 +439,7 @@ class HomeActivity : BaseActivity() {
     private fun getCategories() {
         categoryBottomSheetViewModel.selectAllCategories()
             .observe(this, Observer { networkResource ->
+                App.logger.error(networkResource.toString())
                 when (networkResource?.state) {
                     State.LOADING -> {
                         categoryBottomDialog.contentView.categories_retry_button.visibility =

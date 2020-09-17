@@ -39,6 +39,7 @@ class HomeActivityViewModel(
     ViewModel() {
 
     private val api = apiProvider.createApiClient()
+
     fun checkIfWelcomeDialogIsShown(): Boolean {
         return ShowCase.welcomeDialogIsShown
     }

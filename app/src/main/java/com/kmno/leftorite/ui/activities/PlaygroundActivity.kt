@@ -31,7 +31,7 @@ class PlaygroundActivity : AppCompatActivity() {
             LiveDataTimerViewModel::class.java
         )
 
-        subscribe()
+       // subscribe()
     }
 
     private fun subscribe() {

@@ -13,8 +13,10 @@ import androidx.lifecycle.liveData
 import com.kmno.leftorite.R
 import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.Resource
+import com.kmno.leftorite.data.api.Resource.Companion.loading
 import com.kmno.leftorite.data.repository.DbRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 
 /**
  * Created by Kamran Noorinejad on 6/9/2020 AD 15:37.
@@ -22,53 +24,18 @@ import kotlinx.coroutines.Dispatchers
  */
 class CategoryBottomSheetViewModel(
     private val context: Context,
-    //apiProvider: ApiClientProvider,
     private val dbRepository: DbRepository
 ) :
     ViewModel() {
 
-    //private val api = apiProvider.createApiClient()
-    //get all categories list
-    /*fun getCategories() = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
+    fun selectAllCategories() = liveData(Dispatchers.IO) {
+        emit(loading())
         try {
-            val response = api.getCategories(UserInfo.id, UserInfo.token)
-            if (response.isSuccessful) {
-                emit(
-                    Resource.success(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        response.body()?.response?.data
-                    )
-                )
-            } else {
-                emit(
-                    Resource.error(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        null
-                    )
-                )
+            dbRepository.getCategoriesList()?.collect {
+                App.logger.error(it.toString())
+                emit(it)
             }
         } catch (e: Exception) {
-            emit(
-                Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            )
-        }
-    }*/
-
-    fun selectAllCategories() = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val response = dbRepository.getCategoriesList()
-            App.logger.error(response.toString())
-            emit(response)
-        } catch (e: Exception) {
-            e.printStackTrace()
             emit(
                 Resource.error(
                     false,

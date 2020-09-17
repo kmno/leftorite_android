@@ -31,7 +31,7 @@ data class Resource<out T>(
             message: String? = null,
             data: T? = null
         ): Resource<T> {
-            return Resource(State.LOADING, status, message, data)
+            return Resource(State.LOADING, status, message, null)
         }
     }
 }

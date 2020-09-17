@@ -13,6 +13,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.kmno.leftorite.core.Constants.dbName
 import com.kmno.leftorite.data.model.Category
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by Kamran Noorinejad on 6/15/2020 AD 14:02.
@@ -27,7 +28,7 @@ interface CategoryDao {
 
     // @Query("SELECT * from ${dbName}_categories WHERE is_active=1 ORDER BY is_new DESC")
     @Query("SELECT * from ${dbName}_categories WHERE is_active=1 ORDER BY id DESC")
-    fun getCategories(): List<Category>
+    fun getCategories(): Flow<List<Category>>
 
     @Query("SELECT * from ${dbName}_categories WHERE id=:catId")
     fun getCategoryById(catId: Int): Category

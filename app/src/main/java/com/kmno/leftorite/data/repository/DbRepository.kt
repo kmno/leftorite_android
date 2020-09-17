@@ -19,6 +19,10 @@ import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.utils.NetworkInfo
 import com.kmno.leftorite.utils.UserInfo
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -52,12 +56,61 @@ class DbRepository(
         itemDao = db?.itemDao()
     }
 
+
     /* CATEGORIES */
     /**
      * check if network available
      * then get the latest list of categories and store them in db
      **/
-    suspend fun getCategoriesList(): Resource<List<Category>>? {
+
+    fun getCategoriesListFlow(): Flow<Resource<List<Category>>>? {
+        return categoryDao?.getCategories()?.map {
+            mapDbToDomain(it)
+        }?.flowOn(Dispatchers.IO)
+    }
+
+    private fun mapDbToDomain(list: List<Category>): Resource<List<Category>> {
+        return Resource.success(true, message, data = list)
+    }
+
+    suspend fun getCategoriesList(): Flow<Resource<List<Category>>>? {
+        return flow {
+            if (networkState.isOnline()) {
+                try {
+                    val response = api.getCategories(UserInfo.id, UserInfo.token)
+                    if (response.isSuccessful) {
+                        status = response.body()?.status ?: true
+                        message = response.body()?.response?.message ?: ""
+                        response.body()?.response?.data?.let {
+                            refreshCategoriesOfflineCache(it)
+                        }
+                    } else {
+                        emit(
+                            Resource.error(
+                                response.body()?.status,
+                                response.body()?.response?.message,
+                                emptyList()
+                            )
+                        )
+                    }
+                } catch (e: Exception) {
+                    emit(
+                        Resource.error(
+                            false,
+                            context.getString(R.string.network_error_text),
+                            null
+                        )
+                    )
+                }
+            }
+            categoryDao?.getCategories()?.map {
+                emit(mapDbToDomain(it))
+            }
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    /*suspend fun getCategoriesList(): Resource<List<Category>>? {
         if (networkState.isOnline()) {
             try {
                 val response = api.getCategories(UserInfo.id, UserInfo.token)
@@ -89,7 +142,8 @@ class DbRepository(
                 categoryDao?.getCategories()
             )
         }
-    }
+    }*/
+
 
     /**
      * Refresh the categories stored in the offline cache.
@@ -108,55 +162,4 @@ class DbRepository(
             e.printStackTrace()
         }
     }
-
-    /* ITEMS */
-    /*suspend fun getAllItemsList(): Resource<List<Item>>? {
-        if (networkState.isOnline()) {
-            try {
-                val response = api.getAllItems(UserInfo.id, UserInfo.token)
-                if (response.isSuccessful) {
-                    status = response.body()?.status ?: true
-                    //message = response.body()?.response?.message ?: ""
-                    message = "All"
-                    response.body()?.response?.data?.let {
-                        refreshItemsOfflineCache(it.items)
-                    }
-                } else {
-                    return Resource.error(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        null
-                    )
-                }
-            } catch (e: Exception) {
-                return Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            }
-        }
-        return withContext(Dispatchers.IO) {
-            Resource.success(
-                status,
-                message,
-                itemDao?.getAllItems()
-            )
-        }
-    }
-
-    private fun refreshItemsOfflineCache(items: List<Item>) {
-        try {
-            launch { insertItemsInBackground(items) }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    private suspend fun insertItemsInBackground(items: List<Item>) =
-        withContext(Dispatchers.IO) {
-            items.forEach { record ->
-                itemDao?.insertItem(record)
-            }
-        }*/
 }
