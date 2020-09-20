@@ -10,6 +10,7 @@ package com.kmno.leftorite.data.repository
 import android.app.Application
 import android.content.Context
 import com.kmno.leftorite.R
+import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.db.LeftoriteDatabase
@@ -19,10 +20,7 @@ import com.kmno.leftorite.data.model.Category
 import com.kmno.leftorite.utils.NetworkInfo
 import com.kmno.leftorite.utils.UserInfo
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -56,58 +54,76 @@ class DbRepository(
         itemDao = db?.itemDao()
     }
 
-
     /* CATEGORIES */
     /**
      * check if network available
      * then get the latest list of categories and store them in db
      **/
 
-    fun getCategoriesListFlow(): Flow<Resource<List<Category>>>? {
+    private fun getCategoriesListFlowOffline(): Flow<Resource<List<Category>>>? {
         return categoryDao?.getCategories()?.map {
             mapDbToDomain(it)
-        }?.flowOn(Dispatchers.IO)
+        }?.flowOn(Dispatchers.IO)?.catch {
+            emit(
+                Resource.error(
+                    false,
+                    context.getString(R.string.network_error_text),
+                    null
+                )
+            )
+        }
     }
 
-    private fun mapDbToDomain(list: List<Category>): Resource<List<Category>> {
-        return Resource.success(true, message, data = list)
-    }
-
-    suspend fun getCategoriesList(): Flow<Resource<List<Category>>>? {
+    private fun getCategoriesListFlowOnline(): Flow<Resource<List<Category>>>? {
         return flow {
-            if (networkState.isOnline()) {
-                try {
-                    val response = api.getCategories(UserInfo.id, UserInfo.token)
-                    if (response.isSuccessful) {
-                        status = response.body()?.status ?: true
-                        message = response.body()?.response?.message ?: ""
-                        response.body()?.response?.data?.let {
-                            refreshCategoriesOfflineCache(it)
-                        }
-                    } else {
-                        emit(
-                            Resource.error(
-                                response.body()?.status,
-                                response.body()?.response?.message,
-                                emptyList()
-                            )
-                        )
+            try {
+                val response = api.getCategories(UserInfo.id, UserInfo.token)
+                if (response.isSuccessful) {
+                    status = response.body()?.status ?: true
+                    message = response.body()?.response?.message ?: ""
+                    response.body()?.response?.data?.let {
+                        refreshCategoriesOfflineCache(it)
+                        emit(mapDbToDomain(it))
                     }
-                } catch (e: Exception) {
+                } else {
                     emit(
                         Resource.error(
-                            false,
-                            context.getString(R.string.network_error_text),
+                            response.body()?.status,
+                            response.body()?.response?.message,
                             null
                         )
                     )
                 }
+            } catch (e: Exception) {
+                emit(
+                    Resource.error(
+                        false,
+                        context.getString(R.string.network_error_text),
+                        null
+                    )
+                )
             }
-            categoryDao?.getCategories()?.map {
-                emit(mapDbToDomain(it))
+        }
+            .flowOn(Dispatchers.IO)
+            .catch {
+                emit(
+                    Resource.error(
+                        false,
+                        context.getString(R.string.network_error_text),
+                        null
+                    )
+                )
             }
+    }
 
-        }.flowOn(Dispatchers.IO)
+    private fun mapDbToDomain(list: List<Category>): Resource<List<Category>> {
+        if (list.isEmpty()) status = false
+        return Resource.success(status, message, data = list)
+    }
+
+    fun getCategoriesList(): Flow<Resource<List<Category>>>? {
+        if (networkState.isOnline()) return getCategoriesListFlowOnline()
+        return getCategoriesListFlowOffline()
     }
 
     /*suspend fun getCategoriesList(): Resource<List<Category>>? {
@@ -144,7 +160,6 @@ class DbRepository(
         }
     }*/
 
-
     /**
      * Refresh the categories stored in the offline cache.
      **/
@@ -153,6 +168,7 @@ class DbRepository(
             val insertJob = GlobalScope.launch {
                 withContext(Dispatchers.IO) {
                     categories.forEach { record ->
+                        App.logger.error("$record inserted ")
                         categoryDao?.insertCategory(record)
                     }
                 }

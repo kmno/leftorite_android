@@ -26,7 +26,6 @@ interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCategory(category: Category)
 
-    // @Query("SELECT * from ${dbName}_categories WHERE is_active=1 ORDER BY is_new DESC")
     @Query("SELECT * from ${dbName}_categories WHERE is_active=1 ORDER BY id DESC")
     fun getCategories(): Flow<List<Category>>
 

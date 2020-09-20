@@ -108,7 +108,7 @@ class HomeActivity : BaseActivity() {
 
         //setting page
         more.setOnClickListener { this.launchActivity<SettingsActivity> {} }
-       // more.setOnClickListener { this.launchActivity<PlaygroundActivity> {} }
+        // more.setOnClickListener { this.launchActivity<PlaygroundActivity> {} }
 
         //generate fcm token for push notifications
         generateFCMToken()
@@ -437,9 +437,11 @@ class HomeActivity : BaseActivity() {
 
     //categories
     private fun getCategories() {
+        categoryBottomDialog.contentView.categories_retry_button.setOnClickListener {
+            getCategories()
+        }
         categoryBottomSheetViewModel.selectAllCategories()
             .observe(this, Observer { networkResource ->
-                App.logger.error(networkResource.toString())
                 when (networkResource?.state) {
                     State.LOADING -> {
                         categoryBottomDialog.contentView.categories_retry_button.visibility =
@@ -505,11 +507,6 @@ class HomeActivity : BaseActivity() {
                                         View.GONE
                                     categoryBottomDialog.contentView.categories_retry_button.visibility =
                                         View.VISIBLE
-                                    /*Alerts.showBottomSheetErrorWithActionButton(
-                                        msg = networkResource.message!!,
-                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                        activity = this
-                                    )*/
                                 }
                             }
                         }
@@ -519,11 +516,6 @@ class HomeActivity : BaseActivity() {
                             View.GONE
                         categoryBottomDialog.contentView.categories_retry_button.visibility =
                             View.VISIBLE
-                        /*Alerts.showBottomSheetErrorWithActionButton(
-                            msg = networkResource.message!!,
-                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                            activity = this
-                        )*/
                     }
                 }
             })

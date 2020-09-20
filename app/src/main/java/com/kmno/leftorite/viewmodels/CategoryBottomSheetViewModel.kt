@@ -11,7 +11,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.kmno.leftorite.R
-import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.api.Resource.Companion.loading
 import com.kmno.leftorite.data.repository.DbRepository
@@ -32,10 +31,10 @@ class CategoryBottomSheetViewModel(
         emit(loading())
         try {
             dbRepository.getCategoriesList()?.collect {
-                App.logger.error(it.toString())
                 emit(it)
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(
                 Resource.error(
                     false,
