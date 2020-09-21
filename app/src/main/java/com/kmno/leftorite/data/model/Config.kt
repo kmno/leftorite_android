@@ -35,5 +35,9 @@ data class Config(
     @SerializedName("default_cat_id")
     var default_cat_id: Int,
     @SerializedName("new_version_changelog")
-    var new_version_changelog: String
+    var new_version_changelog: String,
+    @SerializedName("itemsPerRequestLimitDefault")
+    var itemsPerRequestLimitDefault: Int,
+    @SerializedName("itemsPerRequestLimitMin")
+    var itemsPerRequestLimitMin: Int
 )

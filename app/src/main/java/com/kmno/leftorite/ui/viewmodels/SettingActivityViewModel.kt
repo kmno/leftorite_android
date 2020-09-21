@@ -5,13 +5,12 @@
  * http://www.itskamran.ir/
  */
 
-package com.kmno.leftorite.viewmodels
+package com.kmno.leftorite.ui.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.kmno.leftorite.BuildConfig
-import com.kmno.leftorite.core.Constants
 import com.kmno.leftorite.utils.AppSetting
+import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.ShowCase
 import com.kmno.leftorite.utils.UserInfo
 
@@ -22,12 +21,7 @@ import com.kmno.leftorite.utils.UserInfo
 
 class SettingActivityViewModel(private val context: Context) : ViewModel() {
 
-    var appVersionText: String = BuildConfig.VERSION_NAME
-
     var dataSaver = AppSetting.dataSaver
-
-    init {
-    }
 
     fun signOutUser() {
         UserInfo.clear()
@@ -37,9 +31,10 @@ class SettingActivityViewModel(private val context: Context) : ViewModel() {
 
     fun setDataSaverPref(_state: Boolean) {
         AppSetting.dataSaver = _state
-        if (_state) AppSetting.itemsPerRequestLimit = Constants.itemsPerRequestLimitMin
-        else AppSetting.itemsPerRequestLimit = Constants.itemsPerRequestLimitDefault
-
+        if (_state)
+            AppSetting.itemsPerRequestLimit = ConfigPref.itemsPerRequestLimitMin
+        else
+            AppSetting.itemsPerRequestLimit = ConfigPref.itemsPerRequestLimitDefault
     }
 
 }

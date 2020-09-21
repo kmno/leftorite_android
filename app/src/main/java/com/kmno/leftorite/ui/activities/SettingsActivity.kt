@@ -14,9 +14,9 @@ import androidx.preference.SwitchPreferenceCompat
 import com.kmno.leftorite.BuildConfig
 import com.kmno.leftorite.R
 import com.kmno.leftorite.ui.base.BaseActivity
+import com.kmno.leftorite.ui.viewmodels.SettingActivityViewModel
 import com.kmno.leftorite.utils.Alerts
 import com.kmno.leftorite.utils.launchActivity
-import com.kmno.leftorite.viewmodels.SettingActivityViewModel
 import kotlinx.android.synthetic.main.toolbar_with_close_button.*
 import org.koin.android.viewmodel.ext.android.viewModel
 

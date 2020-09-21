@@ -8,7 +8,6 @@
 package com.kmno.leftorite.utils
 
 import com.chibatching.kotpref.KotprefModel
-import com.kmno.leftorite.core.Constants
 
 /**
  * Created by Kamran Noorinejad on 5/13/2020 AD 16:12.
@@ -38,7 +37,7 @@ object ShowCase : KotprefModel() {
 
 object AppSetting : KotprefModel() {
     var dataSaver by AppSetting.booleanPref(false)
-    var itemsPerRequestLimit by intPref(Constants.itemsPerRequestLimitDefault)
+    var itemsPerRequestLimit by intPref()
 }
 
 object ConfigPref : KotprefModel() {
@@ -51,4 +50,6 @@ object ConfigPref : KotprefModel() {
     var force_update by intPref()
     var default_cat_id by intPref()
     var new_version_changelog by stringPref()
+    var itemsPerRequestLimitDefault by intPref()
+    var itemsPerRequestLimitMin by intPref()
 }

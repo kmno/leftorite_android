@@ -37,9 +37,9 @@ import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.ui.builders.CategoriesViewBuilder
 import com.kmno.leftorite.ui.builders.ItemDetailsViewBuilder
 import com.kmno.leftorite.ui.listeners.OnSwipeTouchListener
+import com.kmno.leftorite.ui.viewmodels.CategoryBottomSheetViewModel
+import com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel
 import com.kmno.leftorite.utils.*
-import com.kmno.leftorite.viewmodels.CategoryBottomSheetViewModel
-import com.kmno.leftorite.viewmodels.HomeActivityViewModel
 import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
 import kotlinx.android.synthetic.main.activity_home.*
@@ -390,51 +390,6 @@ class HomeActivity : BaseActivity() {
             })
     }
 
-    private fun setSelectedItem(
-        _selectedItemId: Int,
-        _position: Int,
-        _selectedView: View,
-        _selectedSideFullFab: View
-    ) {
-        homeActivityViewModel.setSelectedItem(_selectedItemId)
-            .observe(this, Observer { networkResource ->
-                when (networkResource.state) {
-                    State.LOADING -> {
-                        showProgress(true)
-                    }
-                    State.SUCCESS -> {
-                        val status = networkResource.status
-                        status?.let { respStatus ->
-                            when (respStatus) {
-                                true -> {
-                                    likeAnimationAndContinue(
-                                        networkResource.data as String,
-                                        _position, _selectedSideFullFab
-                                    )
-                                }
-                                false -> {
-                                    resetView(_selectedView)
-                                    Alerts.showBottomSheetErrorWithActionButton(
-                                        msg = networkResource.message!!,
-                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                                        activity = this
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    State.ERROR -> {
-                        resetView(_selectedView)
-                        Alerts.showBottomSheetErrorWithActionButton(
-                            msg = networkResource.message!!,
-                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
-                            activity = this
-                        )
-                    }
-                }
-            })
-    }
-
     //categories
     private fun getCategories() {
         categoryBottomDialog.contentView.categories_retry_button.setOnClickListener {
@@ -540,11 +495,11 @@ class HomeActivity : BaseActivity() {
                             diskCachePolicy(CachePolicy.ENABLED)
                         }
                     }
-
                     select_left_item_button_split.setOnClickListener {
                         handleSelectedView(
                             "left",
                             this.first_item_id,
+                            this.pair_id,
                             position,
                             this@bindIndexed
                         )
@@ -580,6 +535,7 @@ class HomeActivity : BaseActivity() {
                             handleSelectedView(
                                 "left",
                                 this@with.first_item_id,
+                                this@with.pair_id,
                                 position,
                                 this@bindIndexed
                             )
@@ -595,12 +551,14 @@ class HomeActivity : BaseActivity() {
                             diskCachePolicy(CachePolicy.ENABLED)
                         }
                     }
+                    select_right_item_button_split.tag = this.second_item_id
 
                     //like button single click
                     select_right_item_button_split.setOnClickListener {
                         handleSelectedView(
                             "right",
                             this.second_item_id,
+                            this.pair_id,
                             position,
                             this@bindIndexed
                         )
@@ -637,6 +595,7 @@ class HomeActivity : BaseActivity() {
                             handleSelectedView(
                                 "right",
                                 this@with.second_item_id,
+                                this@with.pair_id,
                                 position,
                                 this@bindIndexed
                             )
@@ -655,12 +614,18 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    private fun selectItem() {
+
+    }
+
     private fun handleSelectedView(
         _selectedSide: String,
         _selectedItemId: Int,
+        _pairId: Int,
         _position: Int,
         _selectedView: View
     ) {
+
         var selectedSideFullFab = _selectedView.left_item_fab_full_split
         _selectedView.separator_split.visibility = View.GONE
         when (_selectedSide) {
@@ -673,7 +638,53 @@ class HomeActivity : BaseActivity() {
                 selectedSideFullFab = _selectedView.left_item_fab_full_split
             }
         }
-        setSelectedItem(_selectedItemId, _position, _selectedView, selectedSideFullFab)
+        setSelectedItem(_selectedItemId, _pairId, _position, _selectedView, selectedSideFullFab)
+    }
+
+    private fun setSelectedItem(
+        _selectedItemId: Int,
+        _pairId: Int,
+        _position: Int,
+        _selectedView: View,
+        _selectedSideFullFab: View
+    ) {
+        homeActivityViewModel.setSelectedItem(_selectedItemId, _pairId)
+            .observe(this, Observer { networkResource ->
+                when (networkResource.state) {
+                    State.LOADING -> {
+                        showProgress(true)
+                    }
+                    State.SUCCESS -> {
+                        val status = networkResource.status
+                        status?.let { respStatus ->
+                            when (respStatus) {
+                                true -> {
+                                    likeAnimationAndContinue(
+                                        networkResource.data as String,
+                                        _position, _selectedSideFullFab
+                                    )
+                                }
+                                false -> {
+                                    resetView(_selectedView)
+                                    Alerts.showBottomSheetErrorWithActionButton(
+                                        msg = networkResource.message!!,
+                                        actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                                        activity = this
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    State.ERROR -> {
+                        resetView(_selectedView)
+                        Alerts.showBottomSheetErrorWithActionButton(
+                            msg = networkResource.message!!,
+                            actionPositiveTitle = getString(R.string.error_dialog_try_again_button_text),
+                            activity = this
+                        )
+                    }
+                }
+            })
     }
 
     @OptIn(ExperimentalStdlibApi::class)
@@ -693,6 +704,7 @@ class HomeActivity : BaseActivity() {
 
     }
 
+    //=========================================================================
     private fun preloadImagesIntoMemory(_imageUrl: String, _target: ImageView): LoadRequest {
         return LoadRequest.Builder(this)
             .data(_imageUrl)

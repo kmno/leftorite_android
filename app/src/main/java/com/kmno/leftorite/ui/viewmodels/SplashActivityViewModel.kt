@@ -5,7 +5,7 @@
  * http://www.itskamran.ir/
  */
 
-package com.kmno.leftorite.viewmodels
+package com.kmno.leftorite.ui.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -16,6 +16,7 @@ import com.kmno.leftorite.R
 import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.Config
+import com.kmno.leftorite.utils.AppSetting
 import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.UserInfo
 import kotlinx.coroutines.Dispatchers
@@ -59,10 +60,17 @@ class SplashActivityViewModel(
                 this.force_update = config.force_update
                 this.new_version_changelog = config.new_version_changelog
                 this.default_cat_id = config.default_cat_id
+                this.itemsPerRequestLimitDefault = config.itemsPerRequestLimitDefault
+                this.itemsPerRequestLimitMin = config.itemsPerRequestLimitMin
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun checkApiRequestLimits() {
+        if (AppSetting.itemsPerRequestLimit == 0)
+            AppSetting.itemsPerRequestLimit = ConfigPref.itemsPerRequestLimitDefault
     }
 
     fun getInitialConfig() = liveData(Dispatchers.IO) {

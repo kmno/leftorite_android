@@ -5,7 +5,7 @@
  * http://www.itskamran.ir/
  */
 
-package com.kmno.leftorite.viewmodels
+package com.kmno.leftorite.ui.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

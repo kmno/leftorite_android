@@ -17,6 +17,10 @@ import com.google.gson.annotations.SerializedName
  */
 @Keep
 data class Pair(
+    @SerializedName("pair_id")
+    @ColumnInfo(name = "pair_id")
+    val pair_id: Int,
+
     @SerializedName("first_item_id")
     @ColumnInfo(name = "first_item_id")
     val first_item_id: Int,

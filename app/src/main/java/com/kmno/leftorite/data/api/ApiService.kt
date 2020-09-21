@@ -68,6 +68,7 @@ interface ApiService {
     @POST("/api/v1/setSelectedItem")
     suspend fun setSelectedItem(
         @Query("itemId", encoded = true) itemId: Int,
+        @Query("pairId", encoded = true) pairId: Int,
         @Query("id", encoded = true) id: Int,
         @Query("token", encoded = true) token: String
     ): Response<ServiceResponse<ApiResponse<Any>>>

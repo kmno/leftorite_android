@@ -5,7 +5,7 @@
  * http://www.itskamran.ir/
  */
 
-package com.kmno.leftorite.viewmodels
+package com.kmno.leftorite.ui.viewmodels
 
 import android.content.Context
 import android.view.View
@@ -15,7 +15,6 @@ import com.elconfidencial.bubbleshowcase.BubbleShowCase
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
 import com.kmno.leftorite.R
-import com.kmno.leftorite.core.App
 import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.Category
@@ -205,10 +204,10 @@ class HomeActivityViewModel(
     }
 
     //set selected item
-    fun setSelectedItem(itemId: Int) = liveData(Dispatchers.IO) {
+    fun setSelectedItem(itemId: Int, pairId: Int) = liveData(Dispatchers.IO) {
         emit(Resource.loading())
         try {
-            val response = api.setSelectedItem(itemId, UserInfo.id, UserInfo.token)
+            val response = api.setSelectedItem(itemId, pairId, UserInfo.id, UserInfo.token)
             if (response.isSuccessful) {
                 emit(
                     Resource.success(
@@ -227,7 +226,6 @@ class HomeActivityViewModel(
                 )
             }
         } catch (e: Exception) {
-            e.printStackTrace()
             emit(
                 Resource.error(
                     false,
@@ -245,6 +243,5 @@ class HomeActivityViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        App.logger.error("HomeActivityViewModel onCleared called ++++++++++++++++++++++++++++++++++++++++")
     }
 }
