@@ -22,6 +22,7 @@ object UserInfo : KotprefModel() {
     var token by stringPref()
     var points by intPref(0)
     var avatar by stringPref()
+    var lastLoginDate by longPref()
 
     var latestMsgId by intPref(0)
 

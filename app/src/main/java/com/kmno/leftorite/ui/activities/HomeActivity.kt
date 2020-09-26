@@ -37,9 +37,10 @@ import com.kmno.leftorite.ui.base.BaseActivity
 import com.kmno.leftorite.ui.builders.CategoriesViewBuilder
 import com.kmno.leftorite.ui.builders.ItemDetailsViewBuilder
 import com.kmno.leftorite.ui.listeners.OnSwipeTouchListener
-import com.kmno.leftorite.ui.viewmodels.CategoryBottomSheetViewModel
+import com.kmno.leftorite.ui.viewmodels.CategoryViewModel
 import com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel
 import com.kmno.leftorite.utils.*
+import com.kmno.leftorite.utils.extensions.commaString
 import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
 import kotlinx.android.synthetic.main.activity_home.*
@@ -57,7 +58,7 @@ import xyz.hanks.library.bang.SmallBangView
 class HomeActivity : BaseActivity() {
 
     private val homeActivityViewModel: HomeActivityViewModel by viewModel()
-    private val categoryBottomSheetViewModel: CategoryBottomSheetViewModel by viewModel()
+    private val categoryViewModel: CategoryViewModel by viewModel()
 
     private lateinit var itemsAdapter: SingleKidAdapter<Any>
     private lateinit var categoriesAdapter: SingleKidAdapter<Category>
@@ -107,8 +108,7 @@ class HomeActivity : BaseActivity() {
         })
 
         //setting page
-        more.setOnClickListener { this.launchActivity<SettingsActivity> {} }
-        // more.setOnClickListener { this.launchActivity<PlaygroundActivity> {} }
+        more.setOnClickListener { this.launchActivity<ProfileActivity> {} }
 
         //generate fcm token for push notifications
         generateFCMToken()
@@ -243,9 +243,9 @@ class HomeActivity : BaseActivity() {
     private fun handlePoints() {
         try {
             if (UserInfo.points > 9999) {
-                user_points_text.text = "+" + (UserInfo.points / 1000).toString() + "K"
+                user_points_text.text = "+" + (UserInfo.points / 1000).commaString + "K"
             } else {
-                user_points_text.text = UserInfo.points.toString()
+                user_points_text.text = UserInfo.points.commaString
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -395,7 +395,7 @@ class HomeActivity : BaseActivity() {
         categoryBottomDialog.contentView.categories_retry_button.setOnClickListener {
             getCategories()
         }
-        categoryBottomSheetViewModel.selectAllCategories()
+        categoryViewModel.selectAllCategories()
             .observe(this, Observer { networkResource ->
                 when (networkResource?.state) {
                     State.LOADING -> {
@@ -612,10 +612,6 @@ class HomeActivity : BaseActivity() {
         recyclerView.layoutManager = object : LinearLayoutManager(applicationContext) {
             override fun canScrollVertically(): Boolean = false
         }
-    }
-
-    private fun selectItem() {
-
     }
 
     private fun handleSelectedView(

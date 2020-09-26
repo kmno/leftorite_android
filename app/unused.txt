@@ -2918,6 +2918,7 @@ androidx.appcompat.widget.SuggestionsAdapter:
     static final int REFINE_ALL
     static final int INVALID_INDEX
 com.kmno.leftorite.ui.activities.HomeActivity:
+    private final void selectItem()
     private final void disableEnableControls(boolean,android.view.ViewGroup)
 com.google.android.material.transition.FadeModeEvaluators:
     private void <init>()
@@ -3508,6 +3509,8 @@ com.crashlytics.android.core.CodedOutputStream:
     public static final int LITTLE_ENDIAN_64_SIZE
 com.google.android.material.floatingactionbutton.FloatingActionButton$BaseBehavior:
     private static final boolean AUTO_HIDE_DEFAULT
+com.kmno.leftorite.ui.activities.PlaygroundActivity:
+    private final void subscribe()
 androidx.room.InvalidationTracker:
     private static final java.lang.String UPDATE_TABLE_NAME
     private static final java.lang.String TABLE_ID_COLUMN_NAME
@@ -3515,6 +3518,7 @@ androidx.room.InvalidationTracker:
     private static final java.lang.String CREATE_TRACKING_TABLE_SQL
     static final java.lang.String RESET_UPDATED_TABLES_SQL
     static final java.lang.String SELECT_UPDATED_TABLES_SQL
+com.kmno.leftorite.ui.activities.PlaygroundActivity$subscribe$1
 kotlin.concurrent.LocksKt:
     private static final java.lang.Object withLock(java.util.concurrent.locks.Lock,kotlin.jvm.functions.Function0)
     private static final java.lang.Object read(java.util.concurrent.locks.ReentrantReadWriteLock,kotlin.jvm.functions.Function0)
@@ -6492,8 +6496,6 @@ com.google.android.material.textfield.MaterialAutoCompleteTextView:
     public static synthetic androidx.appcompat.widget.ListPopupWindow access$000(com.google.android.material.textfield.MaterialAutoCompleteTextView)
     public final int measureContentWidth()
     public final void updateText(java.lang.Object)
-com.kmno.leftorite.data.repository.DbRepository$getCategoriesList$3:
-    public int label
 androidx.fragment.app.FragmentStateManager:
     public androidx.fragment.app.Fragment getFragment()
     public void setFragmentManagerState(int)
@@ -6986,8 +6988,6 @@ com.link184.kidadapter.typed.restructure.RestructureConfiguration$removeAll$1:
     public final void invoke(com.link184.kidadapter.typed.AdapterViewTypeConfiguration)
 com.kmno.leftorite.data.api.ApiClientProvider$createApiClient$retrofit$2:
     public final retrofit2.Retrofit invoke()
-com.kmno.leftorite.viewmodels.SettingActivityViewModel:
-    public final android.content.Context context
 androidx.loader.app.LoaderManagerImpl$LoaderObserver:
     public boolean hasDeliveredData()
     public void reset()
@@ -7012,8 +7012,6 @@ com.google.android.gms.common.api.Batch:
     public static synthetic boolean zad(com.google.android.gms.common.api.Batch)
     public static synthetic boolean zaf(com.google.android.gms.common.api.Batch)
     public static synthetic com.google.android.gms.common.api.PendingResult[] zag(com.google.android.gms.common.api.Batch)
-com.kmno.leftorite.viewmodels.AuthActivityViewModel$test$1:
-    public int label
 kotlin.sequences.SubSequence:
     public final int getCount()
 com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$Lambda$12
@@ -7906,6 +7904,8 @@ com.google.android.material.bottomsheet.BottomSheetBehavior$4:
 com.crashlytics.android.answers.FirebaseAnalyticsApiAdapter:
     public void <init>(android.content.Context,com.crashlytics.android.answers.FirebaseAnalyticsEventMapper)
     public com.crashlytics.android.answers.EventLogger getFirebaseAnalytics()
+com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel:
+    public final com.kmno.leftorite.data.repository.DbRepository dbRepository
 retrofit2.converter.scalars.ScalarResponseBodyConverters$StringResponseBodyConverter:
     public java.lang.String convert(okhttp3.ResponseBody)
 com.crashlytics.android.core.AppData:
@@ -8792,6 +8792,8 @@ com.kmno.leftorite.ui.activities.SplashActivity:
 androidx.transition.PathProperty:
     public java.lang.Float get()
     public void set(java.lang.Object,java.lang.Float)
+com.kmno.leftorite.ui.viewmodels.AuthActivityViewModel$test$1:
+    public int label
 com.agrawalsuneet.dotsloader.loaders.TashieLoader:
     public final void startLoading()
     public final android.view.animation.AnimationSet getScaleAnimation(boolean,int)
@@ -9192,6 +9194,9 @@ androidx.vectordrawable.graphics.drawable.VectorDrawableCompat$VGroup:
 coil.transition.CrossfadeTransition:
     public final coil.drawable.CrossfadeDrawable createCrossfade(kotlinx.coroutines.CancellableContinuation,coil.transition.TransitionTarget,android.graphics.drawable.Drawable)
 com.google.android.gms.internal.measurement.zzkj
+com.kmno.leftorite.ui.viewmodels.AuthActivityViewModel:
+    public final java.lang.String getDeviceName()
+    public final java.lang.String getLocalIpAddress()
 androidx.fragment.app.FragmentTransitionImpl$1:
     public final synthetic androidx.fragment.app.FragmentTransitionImpl this$0
 androidx.core.view.accessibility.AccessibilityWindowInfoCompat:
@@ -9592,6 +9597,8 @@ io.fabric.sdk.android.services.cache.AbstractValueCache:
 androidx.constraintlayout.solver.state.helpers.HorizontalChainReference$1
 com.google.android.gms.internal.measurement.zzov:
     public void <init>(com.google.android.gms.internal.measurement.zzeb)
+com.kmno.leftorite.data.repository.DbRepository$getCategoriesListFlowOnline$2:
+    public final kotlin.coroutines.Continuation create(kotlinx.coroutines.flow.FlowCollector,java.lang.Throwable,kotlin.coroutines.Continuation)
 com.google.android.gms.internal.measurement.zzph:
     public void <init>(com.google.android.gms.internal.measurement.zzeb)
 okhttp3.internal.cache.CacheInterceptor$Companion:
@@ -10434,6 +10441,9 @@ kotlinx.coroutines.flow.internal.CombineKt:
     public static final kotlinx.coroutines.channels.ReceiveChannel asFairChannel(kotlinx.coroutines.CoroutineScope,kotlinx.coroutines.flow.Flow)
     public static final kotlinx.coroutines.channels.ReceiveChannel asChannel(kotlinx.coroutines.CoroutineScope,kotlinx.coroutines.flow.Flow)
 com.kmno.leftorite.data.repository.DbRepository:
+    public final kotlinx.coroutines.flow.Flow getCategoriesListFlowOffline()
+    public final kotlinx.coroutines.flow.Flow getCategoriesListFlowOnline()
+    public final com.kmno.leftorite.data.api.Resource mapDbToDomain(java.util.List)
     public com.kmno.leftorite.data.db.dao.ItemDao itemDao
 androidx.lifecycle.DispatchQueue:
     public final boolean canRun()
@@ -10521,6 +10531,8 @@ androidx.core.util.AtomicFile:
     public static boolean sync(java.io.FileOutputStream)
 com.google.firebase.messaging.RemoteMessageCreator:
     public static void writeToParcel(com.google.firebase.messaging.RemoteMessage,android.os.Parcel)
+com.kmno.leftorite.data.repository.DbRepository$getCategoriesListFlowOffline$2:
+    public final kotlin.coroutines.Continuation create(kotlinx.coroutines.flow.FlowCollector,java.lang.Throwable,kotlin.coroutines.Continuation)
 org.slf4j.MDC$MDCCloseable:
     public void <init>(java.lang.String)
 com.kmno.leftorite.ui.activities.HomeActivity$getItemsByCategory$4:
@@ -11048,16 +11060,16 @@ androidx.appcompat.widget.SuggestionsAdapter:
     public final android.graphics.drawable.Drawable getActivityIconWithCache(android.content.ComponentName)
     public final android.graphics.drawable.Drawable getActivityIcon(android.content.ComponentName)
 com.kmno.leftorite.ui.activities.HomeActivity:
-    public final com.kmno.leftorite.viewmodels.CategoryBottomSheetViewModel getCategoryBottomSheetViewModel()
+    public final com.kmno.leftorite.ui.viewmodels.CategoryBottomSheetViewModel getCategoryBottomSheetViewModel()
     public final void setUpConfigValues()
     public final void setUpShowcase()
     public final void updateUserPointsAndHeaderTitle(java.lang.String)
     public final void setUpCategoriesBottomDialog()
     public final void setUpItemDetailsBottomDialog()
-    public final void setSelectedItem(int,int,android.view.View,android.view.View)
     public final void getCategories()
     public final void setUpItems()
-    public final void handleSelectedView(java.lang.String,int,int,android.view.View)
+    public final void handleSelectedView(java.lang.String,int,int,int,android.view.View)
+    public final void setSelectedItem(int,int,int,android.view.View,android.view.View)
     public final void updateAdapter(int)
     public final coil.request.LoadRequest preloadImagesIntoMemory(java.lang.String,android.widget.ImageView)
     public final void showFullscreenProgress(boolean)
@@ -11636,7 +11648,7 @@ com.google.android.gms.internal.measurement.zzcg
 com.google.gson.internal.bind.MapTypeAdapterFactory:
     public final com.google.gson.TypeAdapter getKeyAdapter(com.google.gson.Gson,java.lang.reflect.Type)
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$4:
-    public final com.kmno.leftorite.viewmodels.HomeActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 androidx.media.MediaBrowserServiceCompat$ServiceBinderImpl:
     public void connect(java.lang.String,int,int,android.os.Bundle,androidx.media.MediaBrowserServiceCompat$ServiceCallbacks)
     public void disconnect(androidx.media.MediaBrowserServiceCompat$ServiceCallbacks)
@@ -11825,6 +11837,8 @@ com.google.gson.internal.ConstructorConstructor$4:
     public final synthetic com.google.gson.internal.ConstructorConstructor this$0
 kotlin.coroutines.jvm.internal.DebugMetadataKt:
     public static final kotlin.coroutines.jvm.internal.DebugMetadata getDebugMetadataAnnotation(kotlin.coroutines.jvm.internal.BaseContinuationImpl)
+com.kmno.leftorite.ui.activities.HomeActivity$getCategories$2:
+    public final void onChanged(com.kmno.leftorite.data.api.Resource)
 com.kmno.leftorite.ui.activities.HomeActivity$setUpItemDetailsBottomDialog$1:
     public final void invoke(cn.vove7.bottomdialog.builder.BottomDialogBuilder)
 androidx.cardview.widget.RoundRectDrawable:
@@ -12091,6 +12105,8 @@ kotlinx.coroutines.flow.FlowKt__ZipKt$combineTransform$$inlined$combineTransform
     public int label
 androidx.appcompat.app.ActionBarDrawerToggle:
     public void setActionBarDescription(int)
+com.kmno.leftorite.data.db.dao.CategoryDao_Impl:
+    public static synthetic androidx.room.RoomDatabase access$000(com.kmno.leftorite.data.db.dao.CategoryDao_Impl)
 kotlin.coroutines.experimental.migration.ExperimentalSuspendFunction1Migration:
     public java.lang.Object invoke(java.lang.Object,kotlin.coroutines.experimental.Continuation)
 com.kmno.leftorite.ui.activities.AuthActivity$callAuthenticationApi$2
@@ -12140,8 +12156,6 @@ com.google.android.material.floatingactionbutton.FloatingActionButtonImpl$Intern
     public abstract void onShown()
     public abstract void onHidden()
 com.kmno.leftorite.ui.activities.HomeActivity$afterCreate$2
-com.kmno.leftorite.viewmodels.HomeActivityViewModel:
-    public final com.kmno.leftorite.data.repository.DbRepository dbRepository
 androidx.preference.EditTextPreference:
     public androidx.preference.EditTextPreference$OnBindEditTextListener getOnBindEditTextListener()
 androidx.constraintlayout.motion.widget.MotionScene$Transition$TransitionOnClick:
@@ -12240,7 +12254,7 @@ com.google.gson.internal.bind.TypeAdapters$EnumTypeAdapter:
     public java.lang.Enum read(com.google.gson.stream.JsonReader)
     public void write(com.google.gson.stream.JsonWriter,java.lang.Enum)
 com.kmno.leftorite.ui.activities.PlaygroundActivity:
-    public final void subscribe()
+    public com.kmno.leftorite.ui.activities.PlaygroundActivity$LiveDataTimerViewModel mLiveDataTimerViewModel
 xyz.hanks.library.bang.SmallBangView$1:
     public void setValue(android.view.View,float)
     public java.lang.Float get(android.view.View)
@@ -12295,8 +12309,6 @@ org.koin.android.logger.AndroidLogger:
     public final void logOnLevel(java.lang.String,org.koin.core.logger.Level)
 com.google.android.gms.internal.measurement.zzoi:
     public void <init>(com.google.android.gms.internal.measurement.zzeb)
-com.kmno.leftorite.ui.activities.PlaygroundActivity$subscribe$1:
-    public final void onChanged(java.lang.Long)
 android.support.v4.media.session.MediaSessionCompat$MediaSessionImplApi18:
     public static void <clinit>()
 android.support.v4.media.MediaBrowserCompat$MediaBrowserImplApi21$2:
@@ -12352,7 +12364,7 @@ com.google.android.material.transition.platform.MaterialContainerTransform$Progr
 com.link184.kidadapter.typed.TypedKidAdapterConfiguration$fromSimpleConfiguration$1$2:
     public final void invoke(com.link184.kidadapter.typed.AdapterViewTypeConfiguration)
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$5:
-    public final com.kmno.leftorite.viewmodels.CategoryBottomSheetViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.ui.viewmodels.CategoryBottomSheetViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 com.google.android.gms.tasks.zzo:
     public static synthetic com.google.android.gms.tasks.SuccessContinuation zza(com.google.android.gms.tasks.zzo)
 androidx.recyclerview.widget.MessageThreadUtil$2:
@@ -12696,6 +12708,8 @@ com.crashlytics.android.answers.SessionEvent$Builder:
     public com.crashlytics.android.answers.SessionEvent$Builder predefinedType(java.lang.String)
     public com.crashlytics.android.answers.SessionEvent$Builder predefinedAttributes(java.util.Map)
     public com.crashlytics.android.answers.SessionEvent build(com.crashlytics.android.answers.SessionEventMetadata)
+com.kmno.leftorite.ui.activities.HomeActivity$getCategories$2$$special$$inlined$let$lambda$4:
+    public final synthetic com.kmno.leftorite.data.api.Resource $networkResource$inlined
 com.elconfidencial.bubbleshowcase.BubbleMessageView$setBubbleListener$2
 okhttp3.internal.connection.RealConnection$connectTls$1:
     public final java.util.List invoke()
@@ -12951,8 +12965,6 @@ io.fabric.sdk.android.services.events.QueueFileEventStorage:
 androidx.core.view.ViewPropertyAnimatorCompat$ViewPropertyAnimatorListenerApi14
 com.google.android.gms.internal.measurement.zzdh:
     public final java.lang.Long zzb(java.lang.Object)
-com.kmno.leftorite.ui.activities.HomeActivity$getCategories$1$$special$$inlined$let$lambda$4:
-    public final synthetic com.kmno.leftorite.data.api.Resource $networkResource$inlined
 kotlin.coroutines.experimental.SafeContinuation$Fail:
     public final java.lang.Throwable getException()
 kotlinx.coroutines.flow.ChannelFlowBuilder:
@@ -13341,6 +13353,9 @@ androidx.constraintlayout.solver.state.Dimension:
     public float mRatio
 com.google.android.gms.tasks.TaskCompletionSource:
     public static synthetic com.google.android.gms.tasks.zzu zza(com.google.android.gms.tasks.TaskCompletionSource)
+com.kmno.leftorite.ui.activities.HomeActivity$getCategories$2$$special$$inlined$let$lambda$3:
+    public final void invoke(com.link184.kidadapter.simple.SingleKidAdapterConfiguration)
+    public final synthetic com.kmno.leftorite.data.api.Resource $networkResource$inlined
 okhttp3.internal.connection.RealConnection$connectTls$2:
     public final java.util.List invoke()
 com.kmno.leftorite.utils.Alerts$showVersionAlertDialogWithTwoActionButton$4
@@ -13430,6 +13445,8 @@ com.google.android.gms.internal.measurement.zzgp:
     private void constructor$com$google$android$gms$internal$measurement$zzgr()
     private synthetic java.lang.Object next$com$google$android$gms$internal$measurement$zzgr()
     private final void remove$com$google$android$gms$internal$measurement$zzgr()
+com.kmno.leftorite.ui.activities.HomeActivity$getCategories$2$$special$$inlined$let$lambda$3$1:
+    public final void invoke(android.view.View,com.kmno.leftorite.data.model.Category,int)
 androidx.recyclerview.widget.RecyclerView$ItemAnimator$ItemAnimatorListener:
     public abstract void onAnimationFinished(androidx.recyclerview.widget.RecyclerView$ViewHolder)
 cn.vove7.bottomdialog.builder.SimpleListBuilder$bindView$1:
@@ -13568,9 +13585,6 @@ com.google.gson.internal.LinkedHashTreeMap$1:
     public int compare(java.lang.Comparable,java.lang.Comparable)
 com.crashlytics.android.core.CrashlyticsController$22:
     public final synthetic com.crashlytics.android.core.CrashlyticsController this$0
-com.kmno.leftorite.ui.activities.HomeActivity$getCategories$1$$special$$inlined$let$lambda$3:
-    public final void invoke(com.link184.kidadapter.simple.SingleKidAdapterConfiguration)
-    public final synthetic com.kmno.leftorite.data.api.Resource $networkResource$inlined
 androidx.constraintlayout.motion.widget.MotionScene$1:
     public final synthetic androidx.constraintlayout.motion.widget.MotionScene this$0
 com.google.gson.internal.bind.ReflectiveTypeAdapterFactory:
@@ -13853,9 +13867,6 @@ com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfi
     public abstract long getDelta()
     public abstract long getMaxAllowedDelay()
     public abstract java.util.Set getFlags()
-com.kmno.leftorite.viewmodels.AuthActivityViewModel:
-    public final java.lang.String getDeviceName()
-    public final java.lang.String getLocalIpAddress()
 kotlinx.coroutines.scheduling.NonBlockingContext:
     public static final int taskMode
 com.google.android.gms.internal.measurement.zznt:
@@ -14139,8 +14150,6 @@ com.google.android.gms.common.api.internal.zax:
     public final void zaae()
     public final boolean zaa(com.google.android.gms.common.api.internal.zaw,com.google.android.gms.common.ConnectionResult)
     public final com.google.android.gms.common.ConnectionResult zaaf()
-com.kmno.leftorite.ui.activities.HomeActivity$getCategories$1:
-    public final void onChanged(com.kmno.leftorite.data.api.Resource)
 com.google.android.gms.internal.measurement.zzjh
 com.google.android.material.internal.CollapsingTextHelper:
     public static boolean isClose(float,float)
@@ -14166,8 +14175,6 @@ com.kmno.leftorite.utils.Alerts$showVersionAlertDialogWithTwoActionButton$3
 com.kmno.leftorite.ui.activities.HomeActivity$setUpItems$1$1:
     public final void invoke(android.view.View,java.lang.Object,int)
 com.google.android.gms.internal.measurement.zzby
-com.kmno.leftorite.ui.activities.HomeActivity$getCategories$1$$special$$inlined$let$lambda$3$1:
-    public final void invoke(android.view.View,com.kmno.leftorite.data.model.Category,int)
 androidx.appcompat.app.AppCompatDelegateImpl:
     public void <init>(android.app.Activity,androidx.appcompat.app.AppCompatCallback)
     public void <init>(android.app.Dialog,androidx.appcompat.app.AppCompatCallback)
@@ -14771,7 +14778,7 @@ com.google.android.gms.internal.firebase_messaging.zza:
 com.google.firebase.platforminfo.GlobalLibraryVersionRegistrar:
     public java.util.Set getRegisteredVersions()
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$1:
-    public final com.kmno.leftorite.viewmodels.SplashActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.ui.viewmodels.SplashActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 kotlinx.coroutines.flow.FlowKt__MergeKt$mapLatest$1:
     public final kotlin.coroutines.Continuation create(kotlinx.coroutines.flow.FlowCollector,java.lang.Object,kotlin.coroutines.Continuation)
 com.google.android.gms.internal.measurement.zzmg:
@@ -15003,7 +15010,7 @@ okio.GzipSink:
     public final void writeFooter()
     public final void updateCrc(okio.Buffer,long)
 com.kmno.leftorite.ui.activities.SettingsActivity:
-    public final com.kmno.leftorite.viewmodels.SettingActivityViewModel getSettingActivityViewModel()
+    public final com.kmno.leftorite.ui.viewmodels.SettingActivityViewModel getSettingActivityViewModel()
 com.google.gson.internal.LinkedHashTreeMap$AvlBuilder:
     public com.google.gson.internal.LinkedHashTreeMap$Node root()
 org.koin.android.ext.koin.KoinExtKt$androidContext$2:
@@ -15253,6 +15260,8 @@ com.google.android.gms.measurement.internal.zzim:
     public static synthetic com.google.android.gms.measurement.internal.zzin zzaa(com.google.android.gms.measurement.internal.zzim)
     public final void zza(android.os.Bundle,com.google.android.gms.measurement.internal.zzin,com.google.android.gms.measurement.internal.zzin,long)
     public com.google.android.gms.measurement.internal.zzin zzk
+com.kmno.leftorite.ui.viewmodels.HomeActivityViewModel$showCaseBuilder$1:
+    public final void invoke()
 coil.bitmappool.strategy.SizeConfigStrategy$Key:
     public final int getSize()
 android.support.v4.media.session.MediaSessionCompat$Token$1:
@@ -15503,7 +15512,7 @@ androidx.transition.ViewOverlayApi14$OverlayViewGroup
 org.koin.core.scope.ScopeDefinition$saveNewDefinition$beanDefinition$1:
     public final java.lang.Object invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$2:
-    public final com.kmno.leftorite.viewmodels.SettingActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.ui.viewmodels.SettingActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 androidx.recyclerview.widget.RecyclerView$SavedState:
     public void copyFrom(androidx.recyclerview.widget.RecyclerView$SavedState)
 kotlin.text.StringsKt__StringsKt$splitToSequence$1:
@@ -16076,8 +16085,6 @@ androidx.preference.PreferenceGroupAdapter:
     public final androidx.preference.ExpandButton createExpandButton(androidx.preference.PreferenceGroup,java.util.List)
 com.google.android.gms.internal.measurement.zzpn:
     public void <init>(com.google.android.gms.internal.measurement.zzeb)
-com.kmno.leftorite.viewmodels.HomeActivityViewModel$showCaseBuilder$1:
-    public final void invoke()
 kotlin.coroutines.experimental.CombinedContext$toString$1:
     public final java.lang.String invoke(java.lang.String,kotlin.coroutines.experimental.CoroutineContext$Element)
 androidx.recyclerview.widget.RecyclerView$LayoutManager:
@@ -16195,7 +16202,7 @@ com.google.android.gms.internal.measurement.zzdk:
 com.google.gson.internal.bind.util.ISO8601Utils:
     public static int indexOfNonDigit(java.lang.String,int)
 com.kmno.leftorite.di.ViewModelModuleKt$viewModelModule$1$3:
-    public final com.kmno.leftorite.viewmodels.AuthActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
+    public final com.kmno.leftorite.ui.viewmodels.AuthActivityViewModel invoke(org.koin.core.scope.Scope,org.koin.core.parameter.DefinitionParameters)
 kotlinx.coroutines.flow.FlowKt__MigrationKt$onErrorReturn$2:
     public final kotlin.coroutines.Continuation create(kotlinx.coroutines.flow.FlowCollector,java.lang.Throwable,kotlin.coroutines.Continuation)
 androidx.loader.content.ModernAsyncTask:
@@ -16355,6 +16362,8 @@ com.google.gson.internal.bind.TypeAdapters$4:
 kotlin.coroutines.jvm.internal.ModuleNameRetriever:
     public final java.lang.String getModuleName(kotlin.coroutines.jvm.internal.BaseContinuationImpl)
     public final kotlin.coroutines.jvm.internal.ModuleNameRetriever$Cache buildCache(kotlin.coroutines.jvm.internal.BaseContinuationImpl)
+com.kmno.leftorite.ui.viewmodels.SettingActivityViewModel:
+    public final android.content.Context context
 androidx.viewpager2.adapter.FragmentStateAdapter$5:
     public final synthetic androidx.viewpager2.adapter.FragmentStateAdapter this$0
 dagger.internal.DaggerCollections:
@@ -16493,6 +16502,8 @@ androidx.core.os.CancellationSignal:
     public final void waitForCancelFinishedLocked()
 com.google.gson.GsonBuilder:
     public final void addTypeAdaptersForDate(java.lang.String,int,int,java.util.List)
+com.kmno.leftorite.data.db.dao.CategoryDao_Impl$3:
+    public java.util.List call()
 androidx.recyclerview.widget.RecyclerView$SmoothScroller:
     public void start(androidx.recyclerview.widget.RecyclerView,androidx.recyclerview.widget.RecyclerView$LayoutManager)
 androidx.constraintlayout.motion.widget.TimeCycleSplineSet:

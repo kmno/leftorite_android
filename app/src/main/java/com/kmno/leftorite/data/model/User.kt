@@ -28,6 +28,8 @@ data class User(
     val token: String,
     @SerializedName("avatar_id")
     val avatar_id: String,
+    @SerializedName("last_login_date")
+    val last_login_date: Long,
     @SerializedName("active")
     val active: Int
 )

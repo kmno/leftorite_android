@@ -1,0 +1,17 @@
+<!--
+  ~ Creator: Kamran Noorinejad on 9/22/20 4:16 PM
+  ~ Last modified: 9/22/20 4:16 PM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.kmno.leftorite.ui.activities.ProfileActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="always" />
+</menu>

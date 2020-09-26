@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Creator: Kamran Noorinejad on 9/26/20 4:43 PM
+  ~ Last modified: 9/26/20 4:43 PM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/primaryLightColor"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <!-- small left item -->
+    <ImageView
+        android:id="@+id/left_history_item_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="centerCrop" />
+
+    <!-- separator -->
+    <View
+        android:id="@+id/separator"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary" />
+
+    <!-- small right item -->
+    <ImageView
+        android:id="@+id/right_history_item_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="centerCrop" />
+
+</LinearLayout>

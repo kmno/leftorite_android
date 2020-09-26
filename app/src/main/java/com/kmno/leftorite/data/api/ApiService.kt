@@ -9,10 +9,7 @@ package com.kmno.leftorite.data.api
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import com.kmno.leftorite.data.model.Category
-import com.kmno.leftorite.data.model.Config
-import com.kmno.leftorite.data.model.Pair
-import com.kmno.leftorite.data.model.User
+import com.kmno.leftorite.data.model.*
 import retrofit2.Response
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -73,6 +70,15 @@ interface ApiService {
         @Query("token", encoded = true) token: String
     ): Response<ServiceResponse<ApiResponse<Any>>>
 
+    //History
+    @POST("/api/v1/getHistoryByCategory")
+    suspend fun getHistoryByCategory(
+        @Query("id", encoded = true) id: Int,
+        @Query("categoryId", encoded = true) categoryId: Int,
+        @Query("token", encoded = true) token: String
+    ): Response<ServiceResponse<ApiResponse<List<History>>>>
+
+    //Config
     @POST("/api/v1/getConfig")
     suspend fun getConfig(): Response<ServiceResponse<ApiResponse<Config>>>
 }
