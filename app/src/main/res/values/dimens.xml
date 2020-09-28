@@ -21,6 +21,6 @@
     <dimen name="edittext_padding_top_bottom">10dp</dimen>
     <dimen name="edittext_padding_left_right">5dp</dimen>
     <dimen name="waves_height">120dp</dimen>
-    <dimen name="app_bar_height">430dp</dimen>
+    <dimen name="app_bar_height">400dp</dimen>
     <dimen name="profile_avatar_dim">90dp</dimen>
 </resources>

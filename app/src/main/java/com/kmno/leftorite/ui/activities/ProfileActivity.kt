@@ -12,15 +12,18 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import coil.api.load
 import coil.request.CachePolicy
+import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
+import coil.transform.GrayscaleTransformation
+import coil.transform.Transformation
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.kmno.leftorite.R
-import com.kmno.leftorite.core.App
 import com.kmno.leftorite.core.Constants
 import com.kmno.leftorite.data.api.State
 import com.kmno.leftorite.data.model.Category
@@ -31,13 +34,14 @@ import com.kmno.leftorite.ui.viewmodels.ProfileActivityViewModel
 import com.kmno.leftorite.utils.DateHelper.Companion.convertLongToTime
 import com.kmno.leftorite.utils.UserInfo
 import com.kmno.leftorite.utils.extensions.commaString
+import com.kmno.leftorite.utils.extensions.getYearMonthDay
 import com.kmno.leftorite.utils.launchActivity
 import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.category_tabs_layout.view.*
 import kotlinx.android.synthetic.main.content_scrolling.*
-import kotlinx.android.synthetic.main.history_list_item.*
+import kotlinx.android.synthetic.main.history_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.abs
 
@@ -47,8 +51,10 @@ class ProfileActivity : BaseActivity() {
     private val profileActivityViewModel: ProfileActivityViewModel by viewModel()
     private val categoryViewModel: CategoryViewModel by viewModel()
 
-    private lateinit var historiesTestAdapter: SingleKidAdapter<Any>
-    private var histories = mutableListOf<Any>()
+    private lateinit var historiesTestAdapter: SingleKidAdapter<History>
+    private var histories = mutableListOf<History>()
+
+    private var imageTransformations = mutableListOf<Transformation>(CircleCropTransformation())
 
     override fun getResId(): Int {
         return R.layout.activity_profile
@@ -117,7 +123,6 @@ class ProfileActivity : BaseActivity() {
                                     networkResource.data?.let { response ->
                                         if (response.count() > 0) {
                                             tabs_container.visibility = View.VISIBLE
-                                            history_view_pager.visibility = View.VISIBLE
                                             categories_progress_bar.visibility = View.GONE
                                             response.forEach { categoryRecord ->
                                                 tabs_layout.addTab(
@@ -156,14 +161,22 @@ class ProfileActivity : BaseActivity() {
     }
 
     //history
+    @SuppressLint("SetTextI18n")
     private fun getHistoryByCategoryId(_catId: Int) {
+        if (this::historiesTestAdapter.isInitialized) historiesTestAdapter.notifyDataSetChanged()
+        if (this::historiesTestAdapter.isInitialized)
+            historiesTestAdapter update {
+                it.removeAll(it)
+                historiesTestAdapter.clear()
+                histories.clear()
+            }
         profileActivityViewModel.getHistoryByCategoryId(_catId)
             .observe(this, Observer { networkResource ->
                 when (networkResource?.state) {
                     State.LOADING -> {
-                        /*categories_progress_bar.visibility = View.VISIBLE
-                        tabs_container.visibility = View.GONE
-                        categories_retry_button.visibility = View.GONE*/
+                        histories_list_progress_bar.visibility = View.VISIBLE
+                        histories_recyclerview.visibility = View.GONE
+                        history_info.visibility = View.GONE
                     }
                     State.SUCCESS -> {
                         val status = networkResource.status
@@ -172,54 +185,104 @@ class ProfileActivity : BaseActivity() {
                                 true -> {
                                     networkResource.data?.let { response ->
                                         if (response.count() > 0) {
+                                            histories_list_progress_bar.visibility = View.GONE
+                                            histories_recyclerview.visibility = View.VISIBLE
+                                            history_info.visibility = View.VISIBLE
+                                            histories = response as MutableList<History>
+                                            history_info.text =
+                                                "You Responded to ${histories.size} items so far ..."
                                             historiesTestAdapter =
-                                                histories_recyclerview.setUp<Any> {
+                                                histories_recyclerview.setUp<History> {
                                                     withLayoutResId(R.layout.history_list_item)
-                                                    //withItems(histories.toMutableList())
-                                                    withItems(response as MutableList<Any>)
+                                                    withItems(histories)
                                                     bindIndexed { history, position ->
-                                                        App.logger.error(history.toString())
-                                                        with(history as History) {
-                                                            left_history_item_imageview?.let {
-                                                                left_history_item_imageview.load("${Constants.itemsImageUrl}${this.item_id}.jpg") {
-                                                                    crossfade(true)
-                                                                    allowHardware(false)
-                                                                    diskCachePolicy(CachePolicy.ENABLED)
+                                                        left_history_item_imageview?.let {
+                                                            left_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_1}.jpg") {
+                                                                crossfade(true)
+                                                                allowHardware(false)
+                                                                transformations(
+                                                                    CircleCropTransformation()
+                                                                )
+                                                                if (history.item_id_1 == history.selected_item_id) {
+                                                                    transformations(
+                                                                        listOf(
+                                                                            CircleCropTransformation(),
+                                                                            GrayscaleTransformation(),
+                                                                            BlurTransformation(
+                                                                                applicationContext
+                                                                            )
+                                                                        )
+                                                                    )
+                                                                    right_item_arm.background =
+                                                                        ContextCompat.getDrawable(
+                                                                            applicationContext,
+                                                                            R.drawable.right_arm_active_drawable
+                                                                        )
                                                                 }
+                                                                diskCachePolicy(CachePolicy.ENABLED)
                                                             }
-                                                            right_history_item_imageview?.let {
-                                                                right_history_item_imageview.load("${Constants.itemsImageUrl}${this.item_id_2}.jpg") {
-                                                                    crossfade(true)
-                                                                    allowHardware(false)
-                                                                    diskCachePolicy(CachePolicy.ENABLED)
+                                                        }
+                                                        right_history_item_imageview?.let {
+                                                            right_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_2}.jpg") {
+                                                                crossfade(true)
+                                                                allowHardware(false)
+                                                                transformations(
+                                                                    CircleCropTransformation()
+                                                                )
+                                                                if (history.item_id_2 == history.selected_item_id) {
+                                                                    transformations(
+                                                                        listOf(
+                                                                            CircleCropTransformation(),
+                                                                            GrayscaleTransformation(),
+                                                                            BlurTransformation(
+                                                                                applicationContext
+                                                                            )
+                                                                        )
+                                                                    )
+                                                                    left_item_arm.background =
+                                                                        ContextCompat.getDrawable(
+                                                                            applicationContext,
+                                                                            R.drawable.left_arm_active_drawable
+                                                                        )
                                                                 }
+                                                                diskCachePolicy(CachePolicy.ENABLED)
                                                             }
+                                                        }
+
+                                                        history_datetime?.let {
+                                                            it.text = history.date_time.toLong()
+                                                                .getYearMonthDay()
                                                         }
                                                     }
                                                 }
                                         } else {
-                                            /*categories_progress_bar.visibility = View.GONE
-                                            tabs_container.visibility = View.GONE
-                                            categories_retry_button.visibility = View.VISIBLE*/
+                                            history_info.visibility = View.VISIBLE
+                                            history_info.text = getString(R.string.no_history_found)
+                                            histories_list_progress_bar.visibility = View.GONE
+                                            histories_recyclerview.visibility = View.GONE
                                         }
 
                                     }
                                 }
                                 false -> {
-                                    /*categories_progress_bar.visibility = View.GONE
-                                    tabs_container.visibility = View.GONE
-                                    categories_retry_button.visibility = View.VISIBLE*/
+                                    history_info.visibility = View.VISIBLE
+                                    histories_list_progress_bar.visibility = View.GONE
+                                    histories_recyclerview.visibility = View.GONE
                                 }
                             }
                         }
                     }
                     State.ERROR -> {
-                        /*categories_progress_bar.visibility = View.GONE
-                        select_category_fixed_tab.visibility = View.GONE
-                        categories_retry_button.visibility = View.VISIBLE*/
+                        history_info.visibility = View.VISIBLE
+                        histories_list_progress_bar.visibility = View.GONE
+                        histories_recyclerview.visibility = View.GONE
                     }
                 }
             })
+    }
+
+    private fun resetView(view: View) {
+
     }
 
     private fun createTabItemView(_category: Category): View? {

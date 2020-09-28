@@ -27,7 +27,7 @@ class History(
 
     @SerializedName("item_id_1")
     @ColumnInfo(name = "item_id_1")
-    val item_id: Int,
+    val item_id_1: Int,
 
     @SerializedName("item_id_2")
     @ColumnInfo(name = "item_id_2")

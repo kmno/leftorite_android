@@ -12,11 +12,47 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.activities.ProfileActivity"
+    android:background="@color/historyNestedScrollviewBg"
     tools:showIn="@layout/activity_profile">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/histories_recyclerview"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+
+        <com.agrawalsuneet.dotsloader.loaders.TashieLoader
+            android:id="@+id/histories_list_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:visibility="gone"
+            app:tashieloader_animDelay="100"
+            app:tashieloader_animDur="200"
+            app:tashieloader_dotsColor="@color/primaryLightColor"
+            app:tashieloader_dotsDist="5dp"
+            app:tashieloader_dotsRadius="5dp"
+            app:tashieloader_interpolator="@android:anim/accelerate_interpolator"
+            app:tashieloader_noOfDots="3" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/history_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="@string/history_description"
+            android:textColor="@color/secondaryLightDarkTextColor"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/histories_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/history_info"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

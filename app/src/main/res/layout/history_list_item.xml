@@ -5,34 +5,90 @@
   ~ http://www.itskamran.ir/
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@color/primaryLightColor"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
 
-    <!-- small left item -->
-    <ImageView
-        android:id="@+id/left_history_item_imageview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:scaleType="centerCrop" />
+        android:layout_height="115dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
-    <!-- separator -->
+        <!-- small left item -->
+        <ImageView
+            android:id="@+id/left_history_item_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter" />
+
+        <!-- separator -->
+        <View
+            android:id="@+id/separator"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/left_item_arm"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/overlay_color" />
+
+        <View
+            android:id="@+id/right_item_arm"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/overlay_color" />
+
+        <!-- small right item -->
+        <ImageView
+            android:id="@+id/right_history_item_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/history_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_margin="2dp"
+        android:textColor="@color/lightGray"
+        android:textSize="11sp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/select_left_item_button_split"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/colorPrimary"
+        android:clickable="false"
+        android:focusable="false"
+        android:tint="@color/colorAccent"
+        app:borderWidth="0dp"
+        app:fabCustomSize="30dp"
+        app:maxImageSize="15dp"
+        app:srcCompat="@drawable/ic_favorite"
+        tools:ignore="VectorDrawableCompat" />
+
     <View
-        android:id="@+id/separator"
-        android:layout_width="3dp"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary" />
-
-    <!-- small right item -->
-    <ImageView
-        android:id="@+id/right_history_item_imageview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:scaleType="centerCrop" />
-
-</LinearLayout>
+        android:layout_height="1dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/overlay_color" />
+</FrameLayout>

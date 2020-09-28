@@ -10,7 +10,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".ui.activities.ProfileActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -183,7 +182,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|bottom"
                 android:layout_margin="15dp"
-                android:layout_marginTop="30dp"
                 app:tashieloader_animDelay="100"
                 app:tashieloader_animDur="200"
                 app:tashieloader_dotsColor="@color/primaryLightColor"
@@ -209,7 +207,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="30dp"
                 android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -228,7 +225,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/select_category_fixed_tab"
-                    android:background="@color/lightGray"
                     app:layout_anchorGravity="bottom"
                     app:tabIconTint="@color/colorPrimaryDark"
                     app:tabIndicatorColor="@color/primaryLightColor"
@@ -242,27 +238,5 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_scrolling" />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/history_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <com.agrawalsuneet.dotsloader.loaders.TashieLoader
-            android:id="@+id/histories_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:tashieloader_animDelay="100"
-            app:tashieloader_animDur="200"
-            app:tashieloader_dotsColor="@color/primaryLightColor"
-            app:tashieloader_dotsDist="5dp"
-            app:tashieloader_dotsRadius="5dp"
-            app:tashieloader_interpolator="@android:anim/accelerate_interpolator"
-            app:tashieloader_noOfDots="3" />
-
-    </androidx.viewpager.widget.ViewPager>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
