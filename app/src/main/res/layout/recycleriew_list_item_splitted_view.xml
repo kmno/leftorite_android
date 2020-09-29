@@ -21,10 +21,16 @@
         android:background="@color/colorPrimaryDark">
 
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/linear_vigente_background" />
+
+        <ImageView
             android:id="@+id/left_item_imageview_split"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter" />
 
         <FrameLayout
             android:id="@+id/left_item_dim"
@@ -63,22 +69,7 @@
 
         </xyz.hanks.library.bang.SmallBangView>
 
-
     </RelativeLayout>
-
-    <!-- drag handler -->
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/separator_split"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/colorPrimary"
-        android:foregroundGravity="center"
-        android:tint="@color/white"
-        app:borderWidth="0dp"
-        app:srcCompat="@drawable/ic_drag_handle"
-        splitview:fabCustomSize="40dp"
-        tools:ignore="VectorDrawableCompat" />-->
 
     <LinearLayout
         android:id="@+id/separator_split"
@@ -108,10 +99,16 @@
         android:background="@color/colorPrimaryDark">
 
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/linear_vigente_background" />
+
+        <ImageView
             android:id="@+id/right_item_imageview_split"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter" />
 
         <FrameLayout
             android:id="@+id/right_item_dim"

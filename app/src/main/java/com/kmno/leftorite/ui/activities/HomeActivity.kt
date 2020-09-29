@@ -20,7 +20,6 @@ import cn.vove7.bottomdialog.StatusCallback
 import cn.vove7.bottomdialog.toolbar
 import coil.Coil.imageLoader
 import coil.api.load
-import coil.request.CachePolicy
 import coil.request.LoadRequest
 import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
@@ -222,9 +221,6 @@ class HomeActivity : BaseActivity() {
     //initial setups
     private fun setupUserInfo() {
         category_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}") {
-            crossfade(true)
-            diskCachePolicy(CachePolicy.ENABLED)
-            allowHardware(false)
             transformations(CircleCropTransformation())
         }
         handlePoints()
@@ -422,10 +418,7 @@ class HomeActivity : BaseActivity() {
                                                 withLayoutResId(R.layout.recyclerview_list_category)
                                                 withItems(response as MutableList<Category>)
                                                 bindIndexed { category, index ->
-                                                    category_avatar.load("${Constants.categoryImageUrl}${category.id}.png") {
-                                                        crossfade(true)
-                                                        placeholder(R.color.colorPrimaryDark)
-                                                    }
+                                                    category_avatar.load("${Constants.categoryImageUrl}${category.id}.png")
                                                     category_title.text = category.title
                                                     category_new_badge.visibility = View.GONE
                                                     category_layout.setBackgroundResource(R.drawable.category_circular_item)
@@ -486,12 +479,7 @@ class HomeActivity : BaseActivity() {
 
                 //left item ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                 left_item_imageview_split?.let {
-                    it.load("${Constants.itemsImageUrl}${pair.first_item_id}.jpg") {
-                        crossfade(true)
-                        //placeholder(R.drawable.placeholder_trans)
-                        allowHardware(false)
-                        diskCachePolicy(CachePolicy.ENABLED)
-                    }
+                    it.load("${Constants.itemsImageUrl}${pair.first_item_id}.png")
                     }
                     select_left_item_button_split.setOnClickListener {
                         handleSelectedView(
@@ -503,51 +491,42 @@ class HomeActivity : BaseActivity() {
                         )
                     }
 
-                    left_item_imageview_split.setOnTouchListener(object :
-                        OnSwipeTouchListener(this@HomeActivity) {
+                left_item_layout.setOnTouchListener(object :
+                    OnSwipeTouchListener(this@HomeActivity) {
 
-                        override fun onLongClick() {
-                            super.onLongClick()
-                            if (pair.first_item_description != "") {
-                                itemDetailsBottomDialog.show()
-                                itemDetailsBottomDialog.contentView.run {
-                                    imageLoader(context).execute(
-                                        preloadImagesIntoMemory(
-                                            "${Constants.itemsImageUrl}${pair.first_item_id}.jpg",
-                                            this.item_logo
-                                        )
+                    override fun onLongClick() {
+                        super.onLongClick()
+                        if (pair.first_item_description != "") {
+                            itemDetailsBottomDialog.show()
+                            itemDetailsBottomDialog.contentView.run {
+                                imageLoader(context).execute(
+                                    preloadImagesIntoMemory(
+                                        "${Constants.itemsImageUrl}${pair.first_item_id}.png",
+                                        this.item_logo
                                     )
-                                    this.item_logo.load("${Constants.itemsImageUrl}${pair.first_item_id}.jpg") {
-                                        crossfade(true)
-                                        placeholder(R.color.colorPrimary)
-                                        diskCachePolicy(CachePolicy.ENABLED)
-                                    }
-                                    this.item_title.text = pair.first_item_title
-                                    this.item_description.text = pair.first_item_description
-                                }
+                                )
+                                this.item_logo.load("${Constants.itemsImageUrl}${pair.first_item_id}.png")
+                                this.item_title.text = pair.first_item_title
+                                this.item_description.text = pair.first_item_description
                             }
                         }
+                    }
 
-                        override fun onDoubleClick() {
-                            super.onDoubleClick()
-                            handleSelectedView(
-                                "left",
-                                pair.first_item_id,
-                                pair.pair_id,
-                                position,
-                                this@bindIndexed
-                            )
-                        }
-                    })
+                    override fun onDoubleClick() {
+                        super.onDoubleClick()
+                        handleSelectedView(
+                            "left",
+                            pair.first_item_id,
+                            pair.pair_id,
+                            position,
+                            this@bindIndexed
+                        )
+                    }
+                })
 
                     //right item ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     right_item_imageview_split?.let {
-                        it.load("${Constants.itemsImageUrl}${pair.second_item_id}.jpg") {
-                            crossfade(true)
-                            allowHardware(false)
-                            //placeholder(R.drawable.placeholder_trans)
-                            diskCachePolicy(CachePolicy.ENABLED)
-                        }
+                        it.load("${Constants.itemsImageUrl}${pair.second_item_id}.png")
                     }
                 select_right_item_button_split.tag = pair.second_item_id
 
@@ -563,42 +542,38 @@ class HomeActivity : BaseActivity() {
                         App.logger.error(position.toString())
                     }
 
-                    right_item_imageview_split.setOnTouchListener(object :
-                        OnSwipeTouchListener(this@HomeActivity) {
+                right_item_layout.setOnTouchListener(object :
+                    OnSwipeTouchListener(this@HomeActivity) {
 
-                        override fun onLongClick() {
-                            super.onLongClick()
-                            if (pair.second_item_description != "") {
-                                itemDetailsBottomDialog.show()
-                                itemDetailsBottomDialog.contentView.run {
-                                    imageLoader(context).execute(
-                                        preloadImagesIntoMemory(
-                                            "${Constants.itemsImageUrl}${pair.second_item_id}.jpg",
-                                            this.item_logo
-                                        )
+                    override fun onLongClick() {
+                        super.onLongClick()
+                        if (pair.second_item_description != "") {
+                            itemDetailsBottomDialog.show()
+                            itemDetailsBottomDialog.contentView.run {
+                                imageLoader(context).execute(
+                                    preloadImagesIntoMemory(
+                                        "${Constants.itemsImageUrl}${pair.second_item_id}.png",
+                                        this.item_logo
                                     )
-                                    this.item_logo.load("${Constants.itemsImageUrl}${pair.second_item_id}.jpg") {
-                                        crossfade(true)
-                                        placeholder(R.color.colorPrimary)
-                                        diskCachePolicy(CachePolicy.ENABLED)
-                                    }
-                                    this.item_title.text = pair.second_item_title
-                                    this.item_description.text = pair.second_item_description
-                                }
+                                )
+                                this.item_logo.load("${Constants.itemsImageUrl}${pair.second_item_id}.png")
+                                this.item_title.text = pair.second_item_title
+                                this.item_description.text = pair.second_item_description
                             }
                         }
+                    }
 
-                        override fun onDoubleClick() {
-                            super.onDoubleClick()
-                            handleSelectedView(
-                                "right",
-                                pair.second_item_id,
-                                pair.pair_id,
-                                position,
-                                this@bindIndexed
-                            )
-                        }
-                    })
+                    override fun onDoubleClick() {
+                        super.onDoubleClick()
+                        handleSelectedView(
+                            "right",
+                            pair.second_item_id,
+                            pair.pair_id,
+                            position,
+                            this@bindIndexed
+                        )
+                    }
+                })
 
                 resetView(this)
 

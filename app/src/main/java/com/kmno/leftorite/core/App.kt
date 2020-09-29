@@ -16,7 +16,6 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.request.CachePolicy
 import coil.util.CoilUtils
-import com.kmno.leftorite.R
 import com.kmno.leftorite.di.apiModule
 import com.kmno.leftorite.di.utilsModule
 import com.kmno.leftorite.di.viewModelModule
@@ -78,11 +77,11 @@ open class App : Application(), ImageLoaderFactory, Application.ActivityLifecycl
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this@App)
             .availableMemoryPercentage(0.25)
-            //.crossfade(true)
+            .crossfade(true)
             .allowHardware(false)
             .diskCachePolicy(CachePolicy.ENABLED)
             .networkCachePolicy(CachePolicy.ENABLED)
-            .placeholder(R.drawable.placeholder_trans)
+            //.placeholder(R.drawable.placeholder_trans)
             .okHttpClient {
                 OkHttpClient.Builder()
                     .cache(CoilUtils.createDefaultCache(this@App))

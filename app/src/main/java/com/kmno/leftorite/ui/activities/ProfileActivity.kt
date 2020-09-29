@@ -15,7 +15,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import coil.api.load
-import coil.request.CachePolicy
 import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
 import coil.transform.GrayscaleTransformation
@@ -197,55 +196,51 @@ class ProfileActivity : BaseActivity() {
                                                     withItems(histories)
                                                     bindIndexed { history, position ->
                                                         left_history_item_imageview?.let {
-                                                            left_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_1}.jpg") {
-                                                                crossfade(true)
-                                                                allowHardware(false)
+                                                            left_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_1}.png") {
                                                                 transformations(
-                                                                    CircleCropTransformation()
+                                                                    //    CircleCropTransformation()
                                                                 )
                                                                 if (history.item_id_1 == history.selected_item_id) {
                                                                     transformations(
                                                                         listOf(
-                                                                            CircleCropTransformation(),
+                                                                            //  CircleCropTransformation(),
                                                                             GrayscaleTransformation(),
                                                                             BlurTransformation(
                                                                                 applicationContext
                                                                             )
                                                                         )
                                                                     )
-                                                                    right_item_arm.background =
-                                                                        ContextCompat.getDrawable(
+                                                                    right_item_arm.setBackgroundColor(
+                                                                        ContextCompat.getColor(
                                                                             applicationContext,
-                                                                            R.drawable.right_arm_active_drawable
+                                                                            R.color.colorPrimary
                                                                         )
+                                                                    )
                                                                 }
-                                                                diskCachePolicy(CachePolicy.ENABLED)
                                                             }
                                                         }
                                                         right_history_item_imageview?.let {
-                                                            right_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_2}.jpg") {
-                                                                crossfade(true)
-                                                                allowHardware(false)
+                                                            right_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_2}.png") {
                                                                 transformations(
-                                                                    CircleCropTransformation()
+                                                                    //  CircleCropTransformation()
                                                                 )
                                                                 if (history.item_id_2 == history.selected_item_id) {
                                                                     transformations(
                                                                         listOf(
-                                                                            CircleCropTransformation(),
+                                                                            //       CircleCropTransformation(),
                                                                             GrayscaleTransformation(),
                                                                             BlurTransformation(
                                                                                 applicationContext
                                                                             )
                                                                         )
                                                                     )
-                                                                    left_item_arm.background =
-                                                                        ContextCompat.getDrawable(
+                                                                    left_item_arm.setBackgroundColor(
+                                                                        ContextCompat.getColor(
                                                                             applicationContext,
-                                                                            R.drawable.left_arm_active_drawable
+                                                                            R.color.colorPrimary
                                                                         )
+                                                                    )
                                                                 }
-                                                                diskCachePolicy(CachePolicy.ENABLED)
                                                             }
                                                         }
 
@@ -281,17 +276,10 @@ class ProfileActivity : BaseActivity() {
             })
     }
 
-    private fun resetView(view: View) {
-
-    }
-
     private fun createTabItemView(_category: Category): View? {
         val parentLayout: View =
             LayoutInflater.from(this).inflate(R.layout.category_tabs_layout, null)
-        parentLayout.category_avatar.load("${Constants.categoryImageUrl}${_category.id}.png") {
-            crossfade(true)
-            placeholder(R.color.colorPrimaryDark)
-        }
+        parentLayout.category_avatar.load("${Constants.categoryImageUrl}${_category.id}.png")
         parentLayout.category_title.text = _category.title
         return parentLayout
     }
@@ -299,16 +287,10 @@ class ProfileActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setupUserInfo() {
         profile_user_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}") {
-            crossfade(true)
-            diskCachePolicy(CachePolicy.ENABLED)
-            allowHardware(false)
             transformations(CircleCropTransformation())
         }
 
         toolbar_profile_user_avatar.load("${Constants.userImageUrl}${UserInfo.avatar}") {
-            crossfade(true)
-            diskCachePolicy(CachePolicy.ENABLED)
-            allowHardware(false)
             transformations(CircleCropTransformation())
         }
         handlePoints()
