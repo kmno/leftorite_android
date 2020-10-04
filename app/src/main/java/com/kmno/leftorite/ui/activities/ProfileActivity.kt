@@ -195,15 +195,18 @@ class ProfileActivity : BaseActivity() {
                                                     withLayoutResId(R.layout.history_list_item)
                                                     withItems(histories)
                                                     bindIndexed { history, position ->
+
+                                                        if (histories.lastIndex == position)
+                                                            bottom_separator?.let { _bottom_separator ->
+                                                                _bottom_separator.visibility =
+                                                                    View.GONE
+                                                            }
+
                                                         left_history_item_imageview?.let {
                                                             left_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_1}.png") {
-                                                                transformations(
-                                                                    //    CircleCropTransformation()
-                                                                )
                                                                 if (history.item_id_1 == history.selected_item_id) {
                                                                     transformations(
                                                                         listOf(
-                                                                            //  CircleCropTransformation(),
                                                                             GrayscaleTransformation(),
                                                                             BlurTransformation(
                                                                                 applicationContext
@@ -221,13 +224,9 @@ class ProfileActivity : BaseActivity() {
                                                         }
                                                         right_history_item_imageview?.let {
                                                             right_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_2}.png") {
-                                                                transformations(
-                                                                    //  CircleCropTransformation()
-                                                                )
                                                                 if (history.item_id_2 == history.selected_item_id) {
                                                                     transformations(
                                                                         listOf(
-                                                                            //       CircleCropTransformation(),
                                                                             GrayscaleTransformation(),
                                                                             BlurTransformation(
                                                                                 applicationContext
@@ -244,9 +243,10 @@ class ProfileActivity : BaseActivity() {
                                                             }
                                                         }
 
-                                                        history_datetime?.let {
-                                                            it.text = history.date_time.toLong()
-                                                                .getYearMonthDay()
+                                                        history_datetime?.let { _history_datetime ->
+                                                            _history_datetime.text =
+                                                                history.date_time.toLong()
+                                                                    .getYearMonthDay()
                                                         }
                                                     }
                                                 }

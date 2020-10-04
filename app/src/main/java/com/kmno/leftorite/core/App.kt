@@ -39,7 +39,7 @@ open class App : Application(), ImageLoaderFactory, Application.ActivityLifecycl
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidLogger(Level.DEBUG)
+            androidLogger(Level.NONE)
             androidContext(this@App)
             modules(
                 viewModelModule,

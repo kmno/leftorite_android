@@ -46,6 +46,7 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun ready() {
+        //throw RuntimeException("Test Crash");
     }
 
     private fun goToDestinationActivity(_loggedIn: Boolean) {
