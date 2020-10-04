@@ -46,10 +46,9 @@
         <activity
             android:name=".ui.activities.ProfileActivity"
             android:exported="false"
-            android:label="@string/title_activity_profile"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeStatusBarDark"
+            android:theme="@style/AppThemeStatusBarDarkWithBGcolor"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
         <activity
             android:name=".ui.activities.SettingsActivity"

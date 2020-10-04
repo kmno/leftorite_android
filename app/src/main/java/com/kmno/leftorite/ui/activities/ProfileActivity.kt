@@ -18,7 +18,6 @@ import coil.api.load
 import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
 import coil.transform.GrayscaleTransformation
-import coil.transform.Transformation
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -39,7 +38,7 @@ import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.category_tabs_layout.view.*
-import kotlinx.android.synthetic.main.content_scrolling.*
+import kotlinx.android.synthetic.main.histories_scrolling_content.*
 import kotlinx.android.synthetic.main.history_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.abs
@@ -49,11 +48,8 @@ class ProfileActivity : BaseActivity() {
 
     private val profileActivityViewModel: ProfileActivityViewModel by viewModel()
     private val categoryViewModel: CategoryViewModel by viewModel()
-
     private lateinit var historiesTestAdapter: SingleKidAdapter<History>
     private var histories = mutableListOf<History>()
-
-    private var imageTransformations = mutableListOf<Transformation>(CircleCropTransformation())
 
     override fun getResId(): Int {
         return R.layout.activity_profile
@@ -188,8 +184,10 @@ class ProfileActivity : BaseActivity() {
                                             histories_recyclerview.visibility = View.VISIBLE
                                             history_info.visibility = View.VISIBLE
                                             histories = response as MutableList<History>
-                                            history_info.text =
-                                                "You Responded to ${histories.size} items so far ..."
+                                            history_info.text = getString(
+                                                R.string.responded_items_count,
+                                                histories.size
+                                            )
                                             historiesTestAdapter =
                                                 histories_recyclerview.setUp<History> {
                                                     withLayoutResId(R.layout.history_list_item)

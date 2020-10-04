@@ -19,8 +19,7 @@
         android:background="@color/white"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:liftOnScroll="true"
-        app:statusBarForeground="@android:color/transparent">
+        app:liftOnScroll="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -34,7 +33,6 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:scrimAnimationDuration="200"
             app:scrimVisibleHeightTrigger="400dp"
-            app:statusBarScrim="@android:color/transparent"
             app:titleEnabled="false"
             app:toolbarId="@+id/toolbar">
 
@@ -235,8 +233,9 @@
             </RelativeLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_scrolling" />
+    <include layout="@layout/histories_scrolling_content" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

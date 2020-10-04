@@ -27,6 +27,11 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <style name="AppThemeStatusBarDarkWithBGcolor" parent="AppTheme">
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
     <style name="AppThemeStatusBarLight" parent="AppTheme">
         <item name="android:windowLightStatusBar">true</item>
     </style>
