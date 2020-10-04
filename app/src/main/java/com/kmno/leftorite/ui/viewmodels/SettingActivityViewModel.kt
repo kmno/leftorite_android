@@ -9,6 +9,7 @@ package com.kmno.leftorite.ui.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.kmno.leftorite.data.db.LeftoriteDatabase
 import com.kmno.leftorite.utils.AppSetting
 import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.ShowCase
@@ -27,6 +28,8 @@ class SettingActivityViewModel(private val context: Context) : ViewModel() {
         UserInfo.clear()
         ShowCase.clear()
         AppSetting.clear()
+        ConfigPref.clear()
+        LeftoriteDatabase.clearTables()
     }
 
     fun setDataSaverPref(_state: Boolean) {

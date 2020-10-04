@@ -23,4 +23,5 @@
     <dimen name="waves_height">120dp</dimen>
     <dimen name="app_bar_height">400dp</dimen>
     <dimen name="profile_avatar_dim">90dp</dimen>
+    <dimen name="item_imageview_margin">20dp</dimen>
 </resources>

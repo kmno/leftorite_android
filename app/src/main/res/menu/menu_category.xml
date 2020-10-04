@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Creator: Kamran Noorinejad on 10/4/20 2:55 PM
+  ~ Last modified: 10/4/20 2:55 PM
+  ~ Copyright: All rights reserved Ⓒ 2020
+  ~ http://www.itskamran.ir/
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_more"
+        android:title="@string/profile_header"
+        app:showAsAction="always" />
+</menu>

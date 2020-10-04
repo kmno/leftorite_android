@@ -15,6 +15,9 @@ import com.kmno.leftorite.core.Constants.dbName
 import com.kmno.leftorite.data.db.dao.CategoryDao
 import com.kmno.leftorite.data.db.dao.ItemDao
 import com.kmno.leftorite.data.model.Category
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Created by Kamran Noorinejad on 6/15/2020 AD 14:07.
@@ -46,6 +49,12 @@ abstract class LeftoriteDatabase : RoomDatabase() {
             }
             //  }
             return INSTANCE
+        }
+
+        fun clearTables() {
+            GlobalScope.launch(Dispatchers.IO) {
+                INSTANCE.clearAllTables()
+            }
         }
     }
 

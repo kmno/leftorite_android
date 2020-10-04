@@ -107,7 +107,7 @@ class HomeActivity : BaseActivity() {
         })
 
         //setting page
-        more.setOnClickListener { this.launchActivity<ProfileActivity> {} }
+        more.setOnClickListener { goToProfilePage() }
 
         //generate fcm token for push notifications
         generateFCMToken()
@@ -257,6 +257,11 @@ class HomeActivity : BaseActivity() {
                 onIconClick = {
                     it.dismiss()
                 }
+                menuRes = R.menu.menu_category
+                onMenuItemClick = {
+                    categoryBottomDialog.dismiss()
+                    goToProfilePage()
+                }
             }
             /*oneButton(
                 getString(R.string.select_all_categories),
@@ -290,6 +295,11 @@ class HomeActivity : BaseActivity() {
             override fun onSlide(slideOffset: Float) {
             }
         })
+    }
+
+    private fun goToProfilePage(): Boolean {
+        this.launchActivity<ProfileActivity> {}
+        return true
     }
 
     private fun setUpItemDetailsBottomDialog() {
