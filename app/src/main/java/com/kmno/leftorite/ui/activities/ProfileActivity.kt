@@ -56,6 +56,7 @@ class ProfileActivity : BaseActivity() {
     }
 
     override fun afterCreate() {
+        //toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar.setNavigationOnClickListener {
@@ -119,6 +120,7 @@ class ProfileActivity : BaseActivity() {
                                         if (response.count() > 0) {
                                             tabs_container.visibility = View.VISIBLE
                                             categories_progress_bar.visibility = View.GONE
+                                            //setupCategoriesTab
                                             response.forEach { categoryRecord ->
                                                 tabs_layout.addTab(
                                                     tabs_layout.newTab()
@@ -183,71 +185,10 @@ class ProfileActivity : BaseActivity() {
                                             histories_list_progress_bar.visibility = View.GONE
                                             histories_recyclerview.visibility = View.VISIBLE
                                             history_info.visibility = View.VISIBLE
+
                                             histories = response as MutableList<History>
-                                            history_info.text = getString(
-                                                R.string.responded_items_count,
-                                                histories.size
-                                            )
-                                            historiesTestAdapter =
-                                                histories_recyclerview.setUp<History> {
-                                                    withLayoutResId(R.layout.history_list_item)
-                                                    withItems(histories)
-                                                    bindIndexed { history, position ->
+                                            setupHistoriesList()
 
-                                                        if (histories.lastIndex == position)
-                                                            bottom_separator?.let { _bottom_separator ->
-                                                                _bottom_separator.visibility =
-                                                                    View.GONE
-                                                            }
-
-                                                        left_history_item_imageview?.let {
-                                                            left_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_1}.png") {
-                                                                if (history.item_id_1 == history.selected_item_id) {
-                                                                    transformations(
-                                                                        listOf(
-                                                                            GrayscaleTransformation(),
-                                                                            BlurTransformation(
-                                                                                applicationContext
-                                                                            )
-                                                                        )
-                                                                    )
-                                                                    right_item_arm.setBackgroundColor(
-                                                                        ContextCompat.getColor(
-                                                                            applicationContext,
-                                                                            R.color.colorPrimary
-                                                                        )
-                                                                    )
-                                                                }
-                                                            }
-                                                        }
-                                                        right_history_item_imageview?.let {
-                                                            right_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_2}.png") {
-                                                                if (history.item_id_2 == history.selected_item_id) {
-                                                                    transformations(
-                                                                        listOf(
-                                                                            GrayscaleTransformation(),
-                                                                            BlurTransformation(
-                                                                                applicationContext
-                                                                            )
-                                                                        )
-                                                                    )
-                                                                    left_item_arm.setBackgroundColor(
-                                                                        ContextCompat.getColor(
-                                                                            applicationContext,
-                                                                            R.color.colorPrimary
-                                                                        )
-                                                                    )
-                                                                }
-                                                            }
-                                                        }
-
-                                                        history_datetime?.let { _history_datetime ->
-                                                            _history_datetime.text =
-                                                                history.date_time.toLong()
-                                                                    .getYearMonthDay()
-                                                        }
-                                                    }
-                                                }
                                         } else {
                                             history_info.visibility = View.VISIBLE
                                             history_info.text = getString(R.string.no_history_found)
@@ -272,6 +213,73 @@ class ProfileActivity : BaseActivity() {
                     }
                 }
             })
+    }
+
+    private fun setupHistoriesList() {
+        history_info.text = getString(
+            R.string.responded_items_count,
+            histories.size
+        )
+        historiesTestAdapter =
+            histories_recyclerview.setUp<History> {
+                withLayoutResId(R.layout.history_list_item)
+                withItems(histories)
+                bindIndexed { history, position ->
+
+                    if (histories.lastIndex == position)
+                        bottom_separator?.let { _bottom_separator ->
+                            _bottom_separator.visibility =
+                                View.GONE
+                        }
+
+                    left_history_item_imageview?.let {
+                        left_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_1}.png") {
+                            if (history.item_id_1 == history.selected_item_id) {
+                                transformations(
+                                    listOf(
+                                        GrayscaleTransformation(),
+                                        BlurTransformation(
+                                            applicationContext
+                                        )
+                                    )
+                                )
+                                right_item_arm.setBackgroundColor(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.colorPrimary
+                                    )
+                                )
+                            }
+                        }
+                    }
+                    right_history_item_imageview?.let {
+                        right_history_item_imageview.load("${Constants.itemsImageUrl}${history.item_id_2}.png") {
+                            if (history.item_id_2 == history.selected_item_id) {
+                                transformations(
+                                    listOf(
+                                        GrayscaleTransformation(),
+                                        BlurTransformation(
+                                            applicationContext
+                                        )
+                                    )
+                                )
+                                left_item_arm.setBackgroundColor(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.colorPrimary
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                    history_datetime?.let { _history_datetime ->
+                        _history_datetime.text =
+                            history.date_time.toLong()
+                                .getYearMonthDay()
+                    }
+                }
+            }
     }
 
     private fun createTabItemView(_category: Category): View? {

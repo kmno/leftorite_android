@@ -42,21 +42,6 @@
             android:layout_weight="1"
             android:background="@color/overlay_color" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/select_left_item_button_split"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/colorPrimary"
-            android:clickable="false"
-            android:focusable="false"
-            android:tint="@color/colorAccent"
-            app:borderWidth="0dp"
-            app:fabCustomSize="20dp"
-            app:maxImageSize="10dp"
-            app:srcCompat="@drawable/ic_favorite"
-            tools:ignore="VectorDrawableCompat" />
-
         <View
             android:id="@+id/right_item_arm"
             android:layout_width="match_parent"
@@ -74,6 +59,23 @@
             android:scaleType="fitCenter" />
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/select_left_item_button_split"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/colorPrimary"
+        android:clickable="false"
+        android:enabled="false"
+        android:focusable="false"
+        android:tint="@color/colorAccent"
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        app:fabCustomSize="20dp"
+        app:maxImageSize="10dp"
+        app:srcCompat="@drawable/ic_favorite"
+        tools:ignore="VectorDrawableCompat" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/history_datetime"
