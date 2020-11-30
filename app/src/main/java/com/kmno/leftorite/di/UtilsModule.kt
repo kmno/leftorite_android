@@ -8,8 +8,7 @@
 package com.kmno.leftorite.di
 
 import coil.ImageLoader
-import com.kmno.leftorite.data.repository.DbRepository
-import com.kmno.leftorite.utils.NetworkInfo
+import com.kmno.leftorite.utils.NetworkState
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -19,7 +18,6 @@ import org.koin.dsl.module
  * Edited by Kamran Noorinejad on 5/13/2020 AD 17:54.
  */
 val utilsModule = module {
-    single { NetworkInfo(androidContext()) }
+    single { NetworkState(androidApplication()) }
     single { ImageLoader(androidContext()) }
-    single { DbRepository(androidContext(), androidApplication(), get(), get()) }
 }

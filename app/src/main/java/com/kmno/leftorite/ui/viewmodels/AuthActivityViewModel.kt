@@ -7,7 +7,6 @@
 
 package com.kmno.leftorite.ui.viewmodels
 
-import android.content.Context
 import android.os.Build
 import android.os.Build.MANUFACTURER
 import android.os.Build.MODEL
@@ -15,11 +14,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.chibatching.kotpref.blockingBulk
-import com.kmno.leftorite.R
 import com.kmno.leftorite.core.Constants.apiKey
-import com.kmno.leftorite.data.api.ApiClientProvider
-import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.User
+import com.kmno.leftorite.data.repository.AuthRepository
 import com.kmno.leftorite.utils.UserInfo
 import com.kmno.leftorite.utils.UserInfo.loggedIn
 import kotlinx.coroutines.Dispatchers
@@ -31,10 +28,7 @@ import java.util.*
  * Created by Kamran Noorinejad on 5/17/2020 AD 10:47.
  * Edited by Kamran Noorinejad on 5/17/2020 AD 10:47.
  */
-class AuthActivityViewModel(private val context: Context, apiProvider: ApiClientProvider) :
-    ViewModel() {
-
-    private val api = apiProvider.createApiClient()
+class AuthActivityViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
     fun setLoggedInPref(_loggedIn: Boolean) {
         loggedIn = _loggedIn
@@ -42,44 +36,13 @@ class AuthActivityViewModel(private val context: Context, apiProvider: ApiClient
 
     //sign in
     fun signInUser(email: String, password: String) = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val response = api.signInUser(email, password)
-            if (response.isSuccessful) {
-                emit(
-                    Resource.success(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        response.body()?.response?.data
-                    )
-                )
-            } else {
-                emit(
-                    Resource.error(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        null
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(
-                Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            )
-        }
-
+        emit(authRepository.signInUser(email, password))
     }
 
-    //signup
+    //sign up user
     fun signUpUser(email: String, password: String) = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val response = api.signUpUser(
+        emit(
+            authRepository.signUpUser(
                 email,
                 password,
                 "ANDROID-${Build.VERSION.RELEASE}",
@@ -87,34 +50,7 @@ class AuthActivityViewModel(private val context: Context, apiProvider: ApiClient
                 getLocalIpAddress(),
                 apiKey
             )
-            if (response.isSuccessful) {
-                emit(
-                    Resource.success(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        response.body()?.response?.data
-                    )
-                )
-            } else {
-                emit(
-                    Resource.error(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        null
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(
-                Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            )
-        }
-
+        )
     }
 
     fun storeUserPrefs(user: User) {
@@ -138,7 +74,7 @@ class AuthActivityViewModel(private val context: Context, apiProvider: ApiClient
             MODEL
         } else {
             "$MANUFACTURER $MODEL"
-        }).capitalize()
+        }).capitalize(Locale.ROOT)
 
     private fun getLocalIpAddress(): String {
         try {

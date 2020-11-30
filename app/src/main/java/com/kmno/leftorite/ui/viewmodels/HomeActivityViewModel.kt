@@ -7,7 +7,6 @@
 
 package com.kmno.leftorite.ui.viewmodels
 
-import android.content.Context
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -15,12 +14,9 @@ import com.elconfidencial.bubbleshowcase.BubbleShowCase
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
 import com.kmno.leftorite.R
-import com.kmno.leftorite.data.api.ApiClientProvider
-import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.Category
-import com.kmno.leftorite.data.repository.DbRepository
+import com.kmno.leftorite.data.repository.ItemsRepository
 import com.kmno.leftorite.ui.activities.HomeActivity
-import com.kmno.leftorite.utils.AppSetting
 import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.ShowCase
 import com.kmno.leftorite.utils.UserInfo
@@ -30,14 +26,7 @@ import kotlinx.coroutines.Dispatchers
  * Created by Kamran Noorinejad on 5/17/2020 AD 10:48.
  * Edited by Kamran Noorinejad on 5/17/2020 AD 10:48.
  */
-class HomeActivityViewModel(
-    private val context: Context,
-    apiProvider: ApiClientProvider,
-    private val dbRepository: DbRepository
-) :
-    ViewModel() {
-
-    private val api = apiProvider.createApiClient()
+class HomeActivityViewModel(private val itemsRepository: ItemsRepository) : ViewModel() {
 
     fun checkIfWelcomeDialogIsShown(): Boolean {
         return ShowCase.welcomeDialogIsShown
@@ -48,7 +37,6 @@ class HomeActivityViewModel(
         UserInfo.lastSelectedCategoryId = _selectedId
         UserInfo.lastSelectedCategoryTitle = _selectedTitle
     }
-
 
     fun getLastSelectedCategoryIndex(): Int {
         return UserInfo.lastSelectedCategoryIndex
@@ -132,109 +120,14 @@ class HomeActivityViewModel(
         return build
     }
 
-    //get all items list
-    /*fun getAllItems(offset: Int) = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val response = api.getAllItems(UserInfo.id, UserInfo.token,
-                AppSetting.itemsPerRequestLimit, offset)
-            if (response.isSuccessful) {
-                emit(
-                    Resource.success(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        response.body()?.response?.data
-                    )
-                )
-            } else {
-                emit(
-                    Resource.error(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        null
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            emit(
-                Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            )
-        }
-    }*/
-
     //get items list based on selected category
     fun getItemsByCategory(categoryId: Int, offset: Int) = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val response = api.getItemsByCategory(
-                categoryId, UserInfo.id, UserInfo.token,
-                AppSetting.itemsPerRequestLimit, offset
-            )
-            if (response.isSuccessful) {
-                emit(
-                    Resource.success(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        response.body()?.response?.data
-                    )
-                )
-            } else {
-                emit(
-                    Resource.error(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        null
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            emit(
-                Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            )
-        }
-
+        emit(itemsRepository.getItemsByCategory(categoryId, offset))
     }
 
     //set selected item
     fun setSelectedItem(itemId: Int, pairId: Int) = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val response = api.setSelectedItem(itemId, pairId, UserInfo.id, UserInfo.token)
-            if (response.isSuccessful) {
-                emit(
-                    Resource.success(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        response.body()?.response?.data
-                    )
-                )
-            } else {
-                emit(
-                    Resource.error(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        null
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            emit(
-                Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            )
-        }
-
+        emit(itemsRepository.setSelectedItem(itemId, pairId))
     }
 
     fun updateUserPointsPref(newPoint: Int) {

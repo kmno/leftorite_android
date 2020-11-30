@@ -51,8 +51,10 @@ import kotlinx.android.synthetic.main.recycleriew_list_item_splitted_view.*
 import kotlinx.android.synthetic.main.recycleriew_list_item_splitted_view.view.*
 import kotlinx.android.synthetic.main.recyclerview_list_category.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinApiExtension
 import xyz.hanks.library.bang.SmallBangView
 
+@KoinApiExtension
 @Suppress("UNCHECKED_CAST")
 class HomeActivity : BaseActivity() {
 
@@ -314,42 +316,6 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    //api calls
-    //items
-    /*private fun getAllItems() {
-        homeActivityViewModel.getAllItems(allItemsOffset).observe(this, Observer { networkResource ->
-            when (networkResource.state) {
-                State.LOADING -> {
-                    showFullscreenProgress(true)
-                    showProgress(true)
-                }
-                State.SUCCESS -> {
-                    val status = networkResource.status
-                    status?.let {
-                        when (it) {
-                            true -> {
-                                showFullscreenProgress(false)
-                                showProgress(false)
-                                networkResource.data?.let { response ->
-                                    current_category_text.text =
-                                        homeActivityViewModel.getLastSelectedCategoryTitle()
-                                    pairsOfItems = response as MutableList<Any>
-                                    setUpItems()
-                                }
-                            }
-                            false -> {
-                                onNetworkFail(networkResource.message.toString())
-                            }
-                        }
-                    }
-                }
-                State.ERROR -> {
-                    onNetworkFail(networkResource.message.toString())
-                }
-            }
-        })
-    }*/
-
     private fun getItemsByCategory(_category: Category) {
         if (this::categoriesAdapter.isInitialized) categoriesAdapter.notifyDataSetChanged()
         if (this::itemsAdapter.isInitialized)
@@ -490,16 +456,16 @@ class HomeActivity : BaseActivity() {
                 //left item ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                 left_item_imageview_split?.let {
                     it.load("${Constants.itemsImageUrl}${pair.first_item_id}.png")
-                    }
-                    select_left_item_button_split.setOnClickListener {
-                        handleSelectedView(
-                            "left",
-                            pair.first_item_id,
-                            pair.pair_id,
-                            position,
-                            this
-                        )
-                    }
+                }
+                select_left_item_button_split.setOnClickListener {
+                    handleSelectedView(
+                        "left",
+                        pair.first_item_id,
+                        pair.pair_id,
+                        position,
+                        this
+                    )
+                }
 
                 left_item_layout.setOnTouchListener(object :
                     OnSwipeTouchListener(this@HomeActivity) {
@@ -534,23 +500,23 @@ class HomeActivity : BaseActivity() {
                     }
                 })
 
-                    //right item ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                    right_item_imageview_split?.let {
-                        it.load("${Constants.itemsImageUrl}${pair.second_item_id}.png")
-                    }
+                //right item ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                right_item_imageview_split?.let {
+                    it.load("${Constants.itemsImageUrl}${pair.second_item_id}.png")
+                }
                 select_right_item_button_split.tag = pair.second_item_id
 
-                    //like button single click
-                    select_right_item_button_split.setOnClickListener {
-                        handleSelectedView(
-                            "right",
-                            pair.second_item_id,
-                            pair.pair_id,
-                            position,
-                            this@bindIndexed
-                        )
-                        App.logger.error(position.toString())
-                    }
+                //like button single click
+                select_right_item_button_split.setOnClickListener {
+                    handleSelectedView(
+                        "right",
+                        pair.second_item_id,
+                        pair.pair_id,
+                        position,
+                        this@bindIndexed
+                    )
+                    App.logger.error(position.toString())
+                }
 
                 right_item_layout.setOnTouchListener(object :
                     OnSwipeTouchListener(this@HomeActivity) {

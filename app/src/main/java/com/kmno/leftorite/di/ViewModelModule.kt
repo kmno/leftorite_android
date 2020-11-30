@@ -8,7 +8,7 @@
 package com.kmno.leftorite.di
 
 import com.kmno.leftorite.ui.viewmodels.*
-import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -16,11 +16,14 @@ import org.koin.dsl.module
  * Created by Kamran Noorinejad on 5/19/2020 AD 13:12.
  * Edited by Kamran Noorinejad on 5/19/2020 AD 13:12.
  */
+
 val viewModelModule = module {
-    viewModel { SplashActivityViewModel(androidContext(), get()) }
-    viewModel { SettingActivityViewModel(androidContext()) }
-    viewModel { AuthActivityViewModel(androidContext(), get()) }
-    viewModel { HomeActivityViewModel(androidContext(), get(), get()) }
-    viewModel { ProfileActivityViewModel(androidContext(), get(), get()) }
-    viewModel { CategoryViewModel(androidContext(), get()) }
+
+    viewModel { SplashActivityViewModel(get()) }
+    viewModel { AuthActivityViewModel(get()) }
+    viewModel { HomeActivityViewModel(get()) }
+    viewModel { CategoryViewModel(androidApplication(), get()) }
+    viewModel { ProfileActivityViewModel(get()) }
+    viewModel { SettingActivityViewModel() }
+
 }

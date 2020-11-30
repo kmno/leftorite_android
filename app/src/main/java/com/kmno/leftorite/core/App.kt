@@ -17,6 +17,7 @@ import coil.ImageLoaderFactory
 import coil.request.CachePolicy
 import coil.util.CoilUtils
 import com.kmno.leftorite.di.apiModule
+import com.kmno.leftorite.di.repoModule
 import com.kmno.leftorite.di.utilsModule
 import com.kmno.leftorite.di.viewModelModule
 import mu.KLogging
@@ -42,9 +43,10 @@ open class App : Application(), ImageLoaderFactory, Application.ActivityLifecycl
             androidLogger(Level.NONE)
             androidContext(this@App)
             modules(
-                viewModelModule,
                 utilsModule,
-                apiModule
+                apiModule,
+                viewModelModule,
+                repoModule,
             )
         }
         resourcesCtx = resources

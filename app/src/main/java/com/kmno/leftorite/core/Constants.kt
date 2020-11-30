@@ -19,4 +19,8 @@ object Constants {
     const val categoryImageUrl = "${assetsUrl}category/"
     const val userImageUrl = "${assetsUrl}user/"
     const val dbName = "db_leftorite"
+
+    const val readTimeout = 20L
+    const val connectTimeout = 5L
+    const val writeTimeout = 5L
 }

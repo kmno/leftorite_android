@@ -10,6 +10,9 @@ package com.kmno.leftorite.data.api
 import com.google.gson.GsonBuilder
 import com.kmno.leftorite.core.App
 import com.kmno.leftorite.core.Constants
+import com.kmno.leftorite.core.Constants.connectTimeout
+import com.kmno.leftorite.core.Constants.readTimeout
+import com.kmno.leftorite.core.Constants.writeTimeout
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -38,9 +41,9 @@ class ApiClientProvider {
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             val client: OkHttpClient = okHttpClient.newBuilder()
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .writeTimeout(5, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(connectTimeout, TimeUnit.SECONDS)
+                .writeTimeout(writeTimeout, TimeUnit.SECONDS)
+                .readTimeout(readTimeout, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
                 .dispatcher(dispatcher)
                 .build()

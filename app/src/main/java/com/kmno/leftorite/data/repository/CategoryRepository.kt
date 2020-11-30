@@ -7,51 +7,35 @@
 
 package com.kmno.leftorite.data.repository
 
-import android.app.Application
-import android.content.Context
 import com.kmno.leftorite.R
 import com.kmno.leftorite.core.App
-import com.kmno.leftorite.data.api.ApiClientProvider
 import com.kmno.leftorite.data.api.Resource
-import com.kmno.leftorite.data.db.LeftoriteDatabase
 import com.kmno.leftorite.data.db.dao.CategoryDao
 import com.kmno.leftorite.data.db.dao.ItemDao
 import com.kmno.leftorite.data.model.Category
-import com.kmno.leftorite.utils.NetworkInfo
+import com.kmno.leftorite.data.repository.base.BaseRepository
 import com.kmno.leftorite.utils.UserInfo
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Created by Kamran Noorinejad on 6/15/2020 AD 14:14.
  * Edited by Kamran Noorinejad on 6/15/2020 AD 14:14.
  */
 
-class DbRepository(
-    _context: Context,
-    application: Application,
-    apiProvider: ApiClientProvider,
-    netInfo: NetworkInfo
-) : CoroutineScope {
-
-    private val context = _context
-    private val api = apiProvider.createApiClient()
-    private val networkState = netInfo
+class CategoryRepository : BaseRepository() {
 
     private var status = true
     private var message = "OFFLINE"
 
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main
-
-    private var categoryDao: CategoryDao?
-    private var itemDao: ItemDao?
+    private var categoryDao: CategoryDao? = db?.categoryDao()
+    private var itemDao: ItemDao? = db?.itemDao()
 
     init {
-        val db = LeftoriteDatabase.getDatabase(application)
-        categoryDao = db?.categoryDao()
-        itemDao = db?.itemDao()
+        // val db = LeftoriteDatabase.getDatabase(application)
     }
 
     /* CATEGORIES */
@@ -67,7 +51,7 @@ class DbRepository(
             emit(
                 Resource.error(
                     false,
-                    context.getString(R.string.network_error_text),
+                    appCtx.getString(R.string.network_error_text),
                     null
                 )
             )
@@ -76,6 +60,7 @@ class DbRepository(
 
     private fun getCategoriesListFlowOnline(): Flow<Resource<List<Category>>>? {
         return flow {
+            //emit(Resource.loadingRepo())
             try {
                 val response = api.getCategories(UserInfo.id, UserInfo.token)
                 if (response.isSuccessful) {
@@ -98,7 +83,7 @@ class DbRepository(
                 emit(
                     Resource.error(
                         false,
-                        context.getString(R.string.network_error_text),
+                        appCtx.getString(R.string.network_error_text),
                         null
                     )
                 )
@@ -109,7 +94,7 @@ class DbRepository(
                 emit(
                     Resource.error(
                         false,
-                        context.getString(R.string.network_error_text),
+                        appCtx.getString(R.string.network_error_text),
                         null
                     )
                 )
@@ -122,7 +107,7 @@ class DbRepository(
     }
 
     fun getCategoriesList(): Flow<Resource<List<Category>>>? {
-        if (networkState.isOnline()) return getCategoriesListFlowOnline()
+        if (isNetConnected()) return getCategoriesListFlowOnline()
         return getCategoriesListFlowOffline()
     }
 

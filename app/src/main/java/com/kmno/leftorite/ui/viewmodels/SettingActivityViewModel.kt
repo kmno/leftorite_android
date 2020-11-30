@@ -7,7 +7,6 @@
 
 package com.kmno.leftorite.ui.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.kmno.leftorite.data.db.LeftoriteDatabase
 import com.kmno.leftorite.utils.AppSetting
@@ -20,7 +19,7 @@ import com.kmno.leftorite.utils.UserInfo
  * Edited by Kamran Noorinejad on 6/10/2020 AD 14:01.
  */
 
-class SettingActivityViewModel(private val context: Context) : ViewModel() {
+class SettingActivityViewModel : ViewModel() {
 
     var dataSaver = AppSetting.dataSaver
 

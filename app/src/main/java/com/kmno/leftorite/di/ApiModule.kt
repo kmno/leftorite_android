@@ -16,5 +16,5 @@ import org.koin.dsl.module
  */
 
 val apiModule = module {
-    single { ApiClientProvider() }
+    single { ApiClientProvider().createApiClient() }
 }

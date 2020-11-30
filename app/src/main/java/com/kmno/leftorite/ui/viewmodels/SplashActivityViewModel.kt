@@ -7,15 +7,12 @@
 
 package com.kmno.leftorite.ui.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.chibatching.kotpref.blockingBulk
 import com.kmno.leftorite.BuildConfig
-import com.kmno.leftorite.R
-import com.kmno.leftorite.data.api.ApiClientProvider
-import com.kmno.leftorite.data.api.Resource
 import com.kmno.leftorite.data.model.Config
+import com.kmno.leftorite.data.repository.ConfigRepository
 import com.kmno.leftorite.utils.AppSetting
 import com.kmno.leftorite.utils.ConfigPref
 import com.kmno.leftorite.utils.UserInfo
@@ -26,12 +23,7 @@ import java.util.*
  * Created by Kamran Noorinejad on 5/13/2020 AD 12:55.
  * Edited by Kamran Noorinejad on 5/13/2020 AD 12:55.
  */
-class SplashActivityViewModel(
-    private val context: Context,
-    apiProvider: ApiClientProvider
-) : ViewModel() {
-
-    private val api = apiProvider.createApiClient()
+class SplashActivityViewModel(private val configRepository: ConfigRepository) : ViewModel() {
 
     var appVersionText: String =
         "v${BuildConfig.VERSION_NAME} Ⓒ ${Calendar.getInstance().get(Calendar.YEAR)}"
@@ -74,39 +66,7 @@ class SplashActivityViewModel(
     }
 
     fun getInitialConfig() = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        try {
-            val response = api.getConfig()
-            if (response.isSuccessful) {
-                emit(
-                    Resource.success(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        response.body()?.response?.data
-                    )
-                )
-            } else {
-                emit(
-                    Resource.error(
-                        response.body()?.status,
-                        response.body()?.response?.message,
-                        null
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(
-                Resource.error(
-                    false,
-                    context.getString(R.string.network_error_text),
-                    null
-                )
-            )
-        }
+        emit(configRepository.getConfig())
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
 }

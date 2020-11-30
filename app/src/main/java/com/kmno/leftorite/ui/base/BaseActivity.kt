@@ -8,12 +8,7 @@
 package com.kmno.leftorite.ui.base
 
 import android.Manifest
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Color
-import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -29,13 +24,16 @@ import com.kmno.leftorite.core.App
 import com.kmno.leftorite.utils.Alerts
 import com.kmno.leftorite.utils.Alerts.dismissFlashbar
 import com.kmno.leftorite.utils.Alerts.showFlashbar
+import com.xoxoer.lifemarklibrary.Lifemark
+import org.koin.core.component.KoinApiExtension
 
-
+@KoinApiExtension
 abstract class BaseActivity : AppCompatActivity() {
 
     private val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
     companion object {
         var isNetworkAvailable: Boolean = false
+        lateinit var networkConnection: Lifemark
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +54,17 @@ abstract class BaseActivity : AppCompatActivity() {
                 ready()
             }
         })
+
+        //network state observable
+        networkConnection = Lifemark(applicationContext)
+        networkConnection.ObservableNetworkCondition()
+            .observe(this, { isConnected ->
+                if (isConnected) {
+                    onNetConnected()
+                } else {
+                    onNetDisConnected()
+                }
+            })
 
     }
 
@@ -87,19 +96,19 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val notConnected = intent.getBooleanExtra(
-                ConnectivityManager
-                    .EXTRA_NO_CONNECTIVITY, false
-            )
-            if (notConnected) {
-                onNetDisConnected()
-            } else {
-                onNetConnected()
-            }
-        }
-    }
+    /* private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+         override fun onReceive(context: Context, intent: Intent) {
+             val notConnected = intent.getBooleanExtra(
+                 ConnectivityManager
+                     .EXTRA_NO_CONNECTIVITY, false
+             )
+             if (notConnected) {
+                 onNetDisConnected()
+             } else {
+                 onNetConnected()
+             }
+         }
+     }*/
 
     abstract fun getResId(): Int
 
@@ -126,7 +135,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        registerReceiver(broadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        //registerReceiver(broadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
 
     override fun onResume() {
@@ -147,7 +156,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        unregisterReceiver(broadcastReceiver)
+        //unregisterReceiver(broadcastReceiver)
         dismissFlashbar()
     }
 

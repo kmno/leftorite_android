@@ -33,6 +33,14 @@ data class Resource<out T>(
         ): Resource<T> {
             return Resource(State.LOADING, status, message, null)
         }
+
+        fun loadingRepo(
+            status: Boolean? = false,
+            message: String? = null,
+            data: Any? = null
+        ): Resource<Any?> {
+            return Resource(State.LOADING, status, message, null)
+        }
     }
 }
 
